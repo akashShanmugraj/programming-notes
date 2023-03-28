@@ -1,5 +1,7 @@
 # C Programming
-### *19Z205 - C Programming*, 20.03.2023
+### *19Z205 - C Programming* 
+
+#### 20.03.2023
 
 ## General
 1. Some datatypes are `char`, `int`, `double`
@@ -54,5 +56,16 @@ Some supported basic Mathematical functions from `math.h` are:
     int floorFunction = floor(23.21);
     int ceilFunction = ceil(23.21); 
 
+
 ## I/O functions
-*TBD*
+#### 21.03.2023
+
+1. The function `scanf(<formatted-string>, <parameters>**)` is used for getting input in C
+
+2. Rules for `<formatted-string>` are as follows
+    - `%c` for Characters
+    - `%s` for Continuous Characters or Strings
+    - `%d` for Integers
+    - `%lf` for Double or Float
+
+3. `<parameters>` of the datatype int, double and char must have a preceeding ampersand (`&`), like '*&< variable-name >*'
