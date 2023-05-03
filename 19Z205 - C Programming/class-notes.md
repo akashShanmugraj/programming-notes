@@ -395,3 +395,174 @@ void main()
 #### **Extra Question**
 - Q. Given a matrix of 0's and 1's find the largest sub matrix containing all ones
 
+### *3rd June 2023*
+
+**Terenary Operators**
+
+- Terenary Operators in C are used as a quicker alternative to conditional statement
+- We use the ternary operator in C to run one code when the condition is true and another code when the condition is false.
+- Syntax of a Terenary Operator is as follows:
+  ```c
+  testCondition ? expression1 : expression 2;
+  ```
+- Q: Write a program to find the maximum of two given numbers using Terenary Operators
+  ```c
+  #include <stdio.h>
+  int main() {
+    int max;
+    int n1 = 10;
+    int n2 = 20;
+    max = (n1 > n2) ? n1:n2;
+    printf("%d\n", max);
+
+  }
+  ```
+- Q: Write a program to find whether the given number is even or odd, using Terenary Operators.
+  ```c
+  #include <stdio.h>
+  int main() {
+    int max;
+    char res;
+    int n1 = 11;
+    res = (n1 % 2) ? 'O':'E';
+    printf("%c\n", res);
+
+  }
+  ```
+
+- Q: Write a program to find the greatest number among three given numbers, using Terenary Operators.
+  ```c
+  #include <stdio.h>
+  int main() {
+    int max;
+    int n1 = 10;
+    int n2 = 20;
+    int n3 = 5;
+    max = n1 > n2 ? (n1 > n3 ? n1 : n3) : (n2 > n3 ? n2 : n3);
+    printf("%d\n", max);
+
+  }
+  ```
+
+**Logical and Bitwise Operators**
+
+- Logical AND in C uses following notation : `&&`
+
+- Logical OR in C uses following notation : `||`
+
+- The `&` (bitwise AND) in C takes two numbers as operands and does AND on every bit of two numbers. The result of AND is 1 only if both bits are 1.
+
+- The `|` (bitwise OR) in C takes two numbers as operands and does OR on every bit of two numbers. The result of OR is 1 if any of the two bits is 1. 
+
+- The `^` (bitwise XOR) in C takes two numbers as operands and does XOR on every bit of two numbers. The result of XOR is 1 if the two bits are different. 
+
+- The `<<` (left shift) in C takes two numbers, the left shifts the bits of the first operand, and the second operand decides the number of places to shift.  
+
+- The `>>` (right shift) in C takes two numbers, right shifts the bits of the first operand, and the second operand decides the number of places to shift. 
+
+
+- Simply, left-shift for the expression `n1 << n2` will evaluvate `n1 * (2^n2)`
+
+- Similarly, right-shift for the expression `n1 >> n2` will evaluvate `n1 / (2^n2)`
+
+- The `~` (bitwise NOT) in C takes one number and inverts all bits of it.
+
+**Specifications in `scanf`**
+- There is a provision in C to allow or restrict certain set of characters in scanf, as a format specifer.
+
+- In a `scanf` statement, use a format specifier like `%[values]` to allow all characters, or `%[^value]` to restrict all characters in/under `values`.
+
+- Q: Write a program in C to scan for input , which allows only letters, both uppercase and lowercase.
+  ```c
+  #include <stdio.h>
+  void main()
+  {
+    char x[10];
+    scanf("%[a-zA-Z]", x);
+    printf("%s", x);
+
+  }
+
+  ```
+- Q: Write a program to scan for input until an arithmetic operator is found.
+  ```c
+  #include <stdio.h>
+  void main()
+  {
+    char x[10];
+    scanf("%[^+-*/%]", x);
+    printf("%s", x);
+
+  }
+  ```
+- Q: Write a program to scan for input until any number between 4 and 9 in found.
+  ```c
+  #include <stdio.h>
+  void main()
+  {
+    char x[10];
+    scanf("%[^9-4]", x);
+    printf("%s", x);
+
+  }
+  ```
+**String Functions**
+- String functions in C is made possible using `string.h` module.
+- To get the length of a string, the `strlen()` function is used
+  ```c
+  char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  printf("%d", strlen(alphabet));
+  ```
+- Note that `sizeof` and `strlen` behaves differently, as `sizeof` also includes the `\0` character when counting.
+  ```c
+  char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  printf("%d", strlen(alphabet));   // 26
+  printf("%d", sizeof(alphabet));   // 27
+  ```
+- `sizeof` will always return the memory size (in bytes), and not the actual string length
+  ```c
+  char alphabet[50] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  printf("%d", strlen(alphabet));   // 26
+  printf("%d", sizeof(alphabet));   // 50
+  ```
+
+- `strcat()` function is used to concatenate two strings.
+  ```c
+  char str1[20] = "Hello ";
+  char str2[] = "World!";
+
+  // Concatenate str2 to str1 (result is stored in str1)
+  strcat(str1, str2);
+
+  // Print str1
+  printf("%s", str1);
+  ```
+
+- `strcopy()` function is used to copy the value of one string to another.
+  ```c
+  char str1[20] = "Hello World!";
+  char str2[20];
+
+  // Copy str1 to str2
+  strcpy(str2, str1);
+
+  // Print str2
+  printf("%s", str2);
+  ```
+
+- `strcomp()` function is used to compare two strings.
+  ```c
+  char str1[] = "Hello";
+  char str2[] = "Hello";
+  char str3[] = "Hi";
+
+  // Compare str1 and str2, and print the result
+  printf("%d\n", strcmp(str1, str2));  // Returns 0 (the strings are equal)
+
+  // Compare str1 and str3, and print the result
+  printf("%d\n", strcmp(str1, str3));  // Returns -4 (the strings are not equal)
+  ```
+Homework:
+- Swap two numbers without using a temporary variable.
+- Find an element which occurs only once
+
