@@ -285,3 +285,113 @@ void main()
   }
   ```
 
+### _2nd May 2023_
+- The `default` keyword is used in the `switch-case` if given variable does not match any `case`.
+- Q: Write a program to _recursively_ calculate sum, product, different and quotient of two numbers, in the form of a _menu-driven_ calculator
+  ```c
+  #include<stdio.h>
+  void main(){
+    int a,b;
+    char option;
+    printf("This program calculates following functions :/\n1.addtion\n2.subract\n3.multiply\n4.divide\nEnter 'E' for quitting the program");
+    do{
+       scanf("%c",&option);
+       switch(option){
+        case '1':
+           printf("enter the two numbers with space:");
+           scanf("%d%d",&a,&b);
+           printf("%d\n>>",a+b);
+           break;
+        case '2':
+           printf("enter the two numbers with space:");
+           scanf("%d%d",&a,&b);
+           printf("%d\n>>",a-b);
+           break;
+        case '3':
+           printf("enter the two numbers with space:");
+           scanf("%d%d",&a,&b);
+           printf("%d\n>>",a*b);
+           break;
+        case '4':
+           printf("enter the two numbers with space:");
+           scanf("%d%d",&a,&b);
+           printf("%d\n>>",(float)a/b);
+           break;   
+        case 'E':
+           printf("you pressed end");
+           break;  
+        default: 
+           printf("you pressed !--");
+           break;
+       }
+    }while(option!='E');
+  }
+    ```
+- Arrays can also be used to store strings. For example, `char var` stores only one character, `char var[10]` stores a string with length _10_ and `char var[3][10]` can store 3 strings, each of maximum of 10 characters
+
+- Q: Write a program to get character as input using `scanf`.
+
+  ```c
+  #include<stdio.h>
+  void main(){
+      char a,x;
+      scanf("%c",&a);
+      x=getchar();
+  }
+  ```
+- Q: Write a program to tnput character without spaces using `scanf` and `gets`.
+  ```c
+  #include<stdio.h>
+  void main(){
+      char x[10];
+      scanf("%s",x);
+      gets(x);
+  }
+  ```
+- Q: Write a program to get one input of a string with spaces.
+
+  ```c
+  #include<stdio.h>
+  void main(){
+      char a[10];
+      gets(a);
+  }
+  ```
+- Q: Write a program to get paragraph as an input.
+
+  ```c
+  #include<stdio.h>
+  void main(){
+      char a[100];
+      gets(a);
+      printf("%s",a);
+  }
+  ```
+- Q: Write a program to get multiple paragraphs as input.
+
+  ```c
+  #include<Stdio.h>
+  void main(){
+      char paragraph[3][100];
+      int i=0;
+      while(i<3){
+          gets(paragraph[i]);
+          printf("%s\n",paragraph[i]);
+          i++; 
+      }
+  }
+  ```
+- Q: Write a program to get input until d is pressed.
+  ```c
+  #include<stdio.h>
+  void main(){
+      char a;
+      do{
+          a=getchar;
+          printf("%c",a);
+      }while(a!='d');
+  }
+  ```
+#### **Extra Question**
+- Q. Given a matrix of 0's and 1's find the largest sub matrix containing all ones
+
