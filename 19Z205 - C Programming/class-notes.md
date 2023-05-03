@@ -701,8 +701,22 @@ void main()
   // Compare str1 and str3, and print the result
   printf("%d\n", strcmp(str1, str3));  // Returns -4 (the strings are not equal)
   ```
+- Write a program to swap two numbers without a temporary variable
+  ```c
+  #include <stdio.h>
 
-  Homework:
+  int main() {
+      int a, b;
+      printf("Enter two numbers: ");
+      scanf("%d %d", &a, &b);
 
-- Swap two numbers without using a temporary variable.
-- Find an element which occurs only once
+      // Swapping without using a temporary variable
+      a = a + b;
+      b = a - b;
+      a = a - b;
+
+      printf("After swapping, a = %d and b = %d", a, b);
+      return 0;
+  }
+  ```
+ 
