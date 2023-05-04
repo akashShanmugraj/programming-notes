@@ -166,6 +166,8 @@ int main()
 
 ### _18th April 2023_
 
+- Printing a variable with an ampersand, like `&variableName`, with an integer format specifier will print the memory address of the variable stored in the RAM.
+- `continue` statement skips the remaining statements inside the loop
 - Q1: **Write a program to store 10 numbers in an array and find their average.**
 
   ```c
