@@ -3,6 +3,9 @@
 Taught by **Dr Lovelyn Rose S, Associate Professor, PSG College of Technology**.
 Notes drafted and maintained by Akash Shanmugaraj, PSGCT'26.
 
+### **DISCLAIMER**
+_Note that the below file might not cover the entire course outcome (1&2) with absence of **specifics** in some introductory functions and arrays_
+
 ### _21st March 2023_
 
 - C is a general purpose programming language created by Dennis Ritchie
