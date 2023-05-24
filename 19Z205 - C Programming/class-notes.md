@@ -725,3 +725,86 @@ void main()
   }
   ```
  
+### _23rd May 2023_
+
+- The value passed in into a function call is called **argument** and variable in function declaration is called **parameter**
+
+- While structuring a function which takes in an array, it is always a best practice to also pass the array's size also
+
+- Write a program with a function `isFactor()` which takes in two parameters and returns a boolean which is then used in a `main()` to print some final statements
+
+  ```c
+  #include <stdio.h>
+
+  int isFactor(int a, int b)
+  {
+      if (a % b == 0)
+      {
+          return 1;
+      }
+      else
+      {
+          return 0;
+      }
+  }
+
+  int main()
+  {
+      int a, b;
+      printf("Enter two numbers: ");
+      scanf("%d %d", &a, &b);
+      if (isFactor(a, b))
+      {
+          printf("%d is a factor of %d\n", b, a);
+      }
+      else
+      {
+          printf("%d is not a factor of %d\n", b, a);
+      }
+      return 0;
+  }
+
+  ```
+
+- Use the above function `isFactor()` for checking wheter a given number is a prime number or not
+
+  ```c
+  int isPrime(int a)
+  {
+      int i;
+      for (i = 2; i < a; i++)
+      {
+          if (isFactor(a, i) == 1)
+          {
+              return 0;
+          }
+      }
+      return 1;
+  }
+
+  ```
+
+- Use the above two functions `isFactor` and `isPrime` to create a new function `primerange` which prints prime numbers between two ranges
+
+  ```c
+  void primerange(int a, int b)
+  {
+      int i;
+      for (i = a; i <= b; i++)
+      {
+          if (isPrime(i) == 1)
+          {
+              printf("%d\n", i);
+          }
+      }
+  }
+
+  int main()
+  {
+      int a, b;
+      printf("Enter two numbers: ");
+      scanf("%d %d", &a, &b);
+      primerange(a, b);
+      return 0;
+  }
+  ```
