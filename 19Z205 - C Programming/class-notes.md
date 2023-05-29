@@ -3,8 +3,28 @@
 Taught by **Dr Lovelyn Rose S, Associate Professor, PSG College of Technology**.
 Notes drafted and maintained by Akash Shanmugaraj, PSGCT'26.
 
-### **DISCLAIMER**
-_Note that the below file might not cover the entire course outcome (1&2) with absence of **specifics** in some introductory functions and arrays_
+(_click to view [commit-history](https://github.com/akashShanmugraj/programming-notes/commits/main) or [code-frequency](https://github.com/akashShanmugraj/programming-notes/graphs/code-frequency) of this notes repository_)
+
+## Index of Notes (by date)
+| Serial Number | Date            |
+|---------------|-----------------|
+| 1             | [21st March 2023](#21st-march-2023) |
+| 2             | [28th March 2023](#28th-march-2023) |
+| 3             | [29th March 2023](#29th-march-2023) |
+| 4             | [18th April 2023](#18th-april-2023) |
+| 5             | [25th April 2023](#25th-april-2023) |
+| 6             | [26th April 2023](#26th-april-2023) |
+| 7             | [28th April 2023](#28th-april-2023) |
+| 8             | [29th April 2023](#29th-april-2023) |
+| 9             | [2nd May 2023](#2nd-may-2023)    |
+| 10            | [3rd May 2023](#3rd-may-2023)    |
+| 11            | [23rd May 2023](#23rd-may-2023)   |
+| 12            | [24th May 2023](#24th-may-2023)   |
+| 13            | [26th May 2023](#26th-may-2023)   |
+| 14            | [29th May 2023](#29th-may-2023)   |
+
+## Index of Notes (by topics)
+_to be sorted_
 
 ### _21st March 2023_
 
@@ -54,39 +74,49 @@ _Note that the below file might not cover the entire course outcome (1&2) with a
 - Unary operations(++/--) can be of two types, _Prefix_ and _Postfix_.
 - The prefix increment operator makes change in value before assigning it to the variable, while the postfix makes changes after assignment.
 - For example,
+
   ```c
   int number1 = 10, number2 = 13;
   int prefixnumber, postfixnumber;
   prefixnumber = ++number1;
   postfixnumber = number2++;
+  printf("Number on which number was prefixed was %d \n", prefixnumber);
+  printf("Number on which number was postfixed was %d", postfixnumber);
   ```
-- TODO:Output
+
+  Output of the above program is,
+
+  ```
+  Number on which number was prefixed was 9
+  Number on which number was postfixed was 13
+  ```
+
 - Above example for incrementation operator can also be applied for Decrementation operator.
-- Q: Write a program to print numbers in a pyramidal form
+- **Q: Write a program to print numbers in a pyramidal form**
 
-```c
-#include <stdio.h>
+  ```c
+  #include <stdio.h>
 
-int main()
-{
-    int numberLimit, spaces;
-    int loopVariable1, loopVariable2, spaceVariable;
-    printf("Enter the value for numberLimit: ");
-    scanf("%d", &numberLimit);
-    for(loopVariable1 = 1; loopVariable1 <= numberLimit; loopVariable1++){
-        for(spaceVariable=0; spaceVariable < numberLimit - loopVariable1;spaceVariable++){
-            printf("  ");
-        }
-        for(int loopVariable2 = 1; loopVariable2 <= loopVariable1; loopVariable2++){
-            printf(" %d", loopVariable2);
-        }
-        for(int loopVariable2 = loopVariable1 - 1; loopVariable2 > 0; loopVariable2--){
-            printf(" %d", loopVariable2);
-        }
-        printf("\n");
-    }
-}
-```
+  int main()
+  {
+      int numberLimit, spaces;
+      int loopVariable1, loopVariable2, spaceVariable;
+      printf("Enter the value for numberLimit: ");
+      scanf("%d", &numberLimit);
+      for(loopVariable1 = 1; loopVariable1 <= numberLimit; loopVariable1++){
+          for(spaceVariable=0; spaceVariable < numberLimit - loopVariable1;spaceVariable++){
+              printf("  ");
+          }
+          for(int loopVariable2 = 1; loopVariable2 <= loopVariable1; loopVariable2++){
+              printf(" %d", loopVariable2);
+          }
+          for(int loopVariable2 = loopVariable1 - 1; loopVariable2 > 0; loopVariable2--){
+              printf(" %d", loopVariable2);
+          }
+          printf("\n");
+      }
+  }
+  ```
 
 ### _29th March 2023_
 
@@ -169,8 +199,9 @@ int main()
 
 ### _18th April 2023_
 
-- Printing a variable with an ampersand, like `&variableName`, with an integer format specifier will print the memory address of the variable stored in the RAM.
-- `continue` statement skips the remaining statements inside the loop
+- `sizeof` function gives the length of memory allocation of the given object. For example, 4 bytes for every integer, and 1 byte for every character.
+-
+
 - Q1: **Write a program to store 10 numbers in an array and find their average.**
 
   ```c
@@ -250,6 +281,8 @@ int main()
   | `%d`             | Decimal     |
   | `%o`             | Octal       |
   | `%x`             | Hexadecimal |
+
+  Note: Similar formatting for binary is **not available**
 
 - We can specify to retain or truncate number of decimal spaces, like the below code
 
@@ -524,7 +557,7 @@ void main()
 
 - Q. Given a matrix of 0's and 1's find the largest sub matrix containing all ones
 
-### _3rd June 2023_
+### _3rd May 2023_
 
 **Terenary Operators**
 
@@ -706,30 +739,15 @@ void main()
   // Compare str1 and str3, and print the result
   printf("%d\n", strcmp(str1, str3));  // Returns -4 (the strings are not equal)
   ```
-- Write a program to swap two numbers without a temporary variable
-  ```c
-  #include <stdio.h>
 
-  int main() {
-      int a, b;
-      printf("Enter two numbers: ");
-      scanf("%d %d", &a, &b);
+  Homework:
 
-      // Swapping without using a temporary variable
-      a = a + b;
-      b = a - b;
-      a = a - b;
+- Swap two numbers without using a temporary variable.
+- Find an element which occurs only once
 
-      printf("After swapping, a = %d and b = %d", a, b);
-      return 0;
-  }
-  ```
- 
 ### _23rd May 2023_
 
 - The value passed in into a function call is called **argument** and variable in function declaration is called **parameter**
-
-- While structuring a function which takes in an array, it is always a best practice to also pass the array's size also
 
 - Write a program with a function `isFactor()` which takes in two parameters and returns a boolean which is then used in a `main()` to print some final statements
 
@@ -808,7 +826,8 @@ void main()
       return 0;
   }
   ```
-### _24th June 2023_
+
+### _24th May 2023_
 
 - When a function is called, all its local scope variables are created inthe memory. Once the function stops (return statement) the corresponding memory data is erased
 - The `lifetime` of a variable refers to the duration for which the variable exists and holds a valid value in memory
@@ -911,5 +930,188 @@ Homework:
       }
       printf("\n");
       return 0;
+  }
+  ```
+### _26th May 2023_
+### `struct`
+_to be uploaded, create a pr if you have it_
+
+### _29th May 2023_
+- String Assignment cannot happen like `str1 = str2`. Every index of the string(s) must be iterated and assigned
+
+- One can quickly assign properties of a struct by using below syntax:
+  ```c
+  struct employee e = {name="<employee-name>",id= 1001}
+  ```
+
+- Q: Write a program to copy a string from one variable to another variable
+  ```c
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  int main()
+  {
+      char str1[20] = "Hello World";
+      char str2[20];
+
+      int i = 0;
+      while(str1[i] != '\0')
+      {
+          str2[i] = str1[i];
+          i++;
+      }
+      str2[i] = '\0';
+      printf("%s", str2);
+      return 0;
+  }
+  ```
+- Q: Write a program to define an `employee` struct, assign its properties and print it in main function
+  ```c
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  struct employee
+  {
+      char name[20];
+      int id;
+  };
+
+  int main()
+  {
+      struct employee e;
+      printf("Enter the name of the employee: ");
+      scanf("%s", e.name);
+      printf("Enter the id of the employee: ");
+      scanf("%d", &e.id);
+      printf("The name of the employee is %s and his id is %d\n", e.name, e.id);
+      return 0;
+  }
+  ```
+Some alternatives of above program is
+  ```c
+  #include <stdio.h>
+
+  struct employees
+  {
+      char name[100];
+      int id;
+  };
+
+  int main(void)
+  {
+  struct employees e[3] = {{.name = "joerogan", 
+  id = 1}, {.name = "morgan", .id = 2}, {.name = 
+  "freeman", .id = 3}};
+
+  }
+  ```
+- Create a structure `person` with `name`, `height`, `marks(6)` and `age`. Get input for 3 persons and average marks for each person.
+  ```c
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+
+  struct person
+  {
+      char name[20];
+      int height;
+      int marks[6];
+      int age;
+      float average;
+  };
+
+  int main(void) {
+      struct person personstructure[3];
+      int i;
+      float highestAverage = 0;
+      struct person highestAveragePerson;
+
+      for (i = 0; i < 3; i++) {
+          printf("Enter name: ");
+          scanf("%s", personstructure[i].name);
+          printf("Enter height: ");
+          scanf("%d", &personstructure[i].height);
+          printf("Enter age: ");
+          scanf("%d", &personstructure[i].age);
+          printf("Enter marks: ");
+          scanf("%d %d %d %d %d %d", &personstructure[i].marks[0], &personstructure[i].marks[1], &personstructure[i].marks[2], &personstructure[i].marks[3], &personstructure[i].marks[4], &personstructure[i].marks[5]);
+          personstructure[i].average = (personstructure[i].marks[0] + personstructure[i].marks[1] + personstructure[i].marks[2] + personstructure[i].marks[3] + personstructure[i].marks[4] + personstructure[i].marks[5]) / 6.0;
+          printf("Average: %.2f\n", personstructure[i].average);
+          if (personstructure[i].average > highestAverage) {
+              highestAverage = personstructure[i].average;
+              highestAveragePerson = personstructure[i];
+          }
+      }
+  }
+  ```
+- Q:Create a similar program like above, which computes the person with maximum average by passing the array of structures to a function.
+
+  ```
+    #include <stdio.h>
+
+  struct person
+  {
+      char name[100];
+      float height;
+      int age;
+      float marks[6];
+      float avg;
+  };
+
+  float avg(struct person avgstruct);
+  struct person maxAvg(struct person avgstruct[], int length);
+
+  int main(void)
+  {
+      struct person personstructure[3];
+
+      for (int loopvariable1 = 0; loopvariable1 < 3; loopvariable1++)
+      {
+          printf("Person %d\nEnter the name: ", loopvariable1 + 1);
+          fgets(personstructure[loopvariable1].name, 100, stdin);
+
+          printf("Enter Height: ");
+          scanf("%f", &personstructure[loopvariable1].height);
+
+          printf("Enter Age: ");
+          scanf("%d", &personstructure[loopvariable1].age);
+
+          for (int loopvariable2 = 0; loopvariable2 < 6; loopvariable2++)
+          {
+              printf("Enter mark %d: ", loopvariable2 + 1);
+              scanf("%f", &personstructure[loopvariable1].marks[loopvariable2]);
+          }
+          
+          personstructure[loopvariable1].avg = avg(personstructure[loopvariable1]);
+      }
+
+      printf("\n");
+      struct person maxRecord = maxAvg(personstructure, 3);
+      printf("Person with maximum average is %s", maxRecord.name);   
+  }
+
+  float avg(struct person avgstruct)
+  {
+      float avg = 0;
+      for (int loopvariable1 = 1; loopvariable1 < 6; loopvariable1++)
+      {
+          avg += avgstruct.marks[loopvariable1];
+      }
+      avg /= (float) 6;
+      return avg;
+  }
+
+  struct person maxAvg(struct person avgstruct[], int length)
+  {
+      struct person maximum = avgstruct[0];
+      for (int loopvariable1 = 0; loopvariable1 < length; loopvariable1 ++)
+      {
+          if (maximum.avg < avgstruct[loopvariable1].avg)
+          {
+              maximum = avgstruct[loopvariable1];
+          }
+      }
+
+      return maximum;
   }
   ```
