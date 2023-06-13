@@ -3,6 +3,8 @@
 Taught by **Dr Lovelyn Rose S, Associate Professor, PSG College of Technology**.
 Notes drafted and maintained by Akash Shanmugaraj, PSGCT'26.
 
+_for an overview of topics for **Continuous Assessment 2** refer [overview.md](https://github.com/akashShanmugraj/programming-notes/blob/main/19Z205%20-%20C%20Programming/overview.md) in the same directory_
+
 ## Index of Notes (by date)
 | Serial Number | Date            |
 |---------------|-----------------|
