@@ -3,27 +3,35 @@
 Taught by **Dr Lovelyn Rose S, Associate Professor, PSG College of Technology**.
 Notes drafted and maintained by Akash Shanmugaraj, PSGCT'26.
 
-## Index of Notes (by date)
-| Serial Number | Date            |
-|---------------|-----------------|
-| 1             | [21st March 2023](#21st-march-2023) |
-| 2             | [28th March 2023](#28th-march-2023) |
-| 3             | [29th March 2023](#29th-march-2023) |
-| 4             | [18th April 2023](#18th-april-2023) |
-| 5             | [25th April 2023](#25th-april-2023) |
-| 6             | [26th April 2023](#26th-april-2023) |
-| 7             | [28th April 2023](#28th-april-2023) |
-| 8             | [29th April 2023](#29th-april-2023) |
-| 9             | [2nd May 2023](#2nd-may-2023)    |
-| 10            | [3rd May 2023](#3rd-may-2023)    |
-| 11            | [23rd May 2023](#23rd-may-2023)   |
-| 12            | [24th May 2023](#24th-may-2023)   |
-| 13            | [26th May 2023](#26th-may-2023)   |
-| 14            | [29th May 2023](#29th-may-2023)   |
-| 15            | [31st May 2023](#31st-may-2023)   |
-| 16            | [16th June 2023](#16th-june-2023)   |
+| Index (by topic)            |
+|-------------------------------|
+[Switch Case](#switch-case)|
+[Terenary Operators](#terenary-operators)|
+[Logical and Bitwise Operators](#logical-and-bitwise-operators)|
+[String Functions](#string-functions)|
+[Functions](#functions)|
+[Recursion](#recursion)|
+[Structures](#struct)|
+[Storage Classes](#storage-classes)|
+[Dynamic Memory Allocation](#dynamic-memory-allocation)|
 
-
+| Index (by date)            |
+|--------------------------------|
+| [21st March 2023](#21st-march-2023) |
+| [28th March 2023](#28th-march-2023) |
+| [29th March 2023](#29th-march-2023) |
+| [18th April 2023](#18th-april-2023) |
+| [25th April 2023](#25th-april-2023) |
+| [26th April 2023](#26th-april-2023) |
+| [28th April 2023](#28th-april-2023) |
+| [29th April 2023](#29th-april-2023) |
+| [2nd May 2023](#2nd-may-2023)    |
+| [3rd May 2023](#3rd-may-2023)    |
+| [23rd May 2023](#23rd-may-2023)   |
+| [24th May 2023](#24th-may-2023)   |
+| [29th May 2023](#29th-may-2023)   |
+| [31st May 2023](#31st-may-2023)   |
+| [16th June 2023](#16th-june-2023)   |
 
 ### _21st March 2023_
 
@@ -395,7 +403,7 @@ void main()
   This process is repeated until availability of world in the Input Buffer
 
 ### _29th April 2023_
-
+### Switch Case
 - In C, the `switch` statement provides a way to perform different actions based on different values of a single variable.
 
 - General Syntax of `switch` statement is as follows
@@ -440,7 +448,6 @@ void main()
   ```
 
 ### _2nd May 2023_
-
 - The `default` keyword is used in the `switch-case` if given variable does not match any `case`.
 - Q: Write a program to _recursively_ calculate sum, product, different and quotient of two numbers, in the form of a _menu-driven_ calculator
   ```c
@@ -558,7 +565,7 @@ void main()
 
 ### _3rd May 2023_
 
-**Terenary Operators**
+### **Terenary Operators**
 
 - Terenary Operators in C are used as a quicker alternative to conditional statement
 - We use the ternary operator in C to run one code when the condition is true and another code when the condition is false.
@@ -609,7 +616,7 @@ void main()
   }
   ```
 
-**Logical and Bitwise Operators**
+### **Logical and Bitwise Operators**
 
 - Logical AND in C uses following notation : `&&`
 
@@ -677,7 +684,7 @@ void main()
   }
   ```
 
-  **String Functions**
+### String Functions
 
 - String functions in C is made possible using `string.h` module.
 - To get the length of a string, the `strlen()` function is used
@@ -745,6 +752,7 @@ void main()
 - Find an element which occurs only once
 
 ### _23rd May 2023_
+### **Functions**
 
 - The value passed in into a function call is called **argument** and variable in function declaration is called **parameter**
 
@@ -931,11 +939,10 @@ Homework:
       return 0;
   }
   ```
-### _26th May 2023_
-### `struct`
-_to be uploaded, create a pr if you have it_
 
 ### _29th May 2023_
+### `struct`
+
 - String Assignment cannot happen like `str1 = str2`. Every index of the string(s) must be iterated and assigned
 
 - One can quickly assign properties of a struct by using below syntax:
