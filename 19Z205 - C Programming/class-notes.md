@@ -3,8 +3,6 @@
 Taught by **Dr Lovelyn Rose S, Associate Professor, PSG College of Technology**.
 Notes drafted and maintained by Akash Shanmugaraj, PSGCT'26.
 
-_for an overview of topics for **Continuous Assessment 2** refer [overview.md](https://github.com/akashShanmugraj/programming-notes/blob/main/19Z205%20-%20C%20Programming/overview.md) in the same directory_
-
 ## Index of Notes (by date)
 | Serial Number | Date            |
 |---------------|-----------------|
@@ -23,6 +21,8 @@ _for an overview of topics for **Continuous Assessment 2** refer [overview.md](h
 | 13            | [26th May 2023](#26th-may-2023)   |
 | 14            | [29th May 2023](#29th-may-2023)   |
 | 15            | [31st May 2023](#31st-may-2023)   |
+| 16            | [16th June 2023](#16th-june-2023)   |
+
 
 
 ### _21st March 2023_
@@ -208,16 +208,16 @@ _for an overview of topics for **Continuous Assessment 2** refer [overview.md](h
   int main ()
   {
 
-      int i, num[100];
-      for(i=0; i< 10; i++){
-          printf("Enter %dth number: ", i+1);
-          scanf("%d", &num[i]);
+      int loopvariable1, num[100];
+      for(loopvariable1=0; loopvariable1< 10; loopvariable1++){
+          printf("Enter %dth number: ", loopvariable1+1);
+          scanf("%d", &num[loopvariable1]);
       }
       int sum = 0;
-      for (i = 0; i < 10; i++){
-          sum += num[i];
+      for (loopvariable1 = 0; loopvariable1 < 10; loopvariable1++){
+          sum += num[loopvariable1];
       }
-      printf("The sum is %d and the average is %f", sum, sum/(float) i);
+      printf("The sum is %d and the average is %f", sum, sum/(float) loopvariable1);
 
       return 0;
   }
@@ -232,13 +232,13 @@ _for an overview of topics for **Continuous Assessment 2** refer [overview.md](h
       int temp, arr[] = {1,2,3,4,5,6};
       int len = sizeof(arr)/sizeof(arr[0]);
       int m = len/2;
-      for(int i = 1; i <= m; i++){
-          temp = arr[2*(i-1) + 1];
-          arr[2*(i-1) + 1] = arr[2*(i-1)];
-          arr[2*(i-1)] = temp;
+      for(int loopvariable1 = 1; loopvariable1 <= m; loopvariable1++){
+          temp = arr[2*(loopvariable1-1) + 1];
+          arr[2*(loopvariable1-1) + 1] = arr[2*(loopvariable1-1)];
+          arr[2*(loopvariable1-1)] = temp;
       }
-      for(int i = 0; i < len; i++){
-          printf("%d\t", arr[i]);
+      for(int loopvariable1 = 0; loopvariable1 < len; loopvariable1++){
+          printf("%d\t", arr[loopvariable1]);
       }
 
       return 0;
@@ -249,14 +249,14 @@ _for an overview of topics for **Continuous Assessment 2** refer [overview.md](h
   ```c
   #include<stdio.h>
   void main(){
-    int i;
-    printf("enter the value of i:");
-    scanf("%d",&i);
+    int loopvariable1;
+    printf("enter the value of loopvariable1:");
+    scanf("%d",&loopvariable1);
     for(int j=1;j<=10;j++){
       if(j%5==0){
         continue;
       }
-      printf("%d x %d = %d\n",j,i,(j*i));
+      printf("%d x %d = %d\n",j,loopvariable1,(j*loopvariable1));
     }
   }
   ```
@@ -265,10 +265,10 @@ _for an overview of topics for **Continuous Assessment 2** refer [overview.md](h
   ```c
     #include &lt;stdio.h&gt;
   int main() {
-  int i;
-  for(i=1;i&lt;=5;i++)
+  int loopvariable1;
+  for(loopvariable1=1;loopvariable1&lt;=5;loopvariable1++)
   {
-  printf(&quot;%d&quot;,&amp;i);
+  printf(&quot;%d&quot;,&amp;loopvariable1);
   }
   }
   ```
@@ -307,28 +307,28 @@ _for an overview of topics for **Continuous Assessment 2** refer [overview.md](h
 int main()
 {
   int ar[3][2];
-  int i, j;
+  int loopvariable1, j;
   int sum = 0;
-  for (i = 0; i < 3; i++)
+  for (loopvariable1 = 0; loopvariable1 < 3; loopvariable1++)
   {
     for (j = 0; j < 2; j++)
     {
-      scanf("%d", &ar[i][j]);
+      scanf("%d", &ar[loopvariable1][j]);
     }
   }
-  for (i = 0; i < 3; i++)
+  for (loopvariable1 = 0; loopvariable1 < 3; loopvariable1++)
   {
     for (j = 0; j < 2; j++)
     {
-      printf("%d\t", ar[i][j]);
+      printf("%d\t", ar[loopvariable1][j]);
     }
     printf("\n");
   }
-  for (i = 0; i < 3; i++)
+  for (loopvariable1 = 0; loopvariable1 < 3; loopvariable1++)
   {
     for (j = 0; j < 2; j++)
     {
-      sum = sum + ar[i][j];
+      sum = sum + ar[loopvariable1][j];
     }
   }
   printf("%d", sum);
@@ -531,11 +531,11 @@ void main()
   #include<Stdio.h>
   void main(){
       char paragraph[3][100];
-      int i=0;
-      while(i<3){
-          gets(paragraph[i]);
-          printf("%s\n",paragraph[i]);
-          i++;
+      int loopvariable1=0;
+      while(loopvariable1<3){
+          gets(paragraph[loopvariable1]);
+          printf("%s\n",paragraph[loopvariable1]);
+          loopvariable1++;
       }
   }
   ```
@@ -788,10 +788,10 @@ void main()
   ```c
   int isPrime(int a)
   {
-      int i;
-      for (i = 2; i < a; i++)
+      int loopvariable1;
+      for (loopvariable1 = 2; loopvariable1 < a; loopvariable1++)
       {
-          if (isFactor(a, i) == 1)
+          if (isFactor(a, loopvariable1) == 1)
           {
               return 0;
           }
@@ -806,12 +806,12 @@ void main()
   ```c
   void primerange(int a, int b)
   {
-      int i;
-      for (i = a; i <= b; i++)
+      int loopvariable1;
+      for (loopvariable1 = a; loopvariable1 <= b; loopvariable1++)
       {
-          if (isPrime(i) == 1)
+          if (isPrime(loopvariable1) == 1)
           {
-              printf("%d\n", i);
+              printf("%d\n", loopvariable1);
           }
       }
   }
@@ -923,9 +923,9 @@ Homework:
       printf("Enter the number of terms: ");
       scanf("%d", &n);
       printf("The fibonacci series is: ");
-      for (int i = 0; i < n; i++)
+      for (int loopvariable1 = 0; loopvariable1 < n; loopvariable1++)
       {
-          printf("%d ", fib(i));
+          printf("%d ", fib(loopvariable1));
       }
       printf("\n");
       return 0;
@@ -953,13 +953,13 @@ _to be uploaded, create a pr if you have it_
       char str1[20] = "Hello World";
       char str2[20];
 
-      int i = 0;
-      while(str1[i] != '\0')
+      int loopvariable1 = 0;
+      while(str1[loopvariable1] != '\0')
       {
-          str2[i] = str1[i];
-          i++;
+          str2[loopvariable1] = str1[loopvariable1];
+          loopvariable1++;
       }
-      str2[i] = '\0';
+      str2[loopvariable1] = '\0';
       printf("%s", str2);
       return 0;
   }
@@ -1021,24 +1021,24 @@ Some alternatives of above program is
 
   int main(void) {
       struct person personstructure[3];
-      int i;
+      int loopvariable1;
       float highestAverage = 0;
       struct person highestAveragePerson;
 
-      for (i = 0; i < 3; i++) {
+      for (loopvariable1 = 0; loopvariable1 < 3; loopvariable1++) {
           printf("Enter name: ");
-          scanf("%s", personstructure[i].name);
+          scanf("%s", personstructure[loopvariable1].name);
           printf("Enter height: ");
-          scanf("%d", &personstructure[i].height);
+          scanf("%d", &personstructure[loopvariable1].height);
           printf("Enter age: ");
-          scanf("%d", &personstructure[i].age);
+          scanf("%d", &personstructure[loopvariable1].age);
           printf("Enter marks: ");
-          scanf("%d %d %d %d %d %d", &personstructure[i].marks[0], &personstructure[i].marks[1], &personstructure[i].marks[2], &personstructure[i].marks[3], &personstructure[i].marks[4], &personstructure[i].marks[5]);
-          personstructure[i].average = (personstructure[i].marks[0] + personstructure[i].marks[1] + personstructure[i].marks[2] + personstructure[i].marks[3] + personstructure[i].marks[4] + personstructure[i].marks[5]) / 6.0;
-          printf("Average: %.2f\n", personstructure[i].average);
-          if (personstructure[i].average > highestAverage) {
-              highestAverage = personstructure[i].average;
-              highestAveragePerson = personstructure[i];
+          scanf("%d %d %d %d %d %d", &personstructure[loopvariable1].marks[0], &personstructure[loopvariable1].marks[1], &personstructure[loopvariable1].marks[2], &personstructure[loopvariable1].marks[3], &personstructure[loopvariable1].marks[4], &personstructure[loopvariable1].marks[5]);
+          personstructure[loopvariable1].average = (personstructure[loopvariable1].marks[0] + personstructure[loopvariable1].marks[1] + personstructure[loopvariable1].marks[2] + personstructure[loopvariable1].marks[3] + personstructure[loopvariable1].marks[4] + personstructure[loopvariable1].marks[5]) / 6.0;
+          printf("Average: %.2f\n", personstructure[loopvariable1].average);
+          if (personstructure[loopvariable1].average > highestAverage) {
+              highestAverage = personstructure[loopvariable1].average;
+              highestAveragePerson = personstructure[loopvariable1];
           }
       }
   }
@@ -1115,6 +1115,7 @@ Some alternatives of above program is
   }
   ```
 ### _31st May 2023_
+### **Storage Classes**
 - There are totally four types of variables, 
   
   1. `auto`(global)
@@ -1142,3 +1143,116 @@ Some alternatives of above program is
 
   - **Scope**: Register variables have block scope and are accessible only within the block where they are defined.
   - **Lifetime**: Register variables have a lifetime that is similar to automatic (non-static) local variables. They are created when the block is entered and destroyed when it is exited. However, the "register" keyword is often ignored by modern compilers, and the variables may be stored in memory instead of registers.
+
+
+### _16th June 2023_
+### **Dynamic Memory Allocation**
+- Dynamic memory allocation in C allows the program to request memory from the system at runtime. 
+- The standard library functions `malloc`, `calloc`, and `realloc` are used to allocate memory dynamically. 
+- The `free` function is used to release the allocated memory when it is no longer needed.
+
+- `malloc`:
+   - Allocates a block of memory of the specified size in bytes.
+   - The allocated memory block contains garbage values. You need to manually initialize the memory before using it.
+   - Example:
+     ```c
+     int* ptr = (int*)malloc(5 * sizeof(int));
+     ```
+
+- `calloc`:
+   - Allocates a block of memory for an array of elements, initializing all bytes to zero.
+   - The allocated memory block is initialized to zero.
+   - Example:
+     ```c
+     int* ptr = (int*)calloc(5, sizeof(int));
+     ```
+
+- `realloc`:
+   - Resizes the memory block pointed to by `ptr` to the specified size.
+   - If the new size is larger than the old size, the additional bytes are uninitialized. If the new size is smaller, the data may be truncated.
+   - Example:
+     ```c
+     int* ptr = (int*)malloc(5 * sizeof(int));
+     // Reallocate to a larger size
+     ptr = (int*)realloc(ptr, 10 * sizeof(int));
+     ```
+
+In summary, `malloc` allocates memory without initializing it, `calloc` allocates memory and initializes all bytes to zero, `realloc` resizes an existing memory block, preserving the old data (if possible) and potentially extending or truncating the block.
+
+- Write a program to allocate memory for int array of size 10 and write and read using pointer arithmetic.
+  ```c
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  int main()
+  {
+      int *pointer = malloc(sizeof(int) * 10);
+
+      for (int loopvariable1 = 0; loopvariable1 < 10; loopvariable1++)
+      {
+          *(pointer + loopvariable1) = loopvariable1 + 1;
+      }
+
+      for (int loopvariable1 = 0; loopvariable1 < 10; loopvariable1++)
+      {
+          printf("%d\n", *(pointer + loopvariable1));
+      }
+
+      free(pointer);
+  }
+  ```
+- Rewrite the above function to use the `calloc()` function 
+  ```c
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  int main(void)
+  {
+      int *pointer = calloc(10, sizeof(int));
+
+      for (int loopvariable1 = 0; loopvariable1 < 10; loopvariable1++)
+      {
+          *(pointer + loopvariable1) = loopvariable1 + 1;
+      }
+
+      for (int loopvariable1 = 0; loopvariable1 < 10; loopvariable1++)
+      {
+          printf("%d\n", *(pointer + loopvariable1));
+      }
+
+      free(pointer);    
+  }```
+
+- Using `realloc()` to increase the size returns a pointer to a new larger chunk of memory. Existing values are being copied to a new memory address whislt the old memory address is discarded.
+- Similarly, using `realloc()` for decrease the size returns original pointer with reduced size and values outside are discarded.
+- Write a program that takes a sentence as input, dynamically allocates memory for that sentence and counts number of words in that sentence.
+  ````````````c
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <conio.h>
+
+  int main(void)
+  {
+      printf("Enter a sentence:\n");
+
+      int size = 1, words = 0;
+      char *memoryPointer = malloc(sizeof(char));
+      do
+      {
+          *(memoryPointer + size - 1) = getch();
+          if (*(memoryPointer + size - 1) == ' ')
+          {
+              words += 1;
+          }
+          size += 1;
+          memoryPointer = realloc(memoryPointer, sizeof(char) * size);
+      }
+      while (*(memoryPointer + size - 2) != '.');
+
+      *(memoryPointer + size - 1) = '\0';
+
+      printf("\nEnterned sentence is:\n%s\nIt has %i words", memoryPointer, words + 1);
+
+      free(memoryPointer);
+  }
+  ```
