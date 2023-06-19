@@ -5,15 +5,16 @@ Notes drafted and maintained by Akash Shanmugaraj, PSGCT'26.
 
 | Index (by topic)            |
 |-------------------------------|
-[Switch Case](#switch-case)|
-[Terenary Operators](#terenary-operators)|
-[Logical and Bitwise Operators](#logical-and-bitwise-operators)|
-[String Functions](#string-functions)|
-[Functions](#functions)|
-[Recursion](#recursion)|
-[Structures](#struct)|
-[Storage Classes](#storage-classes)|
-[Dynamic Memory Allocation](#dynamic-memory-allocation)|
+|[Switch Case](#switch-case)|
+|[Terenary Operators](#terenary-operators)|
+|[Logical and Bitwise Operators](#logical-and-bitwise-operators)|
+|[String Functions](#string-functions)|
+|[Pointers](#pointers)|
+|[Functions](#functions)|
+|[Recursion](#recursion)|
+|[Structures](#struct)|
+|[Storage Classes](#storage-classes)|
+|[Dynamic Memory Allocation](#dynamic-memory-allocation)|
 
 | Index (by date)            |
 |--------------------------------|
@@ -27,8 +28,10 @@ Notes drafted and maintained by Akash Shanmugaraj, PSGCT'26.
 | [29th April 2023](#29th-april-2023) |
 | [2nd May 2023](#2nd-may-2023)    |
 | [3rd May 2023](#3rd-may-2023)    |
+| [20th May 2023](#20th-may-2023)   |
 | [23rd May 2023](#23rd-may-2023)   |
 | [24th May 2023](#24th-may-2023)   |
+| [26th May 2023](#26th-may-2023)   |
 | [29th May 2023](#29th-may-2023)   |
 | [31st May 2023](#31st-may-2023)   |
 | [16th June 2023](#16th-june-2023)   |
@@ -579,9 +582,9 @@ void main()
   #include <stdio.h>
   int main() {
     int max;
-    int n1 = 10;
-    int n2 = 20;
-    max = (n1 > n2) ? n1:n2;
+    int number1 = 10;
+    int number2 = 20;
+    max = (number1 > number2) ? number1:number2;
     printf("%d\n", max);
 
   }
@@ -594,8 +597,8 @@ void main()
   int main() {
     int max;
     char res;
-    int n1 = 11;
-    res = (n1 % 2) ? 'O':'E';
+    int number1 = 11;
+    res = (number1 % 2) ? 'O':'E';
     printf("%c\n", res);
 
   }
@@ -607,10 +610,10 @@ void main()
   #include <stdio.h>
   int main() {
     int max;
-    int n1 = 10;
-    int n2 = 20;
+    int number1 = 10;
+    int number2 = 20;
     int n3 = 5;
-    max = n1 > n2 ? (n1 > n3 ? n1 : n3) : (n2 > n3 ? n2 : n3);
+    max = number1 > number2 ? (number1 > n3 ? number1 : n3) : (number2 > n3 ? number2 : n3);
     printf("%d\n", max);
 
   }
@@ -632,9 +635,9 @@ void main()
 
 - The `>>` (right shift) in C takes two numbers, right shifts the bits of the first operand, and the second operand decides the number of places to shift.
 
-- Simply, left-shift for the expression `n1 << n2` will evaluvate `n1 * (2^n2)`
+- Simply, left-shift for the expression `number1 << number2` will evaluvate `number1 * (2^number2)`
 
-- Similarly, right-shift for the expression `n1 >> n2` will evaluvate `n1 / (2^n2)`
+- Similarly, right-shift for the expression `number1 >> number2` will evaluvate `number1 / (2^number2)`
 
 - The `~` (bitwise NOT) in C takes one number and inverts all bits of it.
 
@@ -750,6 +753,66 @@ void main()
 
 - Swap two numbers without using a temporary variable.
 - Find an element which occurs only once
+
+### _20th May 2023_
+### Pointers
+reference: [dhakkshin's *Sem2_C* repository](https://github.com/Dhakkshin/sem2_C/blob/main/notes/pointers.md#200523)
+
+- A Pointer basically stores the memory address of one variable in it
+
+- It refers back to the memory address incase of a call and performs the requested operations
+
+- Example Code:
+  ```c
+  #include <stdio.h>
+
+  int main(void)
+  {
+      int number = 4;
+      int *pointer = &number;
+      printf("%i, %p\n", *pointer, pointer);
+      //same as
+      // printf("%i, %p\n", number, pointer);
+  }
+  ```
+  [ref-sr-dhakkshin](https://github.com/Dhakkshin/sem2_C/blob/main/notes/pointers.md#200523)
+
+- Dereferencing is the process of accessing a memory address of the variable a pointer points to by adding an asterisk(*) infront of it, like the above example
+
+- Pointer Arithmetic allows the pointer to access values in different memory address by performing arithmetic operations from its intial value
+
+  ```c
+  #include <stdio.h>
+
+  int main(void)
+  {
+      int numberarray[] = {1,2,3,4};
+      int *pointer = numberarray;
+
+      printf("%i, %i\n",*pointer, *(pointer + 1));
+  }
+  ```
+- Consider the following code:
+  ```c
+  #include <stdio.h>
+
+  int main(void)
+  {
+      int number1[] = {1,2,3,4}, number2;
+      int *pointer1 = number1;
+      int *pointer2 = number2;
+
+      printf("")
+
+      // number1, number2, pointer1, pointer2
+      // &number1, &number2, &pointer1, &pointer2
+      // *pointer1, *pointer2
+  }
+  ```
+  in the above code,
+  |Memory Address|Value|
+  | - | - |
+  |number1, pointer1, pointer2, &number1, &number2, &pointer1, &pointer2|number2, *pointer1, *pointer2|
 
 ### _23rd May 2023_
 ### **Functions**
@@ -940,16 +1003,45 @@ Homework:
   }
   ```
 
-### _29th May 2023_
+### _26th May 2023_
 ### `struct`
+- A `struct` is a user-defined data type that allows to group  multiple variables of different types into a single unit
+
+- It provides a way to represent a collection of data elements as a single entity
+
+- General Syntax of a `struct` is as follows:
+  ```c
+  struct structureName {
+   dataType member1;
+   dataType member2;
+   // ... additional members
+  };
+  ```
+- Structs can be initiallized in two ways. 
+  ```c
+  struct Person person1;
+  strcpy(person1.name, "John Doe");
+  person1.age = 25;
+  person1.height = 175.5;
+  ```
+  or
+  ```c
+  struct Person person2 = {"Jane Smith", 30, 162.3};
+
+  ```
+### _29th May 2023_
 
 - String Assignment cannot happen like `str1 = str2`. Every index of the string(s) must be iterated and assigned
+
+- `int number` is a _definition_ and `extern int i` is a _declaration_. 
+
+- A declaration **does not** take up memory space.
 
 - One can quickly assign properties of a struct by using below syntax:
   ```c
   struct employee e = {name="<employee-name>",id= 1001}
   ```
-
+- One way of accessing a _structure member_ is via a period (**.**)
 - Q: Write a program to copy a string from one variable to another variable
   ```c
   #include <stdio.h>
@@ -1052,7 +1144,7 @@ Some alternatives of above program is
   ```
 - Q:Create a similar program like above, which computes the person with maximum average by passing the array of structures to a function.
 
-  ```
+  ```c
     #include <stdio.h>
 
   struct person
@@ -1233,7 +1325,7 @@ In summary, `malloc` allocates memory without initializing it, `calloc` allocate
 - Using `realloc()` to increase the size returns a pointer to a new larger chunk of memory. Existing values are being copied to a new memory address whislt the old memory address is discarded.
 - Similarly, using `realloc()` for decrease the size returns original pointer with reduced size and values outside are discarded.
 - Write a program that takes a sentence as input, dynamically allocates memory for that sentence and counts number of words in that sentence.
-  ````````````c
+  ```c
   #include <stdio.h>
   #include <stdlib.h>
   #include <conio.h>
