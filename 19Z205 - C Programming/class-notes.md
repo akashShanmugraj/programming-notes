@@ -775,8 +775,7 @@ reference: [dhakkshin's *Sem2_C* repository](https://github.com/Dhakkshin/sem2_C
       // printf("%i, %p\n", number, pointer);
   }
   ```
-  [ref-sr-dhakkshin](https://github.com/Dhakkshin/sem2_C/blob/main/notes/pointers.md#200523)
-
+  
 - Dereferencing is the process of accessing a memory address of the variable a pointer points to by adding an asterisk(*) infront of it, like the above example
 
 - Pointer Arithmetic allows the pointer to access values in different memory address by performing arithmetic operations from its intial value
@@ -1355,3 +1354,28 @@ In summary, `malloc` allocates memory without initializing it, `calloc` allocate
       free(memoryPointer);
   }
   ```
+
+### _21st June 2023_
+Define a `struct` "name of the unit", "no of units" and "cost of one unit". Use this struct to calculate the total number of the units, from a array of `struct`(s)
+
+```c
+#include <stdio.h>
+
+struct unit
+{
+    char name[20];
+    int no_of_units;
+    float cost_of_one_unit;
+};
+
+int main()
+{
+    struct unit shampoo;
+    struct unit soap;
+    struct unit toothpaste;
+
+    int totalunits;
+    totalunits = shampoo.no_of_units + soap.no_of_units + toothpaste.no_of_units;
+    printf("Total number of units are %d", totalunits);
+}
+```
