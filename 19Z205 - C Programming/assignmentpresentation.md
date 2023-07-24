@@ -1,8 +1,9 @@
 # Final Assignment Presentation
+
 ### _turned in by *Akash Shanmugaraj*_
 
-
 _Write a recursive function to calculate the power of a given number (x^n), where both x and n are integers_
+
 ```c
 #include <stdio.h>
 
@@ -27,9 +28,8 @@ int main(){
 }
 ```
 
-
-
 _Implement a function that accepts a string and returns a dynamically allocated array of characters containing the unique characters in the string, sorted in ascending order._
+
 ```c
 #include <stdio.h>
 
@@ -102,6 +102,7 @@ int main(){
 ```
 
 _5. Tower of Hanoi_
+
 ```c
 #include <stdio.h>
 
@@ -128,6 +129,7 @@ int main(){
 ```
 
 _7. Write a function that accepts a pointer to a string and removes all the vowels from the string, modifying it in-place._
+
 ```c
 #include <stdio.h>
 #include <string.h>
@@ -152,6 +154,7 @@ int main(){
     printf("The string without vowels is: %s", string);
 }
 ```
+
 rotate 9
 
 ```c
