@@ -1,7 +1,21 @@
 # Important Specific Cases
+
 ## 19Z205- C Programming
 
+### Arguments and Parameters
+
+Arguments are the values that are **passed** to a function when it is called. Parameters are the variables that are used to **receive the arguments** passed to a function.
+
+### `scanf` and `gets`
+
+`scanf` reads a string until it encounters a whitespace character. `gets` reads a string until it encounters a newline character. `scanf` is used to read formatted input from the standard input stream, while `gets` is used to read a line of text from the standard input stream.
+
+### `scanf` and `getchar`
+
+`scanf` reads a string until it encounters a whitespace character. `getchar` reads a single character from the standard input stream. `scanf` is used to read formatted input from the standard input stream, while `getchar` is used to read a single character from the standard input stream.
+
 ### Sorting a 2D Array
+
 ```c
 // sort a string list in alphabetical order
 
@@ -61,6 +75,7 @@ Both `malloc` and `calloc` are used to dynamically allocate memory in C, but the
 `calloc` is used to allocate a block of memory of a specified size and initialize it to zero. It takes two arguments, which are the number of elements to allocate and the size of each element in bytes.
 
 Here's an example:
+
 ```c
 int *arr1 = (int *)`malloc`(5 * sizeof(int)); // allocate 5 integers
 int *arr2 = (int *)`calloc`(5, sizeof(int)); // allocate and initialize 5 integers to 0
@@ -69,6 +84,7 @@ int *arr2 = (int *)`calloc`(5, sizeof(int)); // allocate and initialize 5 intege
 In the above example, arr1 contains garbage values, while arr2 contains 0s.
 
 ### Dynamically Allocating a 2 Dimensional Array
+
 ```c
 int main() {
     int rows = 3, cols = 4;
@@ -80,18 +96,19 @@ int main() {
 ```
 
 ### Returns of function `feof`
+
 The function `feof` takes in the file pointer and returns **1 if EOF is reached** and **0 if EOF is not Reached**
 
 ### Returns of function `getc`
+
 `getc` returns the ASCII value of the character that was read. Type conversion from numeric ASCII to char and reverse can be easily done with the format specifier `%c
 ` and `%d`
 
-### ASCII Value ranges 
+### ASCII Value ranges
+
 - 0 (48)
 - 9 (57)
 - A (65)
 - Z (90)
 - a (97)
 - z (122)
-
-
