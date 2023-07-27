@@ -2,6 +2,30 @@
 
 ## 19Z205- C Programming
 
+### TODOS
+- [ ] Printing Memory allocated after malloc
+
+### Format Specifiers
+In C, format specifiers are used in `printf` and `scanf` functions to specify the type of data that is being printed or read. Here are some of the most commonly used format specifiers in C:
+
+- `%d`: integer
+- `%f`: floating-point number
+- `%c`: character
+- `%s`: string
+- `%p`: pointer
+- `%x`: hexadecimal integer
+- `%o`: octal integer
+- `%e` or `%E`: scientific notation (exponential format)
+- `%u`: unsigned integer
+- `%ld`: long integer
+- `%lu`: unsigned long integer
+- `%lld`: long long integer
+- `%llu`: unsigned long long integer
+
+These format specifiers can be combined with various flags and modifiers to control the formatting of the output. For example, you can use the `%-10s` format specifier to left-align a string with a width of 10 characters, or you can use the `%02d` format specifier to print an integer with leading zeros to a width of 2 digits.
+
+It's important to use the correct format specifier for the type of data that you are printing or reading, to avoid errors and undefined behavior.
+
 ### Arguments and Parameters
 
 Arguments are the values that are **passed** to a function when it is called. Parameters are the variables that are used to **receive the arguments** passed to a function.
@@ -104,11 +128,59 @@ The function `feof` takes in the file pointer and returns **1 if EOF is reached*
 `getc` returns the ASCII value of the character that was read. Type conversion from numeric ASCII to char and reverse can be easily done with the format specifier `%c
 ` and `%d`
 
-### ASCII Value ranges
+### ASCII Values and  Ranges
 
+- WHITESPACE (32)
+- NEWLINE (10)
+- TAB (9)
 - 0 (48)
 - 9 (57)
 - A (65)
 - Z (90)
 - a (97)
 - z (122)
+
+### Memory Address
+In most modern computer architectures, memory addresses are represented as unsigned integers, which means that they cannot be negative.
+However, in some older computer architectures, memory addresses were represented as signed integers, which means that they could be negative.
+
+### Array Manipulation with Pointers
+```c
+#include <stdio.h>
+
+int** print2d(int **arr, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            arr[i][j] = arr[i][j] + 1; 
+        }
+        printf("\n");
+    }
+
+    return arr;
+}
+
+int main() {
+    int rows = 3;
+    int cols = 4;
+    int newarray[3][4] = {
+        {1, 2, 3, 4},
+        {5, 6, 7, 8}, 
+        {9, 10, 11, 12}
+    };
+    int *newpointer[3];
+    for (int i = 0; i < rows; i++) {
+        newpointer[i] = newarray[i];
+    }
+    int **newarraypointer = newpointer;
+
+    int **finalarray = print2d(newarraypointer, rows, cols);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++){
+            printf("%d ", finalarray[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+```
