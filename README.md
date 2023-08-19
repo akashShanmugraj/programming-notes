@@ -1,6 +1,6 @@
 # programming-notes
 All of my programming notes in the form of Markdown files
 
-Click into the .md files for notes
+_19Z205 - C Programming_ and _19Z302 - Data Structure and Algorithms_ folders contains coursework (notes and files) for the respective courses, provided by the **Department of Computer Science and Engineering, PSG College of Technology**
 
-- `c.md` - *C Programming*, for **19Z205 - C Progamming**, PSGCT
+_ztm-dsa_ folder contains notes from the Course **Zero to Mastery - Data Structures and Algorithms**, from Udemy
