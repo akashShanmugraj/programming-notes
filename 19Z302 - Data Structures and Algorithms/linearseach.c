@@ -14,38 +14,30 @@ int* readFile(char filename[], int searchelement){
     FILE *fp;
     fp = fopen(filename, "r");
     
-    int sampleLengthVar, sampleElement;
+    int testcasesizevar, scanplaceholder;
 
-    fscanf(fp, "%d", &sampleLengthVar);
-    printf("Scanning a sample of length: %d\n", sampleLengthVar);
+    fscanf(fp, "%d", &testcasesizevar);
+    
+    int* testcasepointer = (int*)malloc(testcasesizevar * sizeof(int));
 
-    // printf("    ALLOC-PTR_START\n");
-    int* sampleArrayPtr = (int*)malloc(sampleLengthVar * sizeof(int));
-    // printf("    ALLOC-PTR_END\n");
-
-    // printf("    SCN-START\n");
-    for (int iterable = 0; iterable < sampleLengthVar; iterable++){
-        // printf("    SCN-ITR: %d\r", iterable);
-        fscanf(fp, "%d", &sampleElement);
-        *(sampleArrayPtr + iterable) = sampleElement;
+    for (int iterable = 0; iterable < testcasesizevar; iterable++){
+        fscanf(fp, "%d", &scanplaceholder);
+        *(testcasepointer + iterable) = scanplaceholder;
     }
-    printf("\n");
-    printf("    SCN-END\n");
 
     fclose(fp);
 
-    linearsearch(sampleArrayPtr, sampleLengthVar, searchelement);
+    linearsearch(testcasepointer, testcasesizevar, searchelement);
     
 }
 
-
 int run(char filename[], int searchelement){
     printf("Scanning in `%s` for %d \n", filename, searchelement);
-    clock_t start = clock(); // start the timer
+    clock_t start = clock();
 
     readFile(filename, searchelement);
 
-    clock_t end = clock(); // end the timer
+    clock_t end = clock();
     double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
     printf("Time spent: %f\n", time_spent);
     printf("\n\n");
