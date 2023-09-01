@@ -69,7 +69,7 @@ int run(char filename[]){
 int main() {
     run("./Testcases/1000nearlysorted1.txt");
     run("./Testcases/1000nearlysorted2.txt");
-    run("./Testcases/1000nearlysorted3.txt");
+    run("./Testcases/1000nearlysorted3.txt");\
     run("./Testcases/100K.ascending.txt");
     run("./Testcases/100K.descending.txt");
     run("./Testcases/100K.random.txt");
