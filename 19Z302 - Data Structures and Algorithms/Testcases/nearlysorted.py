@@ -17,9 +17,9 @@ random.shuffle(SHF_RANGE_3)
 POST_HALF_LIST_3 = list(range(513, 1001))
 
 
-FIRST_STRING = '1000 ' + ' '.join(str(x) for x in PRE_HALF_LIST_1) + ' ' + ' '.join(str(x) for x in SHF_RANGE_1) + ' ' + ' '.join(str(x) for x in POST_HALF_LIST_1)
-SECOND_STRING = '1000 ' + ' '.join(str(x) for x in PRE_HALF_LIST_2) + ' ' + ' '.join(str(x) for x in SHF_RANGE_2) + ' ' + ' '.join(str(x) for x in POST_HALF_LIST_2)
-THIRD_STRING = '1000 ' + ' '.join(str(x) for x in PRE_HALF_LIST_3) + ' ' + ' '.join(str(x) for x in SHF_RANGE_3) + ' ' + ' '.join(str(x) for x in POST_HALF_LIST_3)
+FIRST_STRING = '1001 ' + ' '.join(str(x) for x in PRE_HALF_LIST_1) + ' ' + ' '.join(str(x) for x in SHF_RANGE_1) + ' ' + ' '.join(str(x) for x in POST_HALF_LIST_1)
+SECOND_STRING = '1001 ' + ' '.join(str(x) for x in PRE_HALF_LIST_2) + ' ' + ' '.join(str(x) for x in SHF_RANGE_2) + ' ' + ' '.join(str(x) for x in POST_HALF_LIST_2)
+THIRD_STRING = '1001 ' + ' '.join(str(x) for x in PRE_HALF_LIST_3) + ' ' + ' '.join(str(x) for x in SHF_RANGE_3) + ' ' + ' '.join(str(x) for x in POST_HALF_LIST_3)
 
 file1 = open("1000nearlysorted1.txt", "w")
 file2 = open("1000nearlysorted2.txt", "w")
