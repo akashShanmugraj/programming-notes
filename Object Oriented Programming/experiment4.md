@@ -116,7 +116,7 @@ Odd number
 **AIM: Write a Java program to calculate sum of all even number and odd numbers seperately, from 1 to some given number N**
 
 ```java
-public static void question7(){
+public static void question6(){
     int sourceinteger = 0;
     Scanner scanner = new Scanner(System.in);
     System.out.print("Enter a positive integer: ");
