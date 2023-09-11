@@ -4,7 +4,7 @@
 
 <p align = 'right'>Date: 08.09.2023</p>
 
-<h1 align="center">Java Programs - III</h1>
+<h1 align="center">Java Programs - III [Arrays]</h1>
 
 ### 1. Sum of all elements in the array
 **Aim: Write a Java program that computes sum of all elements in the array**
