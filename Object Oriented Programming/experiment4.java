@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class experiment4 {
+
     public static void question1(int targetnumber){
         for (int iterable = 0; iterable < 10; iterable++) {
             System.out.println("x: "+iterable);
@@ -38,43 +39,31 @@ public class experiment4 {
         }
     }
 
-    static char gradegeneration(int mark){
-        char grade;
-        if (mark > 90){
-            grade = 'A';
-        } else if (mark > 80){
-            grade = 'B';
-        } else if (mark > 70){
-            grade = 'C';
-        } else if (mark > 60){
-            grade = 'D';
-        } else{
-            grade = 'F';
-        }
-        return grade;
-    }
 
     public static void question6(){
-        int totalcourses = 5;
-        System.out.println("You will be entering marks for 5 courses");
+        // make use of break statement in a while loop to calculate the sum of all positive numbers
+        int tempnumber = 0;
+        int summation;
         Scanner scanner = new Scanner(System.in);
-        for (int iterable = 0; iterable < totalcourses; iterable++){
+        System.out.print("Enter an integer: ");
+        int targetnumber = scanner.nextInt();
+        while (targetnumber > 0){
+            tempnumber += targetnumber;
             System.out.print("Enter an integer: ");
-            int targetmarks = scanner.nextInt();
-            
-            System.out.println("Grade: "+gradegeneration(targetmarks));
+            targetnumber = scanner.nextInt();
         }
-        scanner.close();
+
+        System.out.println("Summation of all above numbers is "+tempnumber);
     }
 
     public static void question7(){
         int sourceinteger = 0;
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter an integer: ");
+        System.out.print("Enter a positive integer: ");
         int targetnumber = scanner.nextInt();
         while (targetnumber > 0){
             sourceinteger += targetnumber;
-            System.out.print("Enter an integer: ");
+            System.out.print("Enter a positive integer: ");
             targetnumber = scanner.nextInt();
         }
         System.out.println("Summation of all above numbers is "+sourceinteger);
@@ -95,6 +84,7 @@ public class experiment4 {
         }
     }
     public static void main(String[] args) {
+        // question4(2004);
         question7();
     }
 }
