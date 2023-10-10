@@ -1,0 +1,9 @@
+scan the postfix from left to right
+if encounter an operand, push into stack
+if operator is encountered, 
+    1. pop, and make it as second operand
+    2. pop, and make it as first operand
+
+eval expression and push into stack
+
+repeat until expression is empty
