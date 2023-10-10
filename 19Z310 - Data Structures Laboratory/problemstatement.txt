@@ -1,0 +1,3 @@
+implement stack in array
+infix to posfix conversion
+eval posfix
