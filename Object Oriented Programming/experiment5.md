@@ -2,7 +2,7 @@
 
 <p align = 'right'>Rollnumber: 22z255</p>
 
-<p align = 'right'>Date: 08.09.2023</p>
+<p align = 'right'>Date:________________</p>
 
 <h1 align="center">Java Programs - III [Arrays]</h1>
 
