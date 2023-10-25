@@ -1,49 +1,60 @@
+// Linked List Implementation of Binary Search, only traversal and insertion
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
-// print binary tree
-void display(int *binarytree, int size)
-{
-    for (int i = 0; i < pow(2, size) - 1; i++)
-    {
-        printf("BT%d: %d\n", i, binarytree[i]);
-    }
+struct node {
+    int data;
+    struct node * left;
+    struct node * right;
+};
+
+struct node * getNode(int data) {
+    struct node * newNode = (struct node *)malloc(sizeof(struct node));
+    newNode -> data = data;
+    newNode -> left = NULL;
+    newNode -> right = NULL;
+    return newNode;
 }
 
-int main()
-{
-    int size = 0;
-    printf("Enter total number of elements in the Binary Tree: ");
-    scanf("%d", &size);
-
-    int *binarytree = (int *)calloc(pow(2, size) - 1, sizeof(int));
-    printf("NOTE: Empty nodes are represented by 0\n");
-
-    printf("Enter value of root node: ");
-    scanf("%d", &binarytree[0]);
-
-    for (int nodeiterable = 0; nodeiterable < size; nodeiterable++)
-    {
-        int currentnodeval = binarytree[nodeiterable];
-        if (currentnodeval == 0)
-        {
-            continue;
-        }
-
-        int lnodepointer = 2 * nodeiterable + 1;
-        printf("Enter value of left node of %d: ", currentnodeval);
-        scanf("%d", &binarytree[lnodepointer]);
-
-        if (binarytree[lnodepointer] != 0)
-        {
-            int rnodepointer = 2 * nodeiterable + 2;
-            printf("Enter value of right node of %d: ", currentnodeval);
-            scanf("%d", &binarytree[rnodepointer]);
-        }
+struct node * insertNode(struct node * rootnode, int data) {
+    if (rootnode == NULL) {
+        return getNode(data);
     }
+    if (data < rootnode->data) {
+        rootnode->left = insertNode(rootnode->left, data);
+    } else if (data > rootnode->data) {
+        rootnode->right = insertNode(rootnode->right, data);
+    }
+    return rootnode;
+}
 
-    display(binarytree, size);
-    free(binarytree);
+void printTree(struct node * rootnode, int level) {
+    if (rootnode == NULL) {
+        return;
+    }
+    printTree(rootnode -> right, level + 1);
+    for (int i = 0; i < level; i++) {
+        printf("    ");
+    }
+    printf("%d\n", rootnode -> data);
+    printTree(rootnode -> left, level + 1);
+}
+
+int main() {
+    struct node * rootnode = NULL;
+
+    // Inserting nodes
+    rootnode = insertNode(rootnode, 5);
+    rootnode = insertNode(rootnode, 3);
+    rootnode = insertNode(rootnode, 7);
+    rootnode = insertNode(rootnode, 2);
+    rootnode = insertNode(rootnode, 4);
+    rootnode = insertNode(rootnode, 6);
+    rootnode = insertNode(rootnode, 8);
+
+    // Printing the tree
+    printTree(rootnode, 0);
+
     return 0;
 }
