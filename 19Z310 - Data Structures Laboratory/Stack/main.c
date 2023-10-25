@@ -15,18 +15,32 @@ struct charstack
     char *array;
 };
 
-void parseinfix(char *infixstatement){
-    // split the infix statement into tokens
+
+void parseinfix(char *infixstatement, char ** tokensobject){
     char *token = strtok(infixstatement, " ");
+    // create tokens array to store tokens
+    int i = 0;
     while (token != NULL){
-        printf("%s\n", token);
+        *(tokensobject+i) = token;
         token = strtok(NULL, " ");
+        i++;
     }
 }
 
 void main()
 {
-    char infix[] = "2 + 1 * 2 - 4 / 2";
+    char infix[] = "21 + 13 * 2 - 4 / 2";
+    // create a stack
+    struct charstack *stack = (struct charstack *)malloc(sizeof(struct charstack));
     printf("Infix statement: %s\n", infix);
-    parseinfix(infix);
+    char **infixarray = (char **)malloc(100 * sizeof(char *));
+    parseinfix(infix, infixarray);
+
+    // print tokensobject
+    for (int i = 0; i < 100; i++){
+        if (strcmp(*(infixarray+i), "") == 0){
+            printf("NO E\n");
+        }
+        printf("E: %s\n", *(infixarray+i));
+    }
 }
