@@ -47,8 +47,10 @@ Names after removal: [Alice, Bobby]
 Names after clear: []
 ```
 
-### Importing a UserDefined Package
-> using `OOP.java` inside folder **learnjava**
+### 2.Importing a UserDefined Package
+**AIM: Create a class A in learnjava package that access it in another class B by using import keyword.**
+
+> using `learnjava/OOP.java` 
 
 ```java
 package learnjava;
@@ -97,7 +99,7 @@ This is Encapsulation.
 **AIM: Create a class Calculator inside a package name Advcalculate. To create a class inside a package, declare the package name in the first statement in your program. A class can have only one package declaration.
 Make use of this package  Advcalculate   in another program and use the class Calculator.**
 
-> using `Calculator.java` inside Advcalculate folder
+> using `/Advcalculate/Calculator.java`
 ```java
 package Advcalculate;
 
@@ -118,4 +120,86 @@ public class Calculator {
         return a / b;
     }
 }
+```
+
+Output:
+```
+Addition: 8
+Subtraction: 5
+Multiplication: 8
+Division: 5.0
+```
+
+### 4. Create packages and subpackages
+**AIM: 3. Create user defined package university create the department sub-packages in Java.**
+**creates class Staff inside department sub package within university package.**
+**using the keyword “import”, add the user-defined packages in Java.**
+
+> using `/University/Department/Staff.java`
+```java
+public class Staff {
+    int age;
+    String name;
+    String position;
+    double salary;
+    
+    public Staff(int age, String name, String position, double salary) {
+        this.age = age;
+        this.name = name;
+        this.position = position;
+        this.salary = salary;
+    }
+    
+    // Getters and setters for the variables
+    public int getAge() {
+        return age;
+    }
+    
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getPosition() {
+        return position;
+    }
+    
+    public void setPosition(String position) {
+        this.position = position;
+    }
+    
+    public double getSalary() {
+        return salary;
+    }
+    
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+}
+```
+
+In our working file,
+```java
+Staff staffMember = new Staff(35, "John Smith", "Professor", 75000.0);
+
+System.out.println("Name: " + staffMember.getName());
+System.out.println("Position: " + staffMember.getPosition());
+System.out.println("Age: " + staffMember.getAge());
+System.out.println("Salary: " + staffMember.getSalary());
+```
+
+Output:
+```
+Name: John Smith
+Position: Professor
+Age: 35
+Salary: 75000.0
 ```
