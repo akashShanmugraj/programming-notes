@@ -45,13 +45,13 @@ int main() {
     struct node * rootnode = NULL;
 
     // Inserting nodes
-    rootnode = insertNode(rootnode, 5);
-    rootnode = insertNode(rootnode, 3);
-    rootnode = insertNode(rootnode, 7);
-    rootnode = insertNode(rootnode, 2);
-    rootnode = insertNode(rootnode, 4);
-    rootnode = insertNode(rootnode, 6);
-    rootnode = insertNode(rootnode, 8);
+    rootnode = insertNode(rootnode, 53);
+    rootnode = insertNode(rootnode, 31);
+    rootnode = insertNode(rootnode, 75);
+    rootnode = insertNode(rootnode, 28);
+    rootnode = insertNode(rootnode, 40);
+    rootnode = insertNode(rootnode, 62);
+    rootnode = insertNode(rootnode, 88);
 
     // Printing the tree
     printTree(rootnode, 0);
