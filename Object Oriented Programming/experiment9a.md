@@ -4,7 +4,7 @@
 
 <p align = 'right'>Date:________________</p>
 
-<h1 align="center">Packages</h1>
+<h1 align="center">Interfaces</h1>
 
 ## 1. Illustration of uses of `interface` with two classes
 **Aim:** Illustrate the use of interface technique
@@ -229,7 +229,7 @@ Another Person Taking Care
 ```
 
 
-## 5. Multiple Inheritance
+## 4. Multiple Inheritance
 **Aim:** An interface is a significant feature in Java in the sense that it enables the multiple inheritance.
 Implement the same
 Illustrate class A which implements two interfaces (I1 and I2)
