@@ -1,41 +1,87 @@
-#include<stdio.h>
+#define MAX_SIZE 100
+char stack[MAX_SIZE];
+int top = -1;
 
-int push(int * arraypointer, int stacksize, int data, int top){
-    if (top+1 == stacksize){
-        return -1;
-    } else {
-        top++;
-        arraypointer[top] = data;
-        return top;
+void push(char element) {
+    if (top >= MAX_SIZE - 1) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack[++top] = element;
+}
+
+char pop() {
+    if (top < 0) {
+        printf("Stack underflow\n");
+        return '\0';
+    }
+    return stack[top--];
+}
+
+char peek() {
+    if (top < 0) {
+        return '\0';
+    }
+    return stack[top];
+}
+
+int isEmpty() {
+    return top == -1;
+}
+
+int getPrecedence(char operator) {
+    switch(operator) {
+        case '+':
+        case '-':
+            return 1;
+        case '*':
+        case '/':
+            return 2;
+        case '^':
+            return 3;
+        default:
+            return 0; // Assuming other characters are operands
     }
 }
 
-int pop(int * arraypointer, int arraylength, int* top){
-    if (*(top) == -1){
-        return -1; 
-    } else {
-        arraypointer[*(top)] = 0;
-        return --*(top);
+void infixToPostfix(char* infix, char* postfix) {
+    int i, j;
+    char token, popped;
+
+    for (i = 0, j = 0; infix[i] != '\0'; i++) {
+        token = infix[i];
+
+        if (isalnum(token)) {
+            postfix[j++] = token; // If it's an operand, add it directly to postfix
+        } else if (token == '(') {
+            push(token);
+        } else if (token == ')') {
+            while ((popped = pop()) != '(') {
+                postfix[j++] = popped;
+            }
+        } else { // If it's an operator
+            while (!isEmpty() && getPrecedence(token) <= getPrecedence(peek())) {
+                postfix[j++] = pop();
+            }
+            push(token);
+        }
     }
+
+    while (!isEmpty()) {
+        postfix[j++] = pop();
+    }
+
+    postfix[j] = '\0'; // Add null character to indicate end of string
 }
 
-void display(int * arraypointer, int arraylength){
-    for (int i = 0; i < arraylength; i++){
-        printf("%d ", arraypointer[i]);
-    }
-}
+int main() {
+    char infix[MAX_SIZE] = "a+b*c-(d/e+f*g*h)";
+    char postfix[MAX_SIZE];
 
+    infixToPostfix(infix, postfix);
 
-int main(){
-    int numberarray[10]= {10,20,30,40};
-    int maxsize = 10;
-    int pointer = 3;
-    int data = 50;
-    int result = push(numberarray, maxsize, data, pointer);
-    printf("Push result: %d\n", result);
-    display(numberarray, maxsize);
+    printf("Infix: %s\n", infix);
+    printf("Postfix: %s\n", postfix);
 
-    int popresult = pop(numberarray, maxsize, &result);
-    printf("\nPop result: %d\n", popresult);
-    display(numberarray, maxsize);
+    return 0;
 }

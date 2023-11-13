@@ -1,32 +1,44 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+void enqueue();
+void dequeue();
+int arr[5];
+int n = 5;
+int rear = -1;
+int front = -1;
 
-void display(int * queueobject, int size, int* frontpointer,int* rearpointer){
-    printf("DIS F:%d R:%d\n", *(frontpointer), *(rearpointer));   
-    for (int iterable = *(frontpointer); iterable<=*(rearpointer); iterable++){
-        printf("VAL:%d POS:%d\n", *(queueobject+iterable), iterable);
+void enqueue()
+{
+    int item;
+    if ((front == 0 && rear == n - 1) || rear + 1 == front)
+        printf("Overflow \n");
+    else
+    {
+        if (front == -1)
+            front = 0;
+        printf("Element to be inserted in the Queue\n : ");
+        scanf("%d", &item);
+        rear = rear + 1;
+        arr[rear] = item;
     }
-    printf("\n");
 }
 
-void enqueue(int * queueobject, int size,int data, int * frontpointer, int* rearpointer){
-    printf("ENQ F:%d R:%d\n", *(frontpointer), *(rearpointer));   
-    if ((*(frontpointer) == 0 && *(rearpointer) == size-1) || *(frontpointer) == *(rearpointer)+1){
-        printf("overflow");
-    } else {
-        *(rearpointer) = *(rearpointer) + 1;
-        *(queueobject+*(rearpointer)) = data;
+void dequeue()
+{
+    if (front == -1 || front > rear)
+    {
+        printf("Underflow \n");
+    }
+    else
+    {
+        printf("%d\n", arr[front]);
+        front = front + 1;
     }
 }
-
-int main(){
-    int queuearray[10] = {0,0,0,30,29,47,58,69,0,0};
-    int * queuepointer = queuearray;
-    int front = -1, rear = -1;
-    front = 3;
-    rear = 7;
-    display(queuepointer, 10, &front, &rear);
-    enqueue(queuepointer, 10, 100, &front, &rear);
-    display(queuepointer, 10, &front, &rear);
-
+int main()
+{
+    int arr[5] = {1, 2, 3, 4, 5};
+    enqueue();
+    dequeue();
+    dequeue();
+    dequeue();
 }
