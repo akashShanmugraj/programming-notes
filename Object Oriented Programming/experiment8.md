@@ -134,3 +134,114 @@ Enter amount for withdrawal (your current balance is 100.2 INR):
 Sucessfully withdrew 40.1 INR.
 Your current balance is 60.1 INR.
 ```
+
+## 2. Library Management Abstract Class
+**AIM: Create an Abstract class named Library Management that has functions for getting the**
+**book name and display the names of the books. There are two derived classes, Issue and**
+**Return. These classes have decrement and increment functions. The user can take or**
+**return books. Update the system accordingly. Include provision for searching for a book.**
+
+### Abstract Class
+```java
+abstract class LibraryManagement {
+    String bookName;
+    List<String> bookNames = new ArrayList<>();
+
+    void getBookName() {
+        this.bookName = "Sample Book";
+    }
+
+    void displayBookNames() {
+        for(String book : bookNames) {
+            java.lang.System.out.println(book);
+        }
+    }
+}
+```
+
+### Issue and Return subclass
+```java
+class Issue extends LibraryManagement {
+    int count = 10;
+
+    void decrement() {
+        count--;
+    }
+
+    void getBookName() {
+        super.getBookName();
+    }
+
+    void displayBookNames() {
+        super.displayBookNames();
+    }
+}
+
+class Return extends LibraryManagement {
+    int count = 0;
+
+    void increment() {
+        count++;
+    }
+
+    void getBookName() {
+        super.getBookName();
+    }
+
+    void displayBookNames() {
+        super.displayBookNames();
+    }
+}
+```
+
+### Other necessary classes
+```java
+class User {
+    Issue issue = new Issue();
+    Return returnBook = new Return();
+
+    void takeBook() {
+        issue.decrement();
+    }
+
+    void returnBook() {
+        returnBook.increment();
+    }
+}
+
+class LibrarySystem {
+    User user = new User();
+
+    void searchBook(String bookName) {
+        user.issue.getBookName();
+        if(user.issue.bookName.equals(bookName)) {
+            java.lang.System.out.println("Book Found");
+        } else {
+            java.lang.System.out.println("Book Not Found");
+        }
+    }
+}
+```
+
+### Driver Code
+```java
+Issue issue = new Issue();
+issue.getBookName();
+issue.decrement();
+java.lang.System.out.println("Book issued: " + issue.bookName);
+java.lang.System.out.println("Remaining books: " + issue.count);
+
+Return returnBook = new Return();
+returnBook.getBookName();
+returnBook.increment();
+java.lang.System.out.println("Book returned: " + returnBook.bookName);
+java.lang.System.out.println("Total books: " + returnBook.count);
+```
+
+### Output
+```
+Book issued: Sample Book
+Remaining books: 9
+Book returned: Sample Book
+Total books: 1
+```
