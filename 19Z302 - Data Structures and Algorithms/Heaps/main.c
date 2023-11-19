@@ -11,7 +11,6 @@ int percolateupminheap(int *minheappointer, int heapsize, int child);
 
 int percolatedownmaxheap(int *maxheappointer, int heapsize, int parent)
 {
-
     int leftchild = 2 * (parent) + 1;
     int rightchild = 2 * (parent) + 2;
 
@@ -40,13 +39,13 @@ int percolatedownmaxheap(int *maxheappointer, int heapsize, int parent)
     }
 }
 
-int percolatedownminheap(int *maxheappointer, int heapsize, int parent)
+int percolatedownminheap(int *minheappointer, int heapsize, int parent)
 {
 
     int leftchild = 2 * (parent) + 1;
     int rightchild = 2 * (parent) + 2;
 
-    if (!*(maxheappointer + leftchild) && !*(maxheappointer + rightchild))
+    if (!*(minheappointer + leftchild) && !*(minheappointer + rightchild))
     {
         return 0;
     }
@@ -56,18 +55,18 @@ int percolatedownminheap(int *maxheappointer, int heapsize, int parent)
         return 0;
     }
 
-    if (*(maxheappointer + leftchild) < *(maxheappointer + rightchild))
+    if (*(minheappointer + leftchild) < *(minheappointer + rightchild))
     {
-        *(maxheappointer + parent) = *(maxheappointer + leftchild);
-        *(maxheappointer + leftchild) = -1;
-        return percolatedownminheap(maxheappointer, heapsize, leftchild);
+        *(minheappointer + parent) = *(minheappointer + leftchild);
+        *(minheappointer + leftchild) = -1;
+        return percolatedownminheap(minheappointer, heapsize, leftchild);
     }
 
-    else if (*(maxheappointer + leftchild) > *(maxheappointer + rightchild))
+    else if (*(minheappointer + leftchild) > *(minheappointer + rightchild))
     {
-        *(maxheappointer + parent) = *(maxheappointer + rightchild);
-        *(maxheappointer + rightchild) = -1;
-        return percolatedownminheap(maxheappointer, heapsize, rightchild);
+        *(minheappointer + parent) = *(minheappointer + rightchild);
+        *(minheappointer + rightchild) = -1;
+        return percolatedownminheap(minheappointer, heapsize, rightchild);
     }
 }
 
@@ -184,7 +183,7 @@ int main()
     printTree(minheappointer, 0, 0, minheapsize);
 
     printf("\n");
-
+    printf("MIN-ELEMENT: %d\n", *(minheappointer));
     percolatedownminheap(minheappointer, minheapsize, 0);
 
     printf("\n");
