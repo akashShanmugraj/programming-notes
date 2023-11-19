@@ -39,7 +39,7 @@ void reheapify(int *heapobject, int heapsize, int pointer)
     }
     else
     {
-        if (*(heapobject + leftchild) > *(heapobject + rightchild) && *(heapobject + leftchild) > *(heapobject + pointer))
+        if (*(heapobject + leftchild) >= *(heapobject + rightchild) && *(heapobject + leftchild) > *(heapobject + pointer))
         {
             int temp = *(heapobject + leftchild);
             *(heapobject + leftchild) = *(heapobject + pointer);
@@ -47,7 +47,7 @@ void reheapify(int *heapobject, int heapsize, int pointer)
 
             reheapify(heapobject, heapsize, leftchild);
         }
-        else if (*(heapobject + leftchild) < *(heapobject + rightchild) && *(heapobject + rightchild) > *(heapobject + pointer))
+        else if (*(heapobject + leftchild) <= *(heapobject + rightchild) && *(heapobject + rightchild) > *(heapobject + pointer))
         {
             int temp = *(heapobject + rightchild);
             *(heapobject + rightchild) = *(heapobject + pointer);
@@ -85,7 +85,7 @@ void heapsort(int *heapobject, int heapsize)
 
 int main()
 {
-    int maxheaparray[] = {101, 57, 65, 29, 35, 6, 8};
+    int maxheaparray[] = {94, 84, 78, 42, 40, 42, 31, 22, 2, 31};
     int *maxheappointer = maxheaparray;
     int maxheapsize = sizeof(maxheaparray) / sizeof(int);
 
