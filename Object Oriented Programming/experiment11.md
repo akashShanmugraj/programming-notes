@@ -7,6 +7,7 @@
 <h1 align="center">String Handling</h1>
 
 ## Aim of Experiment:
+
 To implement various string functions that perform **Character Extraction**, **Comparision**, **Searching**, **Modifying**, **Data Conversion** and **String Buffer**
 
 ### 1. String Concatenation
@@ -57,6 +58,7 @@ Output:
 ### 4. Character Extraction
 
 `charAt()` method example
+
 ```java
 String str7 = "Hello";
 char ch = str7.charAt(0);
@@ -96,7 +98,6 @@ for (int i = 0; i < b.length; i++) {
 
 Output:
 
-
 ```
 72
 101
@@ -118,7 +119,6 @@ for (int i = 0; i < ch2.length; i++) {
 
 Output:
 
-
 ```
 H
 e
@@ -126,6 +126,7 @@ l
 l
 o
 ```
+
 ### 5. String Comparison
 
 `equals()` and `equalsIgnoreCase()` method example
@@ -160,7 +161,7 @@ System.out.println(str14.regionMatches(0, str15, 6, 5));
 
 Output:
 
-``` 
+```
 true
 false
 ```
@@ -179,6 +180,7 @@ Output:
 true
 true
 ```
+
 `equals()` and `==` operator example
 
 ```java
@@ -192,12 +194,12 @@ System.out.println(str17.equals(str18));
 
 Output:
 
-
 ```
 true
 false
 true
 ```
+
 `compareTo()` method example
 
 ```java
@@ -212,12 +214,12 @@ System.out.println(str22.compareTo(str20));
 
 Output:
 
-
 ```
 0
 -32
 32
 ```
+
 ### 6. Searching Strings
 
 ```java
@@ -231,13 +233,13 @@ System.out.println(str23.lastIndexOf('o', 5));
 
 Output:
 
+```
+4
+7
+7
+4
+```
 
-```
-4
-7
-7
-4
-```
 ### 7. Modifying Strings
 
 `substring()` method example
@@ -251,11 +253,11 @@ System.out.println(str24.substring(0, 5));
 
 Output:
 
-
 ```
 World
 Hello
 ```
+
 `concat()` method example
 
 ```java
@@ -266,7 +268,6 @@ System.out.println(str25.concat(str26));
 ```
 
 Output:
-
 
 ```
 HelloWorld
@@ -283,11 +284,11 @@ System.out.println(str27.replace("Hello", "Hi"));
 
 Output:
 
-
 ```
 Heppo Worpd
 Hi World
 ```
+
 `trim()` method example
 
 ```java
@@ -298,10 +299,10 @@ System.out.println(str28.trim());
 
 Output:
 
-
 ```
 Hello World
 ```
+
 ### 8.Data conversion using `valueOf()` method
 
 ```java
@@ -312,7 +313,6 @@ System.out.println(str29);
 ```
 
 Output:
-
 
 ```
 123
@@ -329,11 +329,11 @@ System.out.println(str30.toLowerCase());
 
 Output:
 
-
 ```
 HELLO WORLD
 hello world
 ```
+
 ### 10.String Buffer Class
 
 ```java
@@ -348,12 +348,12 @@ System.out.println(sb3.capacity());
 
 Output:
 
-
 ```
 16
 50
 27
 ```
+
 Length and Capacity
 
 ```java
@@ -365,11 +365,11 @@ System.out.println(sb4.capacity());
 
 Output:
 
-
 ```
 11
 27
 ```
+
 `ensureCapacity()` method
 
 ```java
@@ -382,11 +382,11 @@ System.out.println(sb5.capacity());
 
 Output:
 
-
 ```
 16
 50
 ```
+
 `setLength()` method
 
 ```java
@@ -399,11 +399,11 @@ System.out.println(sb6.length());
 
 Output:
 
-
 ```
 11
 5
 ```
+
 `charAt()` and `setCharAt()` method
 
 ```java
@@ -416,11 +416,11 @@ System.out.println(sb7.charAt(0));
 
 Output:
 
-
 ```
 H
 M
 ```
+
 `getChars()` method
 
 ```java
@@ -432,7 +432,6 @@ System.out.println(ch3);
 ```
 
 Output:
-
 
 ```
 Hello
@@ -448,10 +447,10 @@ System.out.println(sb9);
 
 Output:
 
-
 ```
 Hello World
 ```
+
 `insert()` method
 
 ```java
@@ -462,10 +461,10 @@ System.out.println(sb10);
 
 Output:
 
-
 ```
 Hello  World
 ```
+
 `reverse()` method
 
 ```java
@@ -476,7 +475,6 @@ System.out.println(sb11);
 ```
 
 Output:
-
 
 ```
 dlroW olleH
@@ -495,11 +493,11 @@ System.out.println(sb12);
 
 Output:
 
-
 ```
 Hello
 ello
 ```
+
 `replace()` method
 
 ```java
@@ -510,10 +508,10 @@ System.out.println(sb13);
 
 Output:
 
+```
+Hello
+```
 
-```
-Hello 
-```
 `substring()` method
 
 ```java
@@ -523,7 +521,6 @@ System.out.println(sb14.substring(6));
 ```
 
 Output:
-
 
 ```
 World
