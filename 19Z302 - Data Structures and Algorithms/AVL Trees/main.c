@@ -1,3 +1,5 @@
+// testcase 20,10,5,30,40,25,7,35,47,59,68,23,21,2
+
 #include <stdio.h>
 #include <stdlib.h>
 
