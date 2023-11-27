@@ -17,12 +17,42 @@ struct node *getNode(int data)
     return newNode;
 }
 
-int findminimum(struct node *rootnode){
+struct node * findminimum(struct node *rootnode){
     if (rootnode->left != NULL){
         return findminimum(rootnode->left);
     }
-    return rootnode->data;
+    return rootnode;
 }
+
+struct node * search(struct node * root, int target, int *child_side){
+    if (root -> data == target)
+    {
+        *child_side = 0;
+        return root;
+    }
+    else if (root -> left -> data == target)
+    {
+        *child_side = 1;
+        return root;
+    }
+    else if (root -> right -> data == target)
+    {
+        *child_side = 2;
+        return root;
+    }  
+    else if (target < root -> data)
+    {
+        search(root->left, target, child_side);
+    }
+    else if (target > root -> data)
+    {
+        search(root->right, target, child_side);
+    }
+    else
+    {
+    }
+}
+
 
 struct node *deletion(struct node *rootnode, int data){
     struct node * traversalpointer = rootnode;
@@ -62,7 +92,23 @@ struct node *deletion(struct node *rootnode, int data){
         }
     } else {
         printf("Two Children\n");
-        printf("INORDER SUCCESSOR IS %d\n", findminimum(traversalpointer->right));
+        struct node * inordersucessor = findminimum(traversalpointer->right);
+        printf("INORDER SUCCESSOR IS %d\n", inordersucessor->data);
+        int finder = 0;
+        int * finderpointer = &finder;
+
+        struct node * searchresult = search(rootnode, inordersucessor->data, finderpointer);
+
+        if (*(finderpointer) == 1){
+            searchresult->left = NULL;
+        } else if (*(finderpointer) == 2){
+            searchresult->right = NULL;
+        } else if (*(finderpointer) == 0){
+            printf("UNKNOWN CASE\n");
+        }
+
+        traversalpointer->data = inordersucessor->data;
+        free(inordersucessor);
     }
 
     return rootnode;
@@ -109,6 +155,20 @@ void printTree(struct node *rootnode, int level)
     }
     printf("%d\n", rootnode->data);
     printTree(rootnode->left, level + 1);
+}
+
+void display_tree(struct node *root, int level){
+    if (root == NULL)
+    {
+        return;
+    }
+    display_tree(root->right, level + 1);
+    for (int i = 0; i < level; i++)
+    {
+        printf("|\t");
+    }
+    printf("|------>%d\n", root->data);
+    display_tree(root->left, level + 1);
 }
 
 void inordertraversal(struct node *rootnode)
@@ -186,14 +246,17 @@ int main()
     rootnode = insertion(rootnode, 8);
     rootnode = insertion(rootnode, 11);
     rootnode = insertion(rootnode, 18);
+    rootnode = insertion(rootnode, 6);
+
 
     printf("Before Deletion\n");
     // Printing the tree
     printTree(rootnode, 0);
+    display_tree(rootnode, 0);
 
-    deletion(rootnode, 3);
-    deletion(rootnode, 7);
-    deletion(rootnode, 18);
+    deletion(rootnode, 5);
+    // deletion(rootnode, 7);
+    // deletion(rootnode, 18);
 
     printf("\n");
     printf("\n");
