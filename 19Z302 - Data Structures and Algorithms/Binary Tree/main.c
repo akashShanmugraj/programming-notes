@@ -17,34 +17,37 @@ struct node *getNode(int data)
     return newNode;
 }
 
-struct node * findminimum(struct node *rootnode){
-    if (rootnode->left != NULL){
+struct node *findminimum(struct node *rootnode)
+{
+    if (rootnode->left != NULL)
+    {
         return findminimum(rootnode->left);
     }
     return rootnode;
 }
 
-struct node * search(struct node * root, int target, int *child_side){
-    if (root -> data == target)
+struct node *search(struct node *root, int target, int *child_side)
+{
+    if (root->data == target)
     {
         *child_side = 0;
         return root;
     }
-    else if (root -> left -> data == target)
+    else if (root->left->data == target)
     {
         *child_side = 1;
         return root;
     }
-    else if (root -> right -> data == target)
+    else if (root->right->data == target)
     {
         *child_side = 2;
         return root;
-    }  
-    else if (target < root -> data)
+    }
+    else if (target < root->data)
     {
         search(root->left, target, child_side);
     }
-    else if (target > root -> data)
+    else if (target > root->data)
     {
         search(root->right, target, child_side);
     }
@@ -53,57 +56,76 @@ struct node * search(struct node * root, int target, int *child_side){
     }
 }
 
+struct node *deletion(struct node *rootnode, int data)
+{
+    struct node *traversalpointer = rootnode;
+    struct node *parentpointer = NULL;
 
-struct node *deletion(struct node *rootnode, int data){
-    struct node * traversalpointer = rootnode;
-    struct node * parentpointer = NULL;
-
-    while (traversalpointer->data != data){
+    while (traversalpointer->data != data)
+    {
         printf("%d - ", traversalpointer->data);
-        if (data < traversalpointer->data){
+        if (data < traversalpointer->data)
+        {
             parentpointer = traversalpointer;
-            traversalpointer = traversalpointer -> left;
-        } else if (data > traversalpointer->data){
+            traversalpointer = traversalpointer->left;
+        }
+        else if (data > traversalpointer->data)
+        {
             parentpointer = traversalpointer;
             traversalpointer = traversalpointer->right;
         }
-
     }
 
     printf("\nDEL DATA: %d\n", traversalpointer->data);
 
-    if ((traversalpointer->left && !traversalpointer->right) || (!traversalpointer->left && traversalpointer->right)){
-        if (traversalpointer->left){
+    if ((traversalpointer->left && !traversalpointer->right) || (!traversalpointer->left && traversalpointer->right))
+    {
+        if (traversalpointer->left)
+        {
             printf("Left Child Only\n");
             parentpointer->left = traversalpointer->left;
-        } else if (traversalpointer->right){
+        }
+        else if (traversalpointer->right)
+        {
             printf("Right Child Only\n");
             parentpointer->right = traversalpointer->right;
         }
         free(traversalpointer);
-    } else if (!traversalpointer->right && !traversalpointer->left){
+    }
+    else if (!traversalpointer->right && !traversalpointer->left)
+    {
         printf("No Child\n");
-        if (parentpointer->data < data){
+        if (parentpointer->data < data)
+        {
             parentpointer->right = NULL;
             free(traversalpointer);
-        } else if (parentpointer->data > data){
+        }
+        else if (parentpointer->data > data)
+        {
             parentpointer->left = NULL;
             free(traversalpointer);
         }
-    } else {
+    }
+    else
+    {
         printf("Two Children\n");
-        struct node * inordersucessor = findminimum(traversalpointer->right);
+        struct node *inordersucessor = findminimum(traversalpointer->right);
         printf("INORDER SUCCESSOR IS %d\n", inordersucessor->data);
         int finder = 0;
-        int * finderpointer = &finder;
+        int *finderpointer = &finder;
 
-        struct node * searchresult = search(rootnode, inordersucessor->data, finderpointer);
+        struct node *searchresult = search(rootnode, inordersucessor->data, finderpointer);
 
-        if (*(finderpointer) == 1){
+        if (*(finderpointer) == 1)
+        {
             searchresult->left = NULL;
-        } else if (*(finderpointer) == 2){
+        }
+        else if (*(finderpointer) == 2)
+        {
             searchresult->right = NULL;
-        } else if (*(finderpointer) == 0){
+        }
+        else if (*(finderpointer) == 0)
+        {
             printf("UNKNOWN CASE\n");
         }
 
@@ -120,22 +142,32 @@ struct node *insertion(struct node *rootnode, int data)
 
     struct node *newnode = getNode(data);
 
-    if (!rootnode) {
+    if (!rootnode)
+    {
         return newnode;
     }
-    while (traversalpointer) {
-        if (traversalpointer->data < data && traversalpointer->right != NULL){
+    while (traversalpointer)
+    {
+        if (traversalpointer->data < data && traversalpointer->right != NULL)
+        {
             traversalpointer = traversalpointer->right;
-        } else if (traversalpointer->data >= data && traversalpointer->left != NULL){
+        }
+        else if (traversalpointer->data >= data && traversalpointer->left != NULL)
+        {
             traversalpointer = traversalpointer->left;
-        } else {
+        }
+        else
+        {
             break;
         }
     }
 
-    if (traversalpointer->data < data){
+    if (traversalpointer->data < data)
+    {
         traversalpointer->right = newnode;
-    } else if (traversalpointer->data >= data){
+    }
+    else if (traversalpointer->data >= data)
+    {
         traversalpointer->left = newnode;
     }
 
@@ -157,7 +189,8 @@ void printTree(struct node *rootnode, int level)
     printTree(rootnode->left, level + 1);
 }
 
-void display_tree(struct node *root, int level){
+void display_tree(struct node *root, int level)
+{
     if (root == NULL)
     {
         return;
@@ -248,7 +281,6 @@ int main()
     rootnode = insertion(rootnode, 18);
     rootnode = insertion(rootnode, 6);
 
-
     printf("Before Deletion\n");
     // Printing the tree
     printTree(rootnode, 0);
@@ -262,7 +294,6 @@ int main()
     printf("\n");
     printf("After Deletion\n");
     printTree(rootnode, 0);
-
 
     printf("INORDER: ");
     inordertraversal(rootnode);
