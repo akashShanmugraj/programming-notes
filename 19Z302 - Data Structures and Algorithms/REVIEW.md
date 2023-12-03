@@ -1,3 +1,95 @@
+## Unival Counting Function
+
+### Faulty Code
+```c
+void countunival(struct node *root, int *counterpointer)
+{
+    printf("C:%d L:%d R:%d\n", root->data, root->left->data, root->right->data);
+    if (root->left && root->right)
+    {
+        if (root->left->data == root->data && root->right->data == root->data)
+        {
+            printf("MATCH1\n");
+            *(counterpointer) = *(counterpointer) + 1;
+            printf("NOW %d\n", *(counterpointer));
+        }
+        countunival(root->left, counterpointer);
+        countunival(root->right, counterpointer);
+    }
+    else if (root->left && !root->right)
+    {
+        if (root->left->data == root->data)
+        {
+            printf("MATCH2\n");
+            *(counterpointer) = *(counterpointer) + 1;
+        }
+        countunival(root->left, counterpointer);
+    }
+    else if (root->right && !root->left)
+    {
+        if (root->right->data == root->data)
+        {
+            printf("MATCH3\n");
+            *(counterpointer) = *(counterpointer) + 1;
+        }
+        countunival(root->right, counterpointer);
+    }
+    else if (!root->left && !root->right)
+    {
+        return;
+    }
+}
+```
+### Corrected Code:
+```c
+void countunival(struct node *root, int *counterpointer)
+{
+    if (root == NULL) {
+        return;
+    }
+
+    if (root->left != NULL && root->right != NULL) {
+        printf("C:%d L:%d R:%d\n", root->data, root->left->data, root->right->data);
+        if (root->left->data == root->data && root->right->data == root->data)
+        {
+            printf("MATCH1\n");
+            *(counterpointer) = *(counterpointer) + 1;
+            printf("NOW %d\n", *(counterpointer));
+        }
+        countunival(root->left, counterpointer);
+        countunival(root->right, counterpointer);
+    }
+    else if (root->left != NULL) {
+        printf("C:%d L:%d\n", root->data, root->left->data);
+        if (root->left->data == root->data)
+        {
+            printf("MATCH2\n");
+            *(counterpointer) = *(counterpointer) + 1;
+        }
+        countunival(root->left, counterpointer);
+    }
+    else if (root->right != NULL) {
+        printf("C:%d R:%d\n", root->data, root->right->data);
+        if (root->right->data == root->data)
+        {
+            printf("MATCH3\n");
+            *(counterpointer) = *(counterpointer) + 1;
+        }
+        countunival(root->right, counterpointer);
+    }
+    else {
+        printf("C:%d\n", root->data);
+    }
+}
+```
+
+### Copilot's Explaination
+The segmentation fault is likely occurring because you're trying to access root->left->data and root->right->data without first checking if root->left and root->right are not NULL.
+
+In this corrected code, we first check if root is NULL at the beginning of the function. If it is, we return immediately. This prevents a segmentation fault that could occur if root is NULL.
+
+Then, before accessing root->left->data and root->right->data, we check if root->left and root->right are not NULL, respectively. This ensures that we only try to access these members if they exist, preventing a segmentation fault.
+
 ## Function to Insert into a complete Binary Tree
 
 ```c
