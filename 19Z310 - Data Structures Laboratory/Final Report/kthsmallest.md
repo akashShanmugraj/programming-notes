@@ -1,27 +1,29 @@
-## Code
+# Source Code
+
+### Importing Standard Libraries
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+```
 
+We import standard libraries for input/output and dynamic memory allocation.
+
+### Defining the Node Structure
+
+```c
 struct node {
     int data;
     struct node * left;
     struct node * right;
 };
+```
 
-void printTree(struct node * rootnode, int level) {
-    if (rootnode == NULL) {
-        return;
-    }
-    printTree(rootnode -> right, level + 1);
-    for (int i = 0; i < level; i++) {
-        printf("    ");
-    }
-    printf("%d\n", rootnode -> data);
-    printTree(rootnode -> left, level + 1);
-}
+We define a node of our Binary Search Tree using `struct`, having integer (data) field and two pointers to the left and right child nodes.
 
+### `getnode()` function
+
+```c
 struct node * getnode(int data){
     struct node * newnode = malloc(sizeof(struct node));
     newnode->data = data;
@@ -30,14 +32,19 @@ struct node * getnode(int data){
 
     return newnode;
 }
+```
 
-void inordertraversal(struct node *rootnode, int * counterpointer, int k)
+A standard `getnode` function that takes in an integer and returns a pointer to a new tree node with the passed data
+
+### Function to print Kth smallest element in a BST
+```c
+void kthsmallest(struct node *rootnode, int * counterpointer, int k)
 {
     if (rootnode == NULL || *counterpointer >= k) {
         return;
     }
 
-    inordertraversal(rootnode->left, counterpointer, k);
+    kthsmallest(rootnode->left, counterpointer, k);
 
     *counterpointer = *counterpointer + 1;
 
@@ -46,9 +53,16 @@ void inordertraversal(struct node *rootnode, int * counterpointer, int k)
         return;
     }
 
-    inordertraversal(rootnode->right, counterpointer, k);
+    kthsmallest(rootnode->right, counterpointer, k);
 }
+```
+This function prints the `kth` smallest element in the passed Binary Search Tree. 
 
+This function is essentially an `inorder` traversal of the tree, with a counter that keeps track of the number of nodes visited. 
+When the counter reaches `k`, we print the data of the current node.
+
+### Standard Driver Code
+```c
 int main() {
     struct node * rootnode = getnode(10);   
     rootnode->left = getnode(5);
@@ -59,44 +73,44 @@ int main() {
 
     rootnode->right->right = getnode(40);
 
-    printTree(rootnode, 0);
 
+    int counter = 0;
+    int * counterpointer = &counter;
 
-    int inordercounter = 0;
-    int * inordercounterpointer = &inordercounter;
-
-    inordertraversal(rootnode, inordercounterpointer, 3);
+    kthsmallest(rootnode, counterpointer, 3);
     
     return 0;
 }
 ```
 
-## Real World Example
-The problem of finding the kth smallest element in an unsorted array is a common algorithmic problem. One real-world example of this problem is in **statistics**, where it is used to find the median of a dataset. The median is the middle value of a dataset, and it can be found by finding the kth smallest element, where k is equal to half the size of the dataset. For example, if we have a dataset of 10 numbers, we would need to find the 5th smallest number to determine the median.
+This driver code creates a Binary Search Tree artifically without a proper insert function and finds the 3rd smallest element (here) in the tree.
 
-There are several ways to solve the kth smallest element problem, including sorting the array and selecting the kth element, or using a binary search algorithm to find the kth element. The time complexity of these algorithms varies, but they are generally efficient for small to medium-sized datasets.
+# Real World Example
+Finding the kth smallest element is a common algorithmic problem. One application of this problem is in **statistics**, where it is used to find the median of a dataset. 
 
-## Challenges / Limitations
+The median represents the middle value of a dataset. It can be calculated by finding the kth smallest element, where k is equal to half the size of the dataset. 
+
+For instance, if we have a dataset of 10 numbers, we would need to find the 5th smallest number to determine the median.
+
+Further, this also proves to be useful in many ways such as being a fundamental step in quicksort and heapsort, calculating percentiles and quartiles in statistics, and finding the top-k results of a query in database management systems
+
+
+
+# Challenges / Limitations
 
 The code provided has a few limitations:
 
-1. **Memory Management**: The code does not free the memory allocated for the nodes after their use. This can lead to memory leaks in larger programs or long-running programs.
+Lack of proper memory management, by not freeing up the memory allocated to the nodes after their use.
+This can lead to memory leaks in larger programs or long-running programs.
 
-2. **Error Handling**: The code does not handle errors. For example, if `malloc` fails to allocate memory, it returns `NULL`. This code does not check for that condition and would crash if `malloc` fails.
+Lack of Error Handling, by not checking for errors in the `malloc` function.
 
-3. **Limited Input**: The tree is hardcoded in the program. In a more practical application, you would likely want to build the tree based on user input or data read from a file.
+Lack of input flexibility, by hardcoding the tree in the program. Human Input is absent
 
-4. **No Handling for k > n**: The code does not handle the case where k is greater than the number of nodes in the tree. In such a case, it would be better to return an error or a special value.
+## Conclusion
 
-5. **Efficiency**: The code uses an in-order traversal to find the kth smallest element, which takes O(n) time. If the tree was an Augmented BST that maintains the size of the left subtree with every node, the kth smallest element could be found in O(log n) time.
+In conclusion, the programs mentioned in the excerpt are significant because they provide a fundamental understanding of Binary Search Tree (BST) operations and traversal techniques. 
 
-As for the kth smallest element problem in general, the main challenge is to do it efficiently. As mentioned above, an in-order traversal takes O(n) time, but there are more efficient algorithms if additional data structures are used or if the tree is an Augmented BST.
+The kth smallest element problem is a common question in data structure and algorithm interviews, and it is crucial for any software developer to understand how to solve it. 
 
-## Challenge and Limitation
-
-1. We identified and corrected a memory allocation issue in the `getnode` function of the provided code.
-2. We implemented a function to find the kth smallest element in a Binary Search Tree (BST) using in-order traversal.
-
-The significance of these programs is that they provide a basic understanding of BST operations and traversal techniques. The kth smallest element problem is a common question in data structure and algorithm interviews, and understanding how to solve it is crucial for any software developer. 
-
-However, it's important to note that the code has limitations, such as lack of error handling and memory management, and it doesn't handle the case where k is greater than the number of nodes in the tree. These are areas that could be improved in future work.
+However, it's important to note that the code has limitations, such as a lack of error handling and memory management, and it doesn't handle the case where k is greater than the number of nodes in the tree. These are areas that could be improved in future work.
