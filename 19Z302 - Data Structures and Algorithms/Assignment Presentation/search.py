@@ -10,24 +10,30 @@ mazeArrayData = []
 system('clear')
 print('\nData extracted from maze.txt:\n')
 
-# remove newline char from the string iterations, convert it into a list, add it to the mazeArrayData list
+# removing the \n from the data and storing it in a list
+# ['#', '#', 'B', '#', '#', '#', '#', '#', '#', '#', '#', '\n']
+# ['#', ' ', ' ', '#', '#', ' ', ' ', ' ', '#', '#', '#', '\n']
+# ['#', ' ', '#', '#', '#', '#', '#', '#', 'A', ' ', '#', '\n']
+# ['#', ' ', ' ', ' ', ' ', ' ', '#', '#', '#', ' ', '#', '\n']
+# ['#', '#', '#', '#', '#', ' ', ' ', ' ', ' ', ' ', '#']
+
+# todo try popping the \n from the list
 for iterations in mazeRawData:
     fIter = iterations.replace('\n','')
     mazeArrayData.append([fIter])
-    # Initial Preview from maze.txt for user
     print(fIter)
 
 # puzzleLength x sectionLength is the total size of the puzzle
-puzzleLength = len(mazeArrayData) # rows
-sectionLength = len(mazeArrayData[0][0]) # columns
+puzzleLength = len(mazeArrayData)
+sectionLength = len(mazeArrayData[0][0])
 termination = False
 
-# availableData is a dictionary that stores the position of A and B and the pathData
-# aka cache
+# mazeArrayData would look like [['##B########'], ['#  ##   ###'], ['# ######A #'], ['#     ### #'], ['#####     #']]
+
 availableData = {
-    'aPos':None,
-    'bPos':None,
-    'pathData':[]
+    'aPos':None, # [row,column] of source / start
+    'bPos':None, # [row,column] of destination / end
+    'pathData':[] # all possible empty spaces, aka path
 }
 
 for row in range(puzzleLength):
@@ -40,10 +46,10 @@ for row in range(puzzleLength):
         elif element == ' ':
             availableData['pathData'].append([row,column])
 
-# print(availableData)
 input()
 system('clear')
 
+# returns array of possible movement from given coordinates
 def neighbourhood(rowPos,columnPos, dataArray):
     possibleSlots = [[rowPos+1,columnPos],[rowPos-1,columnPos],[rowPos,columnPos+1],[rowPos,columnPos-1]]
     availableSlots = []
@@ -53,9 +59,13 @@ def neighbourhood(rowPos,columnPos, dataArray):
                 availableSlots.append(slot)
         except IndexError:
             pass
+        
+    print('\nNeighbourhood of',rowPos,columnPos,'is',availableSlots,'\n')
     return availableSlots
 
+# cache for the path moved
 moved = []
+
 def move(r, c, terminationState):
     print('\nThe path moved is as described:',moved,'\n')
     print(genPathArt('maze.txt', [r,c]),end = '\r')
@@ -63,7 +73,8 @@ def move(r, c, terminationState):
     sleep(0.7)
     input()
     system('clear')
-    if availableData['bPos'] in neighbourhood(r,c, mazeArrayData):
+
+    if availableData['bPos'] in neighbourhood(r,c, mazeArrayData): # if the destination is in the neighbourhood
         termination = True
         f = (genPathArt('maze.txt', [availableData['bPos'][0],availableData['bPos'][1]]))
         for i in range(20):
@@ -76,19 +87,20 @@ def move(r, c, terminationState):
             system('clear')
             break
         return None
-    for slot in neigh:
-
-        newNeigh = neighbourhood(slot[0],slot[1],mazeArrayData)
+    
+    for slot in neigh: # if not in the destination, get possible moves for the root
+        newNeigh = neighbourhood(slot[0],slot[1],mazeArrayData) # get the neighbourhood of the new slot
         if not newNeigh:
-            print('Maze Terminated at',slot)
-        elif slot in moved:
+            print('Maze Terminated at',slot) # if the new slot has no neighbourhood, terminate the maze (aka dead end)
+        elif slot in moved: # if the new slot is already moved, continue
             continue
         else:
-            moved.append([slot[0],slot[1]])
+            moved.append([slot[0],slot[1]]) # if the new slot is not moved, move to the new slot
             if terminationState == True:
                 break
             else:
-                move(slot[0],slot[1],terminationState)
+                move(slot[0],slot[1],terminationState) # recursive function to move to the new slot
+
 def genPathArt(filePath, positionList):
     dataFile = open(filePath,'r')
     data = dataFile.read()
