@@ -20,7 +20,7 @@ void printTree(struct node * rootnode, int level) {
 }
 
 struct node * getnode(int data){
-    struct node * newnode = malloc(sizeof(struct node *));
+    struct node * newnode = malloc(sizeof(struct node));
     newnode->data = data;
     newnode->left = NULL;
     newnode->right = NULL;
@@ -28,28 +28,22 @@ struct node * getnode(int data){
     return newnode;
 }
 
-void inordertraversal(struct node *rootnode, int * counterpointer)
+void inordertraversal(struct node *rootnode, int * counterpointer, int k)
 {
-    printf("CTR VAL %d\n", *(counterpointer));
-    
-    if (rootnode == NULL) {
+    if (rootnode == NULL || *counterpointer >= k) {
         return;
     }
 
-    struct node *traversalnode = rootnode;
+    inordertraversal(rootnode->left, counterpointer, k);
 
-    if (traversalnode->left != NULL)
-    {
-        inordertraversal(traversalnode->left, counterpointer);
+    *counterpointer = *counterpointer + 1;
+
+    if (*counterpointer == k) {
+        printf("Kth smallest element is %d \n", rootnode->data);
+        return;
     }
 
-    printf("Smallest Element is %d \n", traversalnode->data);
-    *(counterpointer) = *(counterpointer) + 1;
-
-    if (traversalnode->right != NULL)
-    {
-        inordertraversal(traversalnode->right, counterpointer);
-    }
+    inordertraversal(rootnode->right, counterpointer, k);
 }
 
 int main() {
@@ -68,9 +62,7 @@ int main() {
     int inordercounter = 0;
     int * inordercounterpointer = &inordercounter;
 
-    printf("MODIFED INORDER: \n");
-    inordertraversal(rootnode, inordercounterpointer);
-    printf("\n");
+    inordertraversal(rootnode, inordercounterpointer, 3);
     
     return 0;
 }
