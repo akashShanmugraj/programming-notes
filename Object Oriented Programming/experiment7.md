@@ -4,7 +4,7 @@
 
 <p align = 'right'>Date:________________</p>
 
-<h1 align="center">Inheritance</h1>
+<h1 align="center">Inheritance and Method Overriding</h1>
 
 ## 1. A Vechicle class extended by Car
 
