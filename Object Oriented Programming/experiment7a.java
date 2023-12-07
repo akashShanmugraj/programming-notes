@@ -1,4 +1,4 @@
-public class experiment7 {
+public class experiment7a {
 
     // Method overloading by changing the number of arguments
     public int sum(int a, int b) {
@@ -49,7 +49,7 @@ public class experiment7 {
     }
 
     public static void main(String[] args) {
-        experiment7 obj = new experiment7();
+        experiment7a obj = new experiment7a();
         System.out.println(obj.sum(1, 2));
         System.out.println(obj.sum(1, 2, 3));
         System.out.println(obj.sum(1, 2, 3, 4));
