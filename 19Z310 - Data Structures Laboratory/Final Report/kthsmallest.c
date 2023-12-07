@@ -28,13 +28,13 @@ struct node * getnode(int data){
     return newnode;
 }
 
-void inordertraversal(struct node *rootnode, int * counterpointer, int k)
+void kthsmallest(struct node *rootnode, int * counterpointer, int k)
 {
     if (rootnode == NULL || *counterpointer >= k) {
         return;
     }
 
-    inordertraversal(rootnode->left, counterpointer, k);
+    kthsmallest(rootnode->left, counterpointer, k);
 
     *counterpointer = *counterpointer + 1;
 
@@ -43,7 +43,7 @@ void inordertraversal(struct node *rootnode, int * counterpointer, int k)
         return;
     }
 
-    inordertraversal(rootnode->right, counterpointer, k);
+    kthsmallest(rootnode->right, counterpointer, k);
 }
 
 int main() {
@@ -62,7 +62,7 @@ int main() {
     int inordercounter = 0;
     int * inordercounterpointer = &inordercounter;
 
-    inordertraversal(rootnode, inordercounterpointer, 3);
+    kthsmallest(rootnode, inordercounterpointer, 3);
     
     return 0;
 }
