@@ -33,6 +33,14 @@ class Car extends Vehicle {
 }
 ```
 
+### Output
+
+```sudo
+Engine started.
+Engine stopped.
+Car is in motion.
+```
+
 ## 2. Animal, Mammal, Dog: hierarchical classes
 
 **AIM**: Consider a scenario where you have three classes - Animal, Mammal, and Dog. The Animal class has properties like name and eat(). The Mammal class extends Animal and has an additional property furColor and a method giveBirth(). Finally, the Dog class extends Mammal and has an additional property breed and a method bark().
@@ -63,6 +71,14 @@ class Dog extends Mammal {
     }
 }
 ```
+
+### Output
+```sudo
+Animal is eating.
+Mammal is giving birth.
+Dog is barking.
+```
+
 ## 3. Shape class extended by geometries
 
 **AIM**: Consider a scenario where you have a base class Shape with properties like color and a method draw(). Now, you have three derived classes - Circle, Rectangle, and Triangle - each extending the Shape class. Each derived class has its own properties (radius for Circle, length and width for Rectangle, and base and height for Triangle) and overrides the draw() method to provide their own implementation.
@@ -109,6 +125,13 @@ class Triangle extends Shape {
         System.out.println("Drawing a triangle.");
     }
 }
+```
+
+### Output
+```sudo
+Drawing a circle.
+Drawing a rectangle.
+Drawing a triangle.
 ```
 
 ## 4. Shape class, Circle, Rectangle subclasses
@@ -161,4 +184,10 @@ public class Main {
         shape2.calculateArea();  // Calls the overridden method in Rectangle
     }
 }
+```
+
+### Output
+```sudo
+Calculating area of a circle: 78.53981633974483
+Calculating area of a rectangle: 0.0
 ```
