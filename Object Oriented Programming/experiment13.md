@@ -4,194 +4,134 @@
 
 <p align = 'right'>Date:________________</p>
 
-<h1 align="center">Collections and Framework</h1>
+<h1 align="center">Generics</h1>
 
 
-## 1. ArrayList Operations:
-**AIM**: Write a Java Program to create an array list. Add some colors and do the following
-operations:
+### 1. Reuse Same Class for Two Different Data Types Using Generics
 
-i) Insert an element at the first position.
-
-ii) Delete the third element.
-
-iii) Search for “Red” color.
-
-iv) Sort the array list.
-
-v) Update the fourth element with “Yellow”
+**AIM**: Reuse same class for two different data types and demonstrate that  Generics helps in code reusability with ease.
 
 ```java
-import java.util.ArrayList;
-import java.util.Collections;
+class Pair<T> {
+    private T first;
+    private T second;
 
-public class ArrayListOperations {
+    public Pair(T first, T second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    public T getFirst() {
+        return first;
+    }
+
+    public T getSecond() {
+        return second;
+    }
+
+    public void displayPair() {
+        System.out.println("Pair: (" + first + ", " + second + ")");
+    }
+}
+
+public class GenericPairExample {
     public static void main(String[] args) {
-        // Create ArrayList
-        ArrayList<String> colors = new ArrayList<>();
+        Pair<Integer> integerPair = new Pair<>(5, 10);
+        integerPair.displayPair();
 
-        // Add some colors
-        colors.add("Red");
-        colors.add("Blue");
-        colors.add("Green");
-
-        // i) Insert an element at the first position
-        colors.add(0, "Purple");
-
-        // ii) Delete the third element
-        colors.remove(2);
-
-        // iii) Search for “Red” color
-        int indexOfRed = colors.indexOf("Red");
-        System.out.println("Index of 'Red': " + indexOfRed);
-
-        // iv) Sort the array list
-        Collections.sort(colors);
-
-        // v) Update the fourth element with “Yellow”
-        colors.set(3, "Yellow");
-
-        // Display the modified ArrayList
-        System.out.println("Modified ArrayList: " + colors);
+        Pair<String> stringPair = new Pair<>("Hello", "World");
+        stringPair.displayPair();
     }
 }
 ```
 
 ### Output
 ```
-Index of 'Red': 2
-Modified ArrayList: [Green, Purple, Red, Yellow]
+Pair: (5, 10)
+Pair: (Hello, World)
 ```
 
+### 2. Generic Type with More Than One Parameter
 
-## 2. LinkedList Operations:
-
-**AIM**: Write a Java program to create a linked list. 
-Add some names of animals and do the
-following operations:
-
-i) Insert “cat” at third position.
-
-ii) Remove the first and last elements.
-
-iii) Check if the animal “dog” exists in the linked list.
-
-iv) Replace the second element with “Elephant”
-
-v) Display the elements and their positions.
+**AIM**: Write a java program for Generic Type with more than one parameter
 
 ```java
-import java.util.LinkedList;
+class Tuple<A, B> {
+    private A first;
+    private B second;
 
-public class LinkedListOperations {
+    public Tuple(A first, B second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    public A getFirst() {
+        return first;
+    }
+
+    public B getSecond() {
+        return second;
+    }
+
+    public void displayTuple() {
+        System.out.println("Tuple: (" + first + ", " + second + ")");
+    }
+}
+
+public class GenericTupleExample {
     public static void main(String[] args) {
-        // Create LinkedList
-        LinkedList<String> animals = new LinkedList<>();
+        Tuple<Integer, String> tuple1 = new Tuple<>(5, "Hello");
+        tuple1.displayTuple();
 
-        // Add some names of animals
-        animals.add("Lion");
-        animals.add("Tiger");
-        animals.add("Bear");
-
-        // i) Insert “cat” at third position
-        animals.add(2, "Cat");
-
-        // ii) Remove the first and last elements
-        animals.removeFirst();
-        animals.removeLast();
-
-        // iii) Check if the animal “dog” exists in the linked list
-        boolean containsDog = animals.contains("Dog");
-        System.out.println("Contains 'Dog': " + containsDog);
-
-        // iv) Replace the second element with “Elephant”
-        animals.set(1, "Elephant");
-
-        // v) Display the elements and their positions
-        for (int i = 0; i < animals.size(); i++) {
-            System.out.println("Element: " + animals.get(i) + ", Position: " + i);
-        }
+        Tuple<Double, Boolean> tuple2 = new Tuple<>(3.14, true);
+        tuple2.displayTuple();
     }
 }
 ```
 
 ### Output
 ```
-Contains 'Dog': false
-Element: Tiger, Position: 0
-Element: Elephant, Position: 1
+Tuple: (5, Hello)
+Tuple: (3.14, true)
 ```
 
-## 3. PriorityQueue Operations:
+### 3. Generic Methods with Different Types of Arguments
 
-**AIM**: Write a Java Program to create a Priority queue.
-Add some subject names and do the
-following operations:
-
-i) Insert the subject “Mathematics” into the priority queue.
-
-ii) Iterate through all the elements.
-
-iii) Count the number of elements in the priority queue.
-
-iv) Retrieve the first element.
-
-v) Add all the elements of the Priority queue to another Priority queue.
+**AIM**: Write a java program for creating generic methods that can be called with different types of arguments.
 
 ```java
-import java.util.PriorityQueue;
+public class GenericMethodsExample {
+    public static <T> void printArray(T[] array) {
+        for (T element : array) {
+            System.out.print(element + " ");
+        }
+        System.out.println();
+    }
 
-public class PriorityQueueOperations {
+    public static <A, B> void displayPair(A first, B second) {
+        System.out.println("Pair: (" + first + ", " + second + ")");
+    }
+
     public static void main(String[] args) {
-        // Create PriorityQueue
-        PriorityQueue<String> subjects = new PriorityQueue<>();
+        Integer[] intArray = {1, 2, 3, 4, 5};
+        Double[] doubleArray = {1.1, 2.2, 3.3, 4.4, 5.5};
+        String[] stringArray = {"One", "Two", "Three", "Four", "Five"};
 
-        // Add some subject names
-        subjects.add("Physics");
-        subjects.add("Chemistry");
-        subjects.add("Biology");
+        printArray(intArray);
+        printArray(doubleArray);
+        printArray(stringArray);
 
-        // i) Insert the subject “Mathematics” into the priority queue
-        subjects.offer("Mathematics");
-
-        // ii) Iterate through all the elements
-        System.out.println("PriorityQueue elements:");
-        for (String subject : subjects) {
-            System.out.println(subject);
-        }
-
-        // iii) Count the number of elements in the priority queue
-        int numberOfElements = subjects.size();
-        System.out.println("Number of elements: " + numberOfElements);
-
-        // iv) Retrieve the first element
-        String firstElement = subjects.peek();
-        System.out.println("First element: " + firstElement);
-
-        // v) Add all the elements of the PriorityQueue to another PriorityQueue
-        PriorityQueue<String> anotherPriorityQueue = new PriorityQueue<>(subjects);
-
-        // Display the elements of the second PriorityQueue
-        System.out.println("Second PriorityQueue elements:");
-        for (String subject : anotherPriorityQueue) {
-            System.out.println(subject);
-        }
+        displayPair(10, "Java");
+        displayPair(3.14, true);
     }
 }
 ```
 
 ### Output
 ```
-PriorityQueue elements:
-Biology
-Chemistry
-Physics
-Mathematics
-Number of elements: 4
-First element: Biology
-Second PriorityQueue elements:
-Biology
-Chemistry
-Physics
-Mathematics
+1 2 3 4 5 
+1.1 2.2 3.3 4.4 5.5 
+One Two Three Four Five 
+Pair: (10, Java)
+Pair: (3.14, true)
 ```
