@@ -32,24 +32,24 @@ int getBalanceFactor(struct node *node)
     return height(node->leftchild) - height(node->rightchild);
 }
 
-struct node *rightRotate(struct node *y)
+struct node *rightRotate(struct node *parent)
 {
-    struct node *x = y->leftchild;
-    y->leftchild = x->rightchild;
-    x->rightchild = y;
-    y->height = getMaximum(height(y->leftchild), height(y->rightchild)) + 1;
-    x->height = getMaximum(height(x->leftchild), height(x->rightchild)) + 1;
-    return x;
+    struct node *pivot = parent->leftchild;
+    parent->leftchild = pivot->rightchild;
+    pivot->rightchild = parent;
+    parent->height = getMaximum(height(parent->leftchild), height(parent->rightchild)) + 1;
+    pivot->height = getMaximum(height(pivot->leftchild), height(pivot->rightchild)) + 1;
+    return pivot;
 }
 
-struct node *leftRotate(struct node *x)
+struct node *leftRotate(struct node *parent)
 {
-    struct node *y = x->rightchild;
-    x->rightchild = y->leftchild;
-    y->leftchild = x;
-    x->height = getMaximum(height(x->leftchild), height(x->rightchild)) + 1;
-    y->height = getMaximum(height(y->leftchild), height(y->rightchild)) + 1;
-    return y;
+    struct node *pivot = parent->rightchild;
+    parent->rightchild = pivot->leftchild;
+    pivot->leftchild = parent;
+    parent->height = getMaximum(height(parent->leftchild), height(parent->rightchild)) + 1;
+    pivot->height = getMaximum(height(pivot->leftchild), height(pivot->rightchild)) + 1;
+    return pivot;
 }
 
 struct node *insert(struct node *node, int data)
@@ -60,7 +60,7 @@ struct node *insert(struct node *node, int data)
         temp->data = data;
         temp->leftchild = NULL;
         temp->rightchild = NULL;
-        temp->height = 1;
+        temp->height = 0;
         return temp;
     }
     if (data < node->data)
@@ -75,7 +75,7 @@ struct node *insert(struct node *node, int data)
     {
         return node;
     }
-    node->height = getMaximum(height(node->leftchild), height(node->rightchild)) + 1;
+    node->height = getMaximum(height(node->leftchild), height(node->rightchild));
     int balanceFactor = getBalanceFactor(node);
     if (balanceFactor > 1)
     {
