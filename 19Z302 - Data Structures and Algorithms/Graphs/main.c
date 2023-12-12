@@ -50,6 +50,50 @@ void addEdge(struct Graph* graph, int src, int dest) {
     graph->adjacencyList[dest] = newNode;
 }
 
+// Function to perform Depth First Search (DFS) traversal
+void DFS(struct Graph* graph, int startVertex, int visited[]) {
+    // Mark the current vertex as visited
+    visited[startVertex] = 1;
+    printf("%d ", startVertex);
+
+    // Traverse all the adjacent vertices
+    struct Node* current = graph->adjacencyList[startVertex];
+    while (current) {
+        int adjacentVertex = current->data;
+        if (!visited[adjacentVertex]) {
+            DFS(graph, adjacentVertex, visited);
+        }
+        current = current->next;
+    }
+}
+
+// Function to perform Breadth First Search (BFS) traversal
+void BFS(struct Graph* graph, int startVertex, int visited[]) {
+    // Create a queue for BFS
+    struct Queue* queue = createQueue();
+
+    // Mark the current vertex as visited and enqueue it
+    visited[startVertex] = 1;
+    enqueue(queue, startVertex);
+
+    while (!isEmpty(queue)) {
+        // Dequeue a vertex from the queue and print it
+        int currentVertex = dequeue(queue);
+        printf("%d ", currentVertex);
+
+        // Traverse all the adjacent vertices of the dequeued vertex
+        struct Node* current = graph->adjacencyList[currentVertex];
+        while (current) {
+            int adjacentVertex = current->data;
+            if (!visited[adjacentVertex]) {
+                visited[adjacentVertex] = 1;
+                enqueue(queue, adjacentVertex);
+            }
+            current = current->next;
+        }
+    }
+}
+
 // Function to print the adjacency list representation of the graph
 void printGraph(struct Graph* graph) {
     for (int i = 0; i < graph->vertices; ++i) {
@@ -61,6 +105,55 @@ void printGraph(struct Graph* graph) {
         }
         printf("NULL\n");
     }
+}
+
+
+// Function to perform topological sort using Depth First Search (DFS)
+void topologicalSortDFS(struct Graph* graph, int vertex, int visited[], struct Node** stack) {
+    // Mark the current vertex as visited
+    visited[vertex] = 1;
+
+    // Recur for all the adjacent vertices
+    struct Node* current = graph->adjacencyList[vertex];
+    while (current) {
+        int adjacentVertex = current->data;
+        if (!visited[adjacentVertex]) {
+            topologicalSortDFS(graph, adjacentVertex, visited, stack);
+        }
+        current = current->next;
+    }
+
+    // Push the current vertex to the stack
+    struct Node* newNode = createNode(vertex);
+    newNode->next = *stack;
+    *stack = newNode;
+}
+
+// Function to perform topological sort
+void topologicalSort(struct Graph* graph) {
+    int vertices = graph->vertices;
+    int visited[vertices];
+    struct Node* stack = NULL;
+
+    // Initialize visited array
+    for (int i = 0; i < vertices; ++i) {
+        visited[i] = 0;
+    }
+
+    // Perform DFS for each unvisited vertex
+    for (int i = 0; i < vertices; ++i) {
+        if (!visited[i]) {
+            topologicalSortDFS(graph, i, visited, &stack);
+        }
+    }
+
+    // Print the topological order
+    printf("Topological order: ");
+    while (stack) {
+        printf("%d -> ", stack->data);
+        stack = stack->next;
+    }
+    printf("NULL\n");
 }
 
 // Example usage
