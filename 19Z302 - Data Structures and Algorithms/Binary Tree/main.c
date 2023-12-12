@@ -259,6 +259,105 @@ void postordertraversal(struct node *rootnode)
     printf("%d ", traversalnode->data);
 }
 
+void iterinorder(struct node * rootnode){
+    struct node * current = rootnode;
+    struct node * stack[100];
+
+    int top = -1;
+
+    while (current != NULL || top != -1){
+        while (current != NULL){
+            stack[top] = current;
+            top = top + 1;
+            current = current->left;
+        }
+
+        current = stack[top];
+        top = top - 1;
+        printf(" %d ", current->data);
+        current = current->right;
+    }
+}
+
+void iterpreorder(struct node * rootnode){
+    if (rootnode == NULL){
+        return ;
+    }
+
+    struct node * stack[100];
+    int top = -1;
+    stack[++top] = rootnode;
+
+    while (top != -1){
+        struct node * current = stack[top];
+        top = top - 1;
+
+        printf(" %d ", current->data);
+
+        if (current->right != NULL){
+            stack[++top] = current->right;
+        }
+        if (current->left != NULL){
+            stack[++top] = current->left;
+        }
+    }
+}
+
+void iterpostorder1(struct node * rootnode){
+    if (rootnode == NULL){
+        return ;
+    }
+
+    struct node * stack1[100];
+    struct node * stack2[100];
+    int top1 = -1, top2 = -1;
+    stack1[++top1] = rootnode;
+
+    while (top1 != -1){
+        struct node * current = stack1[top1--];
+        stack2[++top2] = current;
+
+        if (current->left != NULL){
+            stack1[++top1] = current->left;
+        }
+        if (current->right != NULL){
+            stack1[++top1] = current->right;
+        }
+    }
+
+    while (top2 != -1){
+        struct node * current = stack2[top2--];
+        printf(" %d ", current->data);
+    }
+}
+
+void iterpostorder2(struct node * rootnode){
+    if (rootnode == NULL){
+        return ;
+    }
+
+    struct node * stack[100];
+    int top = -1;
+    struct node * current = rootnode;
+    struct node * visited = NULL;
+
+    do {
+        while (current != NULL){
+            stack[++top] = current;
+            current = current->left;
+        }
+        current = stack[top];
+        if (current->right == NULL || current->right == visited){
+            printf(" %d ", current->data);
+            top--;
+            visited = current;
+            current = NULL;
+        } else {
+            current = current->right;
+        }
+    } while (top != -1);
+}
+
 int main()
 {
     struct node *rootnode = NULL;
