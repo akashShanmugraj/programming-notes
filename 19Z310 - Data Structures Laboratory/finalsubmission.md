@@ -31,7 +31,7 @@ int* readFile(char filename[], int searchelement){
     int* testcasepointer = (int*)malloc(testcasesizevar * sizeof(int));
 
     for (int iterable = 0; iterable < testcasesizevar; iterable++){
-        fscanf(fp, "%d", &scanplaceholder);
+        fscanf(fp, "%d", &scanplaceholder);``
         *(testcasepointer + iterable) = scanplaceholder;
     }
 
@@ -3357,3 +3357,232 @@ Runtime: 6 ms
 
 Memory Usage: 55.72 MB
 
+## Maximum Depth of Binary Tree (#104, E)
+### **Problem Statement**
+Given the root of a binary tree, return its maximum depth.
+
+A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+
+### **Source Code**
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int maxDepth(struct TreeNode* root){
+    if (root == NULL){
+        return 0;
+    }
+
+    int LHeight = maxDepth(root->left);
+    int RHeight = maxDepth(root->right);
+
+    if (LHeight > RHeight){
+        return LHeight+1;
+    } else {
+        return RHeight+1;
+    }
+}
+```
+### **Submission Metrics**
+Runtime: 3 ms
+
+Memory Usage: 8.9 MB
+
+## Invert Binary Tree (#226, E)
+### **Problem Statement**
+Given the root of a binary tree, invert the tree, and return its root.
+
+### **Source Code**
+```c
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+struct TreeNode* invertTree(struct TreeNode* root) {
+    if (root == NULL) {
+        return NULL;
+    }
+
+    struct TreeNode* temp = root->left;
+    root->left = invertTree(root->right);
+    root->right = invertTree(temp);
+
+    return root;
+}
+```
+
+### **Submission Metrics**
+Runtime: 0 ms
+
+Memory Usage: 6.92 MB
+
+## Reverse Linked List (#206, E)
+### **Problem Statement**
+Given the `head` of a singly linked list, reverse the list, and return *the reversed list*.
+
+### **Source Code**
+```c
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode *getpointer(int data)
+{
+    struct ListNode *element = (struct ListNode *)malloc(sizeof(struct ListNode));
+    element->val = data;
+    element->next = NULL;
+    return element;
+}
+
+struct ListNode *reverseList(struct ListNode *headpointer)
+{
+    if (headpointer == NULL){
+        return NULL;
+    }
+    struct ListNode *reversepointer = getpointer(headpointer->val);
+    while (headpointer->next != NULL)
+    {
+        headpointer = headpointer->next;
+        struct ListNode *newelement = getpointer(headpointer->val);
+        newelement->next = reversepointer;
+        reversepointer = newelement;
+
+        printf("\n\n");
+    }
+    return reversepointer;
+}
+```
+
+### **Submission Metrics**
+Runtime: 5 ms
+
+Memory Usage: 7.5 MB
+
+## Valid Parentheses (#20, E)
+### **Problem Statement**
+Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.
+### **Source Code**
+```python
+class Solution:
+    def isValid(self, s: str) -> bool:
+        l = []
+        for char in s:
+            if char == '(' or char == '{' or char == '[':
+                l.append(char)
+            elif len(l) == 0:
+                return False
+            elif char == ')' and l[-1] == '(':
+                l.pop()
+            elif char == '}' and l[-1] == '{':
+                l.pop()
+            elif char == ']' and l[-1] == '[':
+                l.pop()
+            else:
+                return False
+
+        if len(l) == 0:
+            return True
+        else:
+            return False
+```
+### **Submission Metrics**
+Runtime: 41 ms
+
+Memory Usage: 16.2 MB
+
+## Best Time to Buy and Sell Stock (#121, E)
+### **Problem Statement**
+You are given an array `prices` where `prices[i]` is the price of a given stock on the `ith` day.
+
+### **Source Code**
+```c
+int maxProfit(int* prices, int pricesSize) 
+{
+  int min_price = MAX_SHARE_PRICE;
+  int max_profit = 0;
+
+  for (int i = 0; i < pricesSize; i++)
+  {
+    /* Find new min price if applicable, otherwise calculate max profit thus far.
+     * If the new max profit is greater than the previous, update the max profit.
+     */
+    if (prices[i] < min_price)
+    {
+      min_price = prices[i];
+    }
+    else if (prices[i] - min_price > max_profit)
+    {
+      max_profit = prices[i] - min_price;
+    }
+  }
+
+  return max_profit;
+}
+```
+### **Submission Metrics**
+Runtime: 83 ms
+
+Memory Usage: 1.24 MB
+
+
+## Find First and Last Position of Element in Sorted Array (#34, M)
+### **Problem Statement**
+Given an array of integers `nums` sorted in ascending order, find the starting and ending position of a given `target` value.
+
+### **Source Code**
+```c
+int *searchRange(int *nums, int numsSize, int target, int *returnSize)
+{
+    int lpointer = 0;
+    int rpointer = numsSize - 1;
+
+    while (lpointer <= rpointer)
+    {
+        int lelement = nums[lpointer];
+        int relement = nums[rpointer];
+
+        printf("lpointer: %d, rpointer: %d\n", lelement, relement);
+        if (lelement == target && relement == target)
+        {
+            int *result = (int *)malloc(sizeof(int) * 2);
+            result[0] = lpointer;
+            result[1] = rpointer;
+            *returnSize = 2;
+            return result;
+        }
+        
+        if (lelement != target)
+        {
+            lpointer++;
+        }
+
+        if (relement != target)
+        {
+            rpointer--;
+        }
+
+        }
+int *result = (int *)malloc(sizeof(int) * 2);
+    result[0] = -1;
+    result[1] = -1;
+    *returnSize = 2;
+    return result;
+}
+```
+### **Submission Metrics**
+Runtime: 22
+
+Memory Usage: 7.9
