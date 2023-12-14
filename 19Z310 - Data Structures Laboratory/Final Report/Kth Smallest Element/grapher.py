@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 # Read the CSV file into a Pandas DataFrame
-df = pd.read_csv('/Users/akashshanmugaraj/Documents/programming-notes/19Z310 - Data Structures Laboratory/Final Report/benchmarks.csv')
+df = pd.read_csv('./benchmarks.csv')
 plt.figure(figsize=(8, 6))
 plt.scatter(df['Array Size'], df['Runtime'], alpha=0.5)
 plt.xlabel('Array Size')
