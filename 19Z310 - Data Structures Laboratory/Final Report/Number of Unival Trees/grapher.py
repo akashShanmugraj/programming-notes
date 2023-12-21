@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 df = pd.read_csv('./benchmarks.csv')
 plt.figure(figsize=(8, 6))
 plt.scatter(df['Array Size'], df['Runtime'], alpha=0.5)
-plt.xlabel('Array Size')
-plt.ylabel('Runtime (seconds)')
-plt.title('Runtime vs Array Size')
+plt.xlabel('Size of Array')
+plt.ylabel('Runtime')
+plt.title('Counting Number of Unival Trees')
 plt.grid(True)
 plt.show()
 

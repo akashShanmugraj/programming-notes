@@ -6,9 +6,9 @@ df = pd.read_csv('./benchmarks.csv')
 
 plt.figure(figsize=(8, 6))
 plt.scatter(df['Testcase Size'], df['Runtime'], alpha=0.5)
-plt.xlabel('Testcase Size')
-plt.ylabel('Runtime (seconds)')
-plt.title('Runtime vs Testcase Size')
+plt.xlabel('Size of Array')
+plt.ylabel('Runtime')
+plt.title('Serialize and Deserialize a Binary Tree')
 plt.grid(True)
 plt.show()
 
