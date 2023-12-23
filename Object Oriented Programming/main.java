@@ -1,46 +1,69 @@
-// Abstract class
-abstract class Shape {
-    // Abstract method (does not have a body)
-    public abstract double area();
-}
+import java.util.*;
 
-// Subclass (inherits from Shape)
-class Rectangle extends Shape {
-    private double length;
-    private double width;
-    
-    public Rectangle(double length, double width) {
-        this.length = length;
-        this.width = width;
+public class Main {
+    public static <T extends Comparable<T>> T returnelement(T int1, T int2, T int3) {
+        T max = int1;
+        if (int2.compareTo(max) > 0) {
+            max = int2;
+        }
+        if (int3.compareTo(max) > 0) {
+            max = int3;
+        }
+        return max;
     }
-
-    // Implementation of the abstract method
-    public double area() {
-        return length * width;
-    }
-}
-
-// Subclass (inherits from Shape)
-class Circle extends Shape {
-    private double radius;
-    
-    public Circle(double radius) {
-        this.radius = radius;
-    }
-
-    // Implementation of the abstract method
-    public double area() {
-        return Math.PI * radius * radius;
-    }
-}
-
-// Test program
-public class main {
     public static void main(String[] args) {
-        Shape myShape = new Rectangle(5, 3); // Create a Rectangle object
-        System.out.println("Area of rectangle: " + myShape.area());
+        System.out.println(returnelement(12,3,14));
 
-        myShape = new Circle(2); // Create a Circle object
-        System.out.println("Area of circle: " + myShape.area());
+        ArrayList al1 = new ArrayList();
+        al1.add(100);
+        al1.add("AADS");
+        al1.get(1);
+
+        System.out.println(al1);
+
+        ArrayList<Integer> integerarraylist = new ArrayList<Integer>();
+        integerarraylist.add(100);
+        integerarraylist.add(200);
+        integerarraylist.add(1);
+
+        System.out.println(integerarraylist);
+
+        integerarraylist.remove(1);
+
+        System.out.println(integerarraylist);
+
+        integerarraylist.remove(1);
+
+        System.out.println(integerarraylist);
+
+        System.out.println("Linked List");
+        LinkedList linkedlist1 = new LinkedList();
+
+        linkedlist1.add(100);
+        linkedlist1.add("one");
+
+        linkedlist1.addAll(integerarraylist);
+
+        System.out.println(linkedlist1);
+
+        System.out.println("PRQ");
+
+        PriorityQueue<Integer> prqueue = new PriorityQueue<Integer>();
+
+        prqueue.offer(50);
+        prqueue.offer(25);
+        prqueue.offer(75);
+
+        Object[] array = prqueue.toArray();
+        for (Object element : array) {
+            System.out.println(element);
+        }
+
+        for (Object node : prqueue) {
+            System.out.println("P"+node);
+        }
     }
+
+    
+
 }
