@@ -76,75 +76,39 @@ void printstack(struct Stack* stack) {
 void infixToPostfix(char* infix) {
     int length = strlen(infix);
     struct Stack* stack = createStack(length);
+    char* postfix = malloc(length + 1); // +1 for the null terminator
     int i, k;
 
     for (i = 0, k = -1; i < length; ++i) {
-        printf("i = %d, k = %d\n", i, k);
-        printf("CHAR AT I = %c\n", infix[i]);
-        printf("CHAR AT K = %c\n", infix[k]);
-
-        // If the scanned character is an operand, add it to the output
-        if (isOperand(infix[i])){
-            printf("isOperand\n");
-            infix[++k] = infix[i];
-            printcharstar(infix);
-            printf("i = %d k = %d", i, k);
-        }
-        // If the scanned character is an '(', push it onto the stack
-        else if (infix[i] == '('){
-            printf("is (\n");
+        if (isOperand(infix[i])) {
+            postfix[++k] = infix[i];
+        } else if (infix[i] == '(') {
             push(stack, infix[i]);
-        }
-        // If the scanned character is an ')', pop and output from the stack until an '(' is encountered
-        else if (infix[i] == ')') {
-            printf("is )\n");
-            while (!isEmpty(stack) && peek(stack) != '('){
-                printf("Stack is not empty and peek (%c) is not (\n", peek(stack));
-                printf("Popping %c and adding it into infix", peek(stack));
-                infix[++k] = pop(stack);
-                printcharstar(infix);
-                printstack(stack);
-                printf("i = %d k = %d", i, k);
-
-                }
-            if (!isEmpty(stack) && peek(stack) != '(')
+        } else if (infix[i] == ')') {
+            while (!isEmpty(stack) && peek(stack) != '(') {
+                postfix[++k] = pop(stack);
+            }
+            if (!isEmpty(stack) && peek(stack) != '(') {
                 return; // Invalid expression
-            else{
-                printf("not empty and peek is (\n");
+            } else {
                 pop(stack);
-                printstack(stack);
             }
-        }
-        // If an operator is encountered
-        else {
-            printf("is operator\n");
-            while (!isEmpty(stack) && precedence(infix[i]) <= precedence(peek(stack))){
-                printf("Stack is not empty and precedence of %c is less than or equal to precedence of %c\n", infix[i], peek(stack));
-                infix[++k] = pop(stack);
-                printf("i = %d k = %d", i, k);
-                printcharstar(infix);
-                printstack(stack);
+        } else {
+            while (!isEmpty(stack) && precedence(infix[i]) <= precedence(peek(stack))) {
+                postfix[++k] = pop(stack);
             }
-            printf("Pushing %c into stack\n", infix[i]);
             push(stack, infix[i]);
-            printstack(stack);
         }
     }
 
-    // Pop all the operators from the stack
-    while (!isEmpty(stack))
-        infix[++k] = pop(stack);
-        printf("i = %d k = %d", i, k);
-        printcharstar(infix);
-        printstack(stack);
+    while (!isEmpty(stack)) {
+        postfix[++k] = pop(stack);
+    }
 
-    // Null-terminate the postfix expression
-    infix[++k] = '\0';
-
-    // Print the postfix expression
-    printf("Postfix expression: %s\n", infix);
+    postfix[++k] = '\0';
+    printf("Postfix expression: %s\n", postfix);
+    free(postfix);
 }
-
 // Function to evaluate a postfix expression
 int evaluatePostfix(char* postfix) {
     struct Stack* stack = createStack(strlen(postfix));
