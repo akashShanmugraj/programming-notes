@@ -130,6 +130,71 @@ void printTree(struct node *root, int level)
     printTree(root->leftchild, level + 1);
 }
 
+struct node *deleteNode(struct node *root, int key)
+{
+    if (root == NULL)
+    {
+        return root;
+    }
+    if (key < root->data)
+    {
+        root->leftchild = deleteNode(root->leftchild, key);
+    }
+    else if (key > root->data)
+    {
+        root->rightchild = deleteNode(root->rightchild, key);
+    }
+    else
+    {
+        if (root->leftchild == NULL || root->rightchild == NULL)
+        {
+            struct node *temp = root->leftchild ? root->leftchild : root->rightchild;
+            if (temp == NULL)
+            {
+                temp = root;
+                root = NULL;
+            }
+            else
+            {
+                *root = *temp;
+            }
+            free(temp);
+        }
+        else
+        {
+            struct node *temp = minValueNode(root->rightchild);
+            root->data = temp->data;
+            root->rightchild = deleteNode(root->rightchild, temp->data);
+        }
+    }
+    if (root == NULL)
+    {
+        return root;
+    }
+    root->height = getMaximum(height(root->leftchild), height(root->rightchild)) + 1;
+    int balanceFactor = getBalanceFactor(root);
+    if (balanceFactor > 1 && getBalanceFactor(root->leftchild) >= 0)
+    {
+        return rightRotate(root);
+    }
+    if (balanceFactor > 1 && getBalanceFactor(root->leftchild) < 0)
+    {
+        root->leftchild = leftRotate(root->leftchild);
+        return rightRotate(root);
+    }
+    if (balanceFactor < -1 && getBalanceFactor(root->rightchild) <= 0)
+    {
+        return leftRotate(root);
+    }
+    if (balanceFactor < -1 && getBalanceFactor(root->rightchild) > 0)
+    {
+        root->rightchild = rightRotate(root->rightchild);
+        return leftRotate(root);
+    }
+    return root;
+}
+
+
 int main()
 {
     struct node *root = NULL;
