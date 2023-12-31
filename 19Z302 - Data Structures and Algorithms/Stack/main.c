@@ -46,14 +46,26 @@ int isOperand(char ch) {
 }
 
 // Function to return the precedence of an operator
-int precedence(char op) {
-    if (op == '+' || op == '-')
+int precedence(char op){
+    switch (op)
+    {
+    case '+':
+    case '-':
         return 1;
-    if (op == '*' || op == '/')
+        break;
+    case '*':
+    case '/':
+    case '%':
         return 2;
-    return 0;
+        break;
+    case '^':
+        return 3;
+        break;    
+    default:
+        return 0;
+        break;
+    }
 }
-
 void printcharstar(char* charstar) {
     int i;
     printf("CHARSTAR: ");
@@ -129,7 +141,7 @@ int evaluatePostfix(char* postfix) {
                 case '-':
                     push(stack, operand1 - operand2);
                     break;
-                case '*':
+                case '*': 
                     push(stack, operand1 * operand2);
                     break;
                 case '/':
@@ -154,6 +166,9 @@ int main() {
 
     // Convert infix to postfix
     infixToPostfix(infix);
+
+    // Evaluate the postfix expression
+    evaluatePostfix(infix);
 
     return 0;
 }
