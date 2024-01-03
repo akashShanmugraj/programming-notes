@@ -3,10 +3,10 @@
 
 void enqueue(int * queueobject, int queuesize, int * rearpointer, int data){
     int targetrearpointer = (*(rearpointer) + 1)%queuesize;
-    if (*(queueobject+ *(rearpointer)) != 0){
+    if (*(queueobject + targetrearpointer) != 0){
         printf("QUEUE FULL, CANNOT INS, REF %d-%d\n", *(rearpointer), targetrearpointer);
     } else {
-        *(queueobject + *(rearpointer)) = data;
+        *(queueobject + targetrearpointer) = data;
         *(rearpointer) = targetrearpointer;
     }
 }
@@ -16,7 +16,7 @@ void enqueuefront(int * queueobject, int queuesize, int * frontpointer, int data
     if (*(queueobject + targetfrontpointer) != 0) {
         printf("QUEUE FULL, CANNOT INS, REF %d-%d\n", *(frontpointer), targetfrontpointer);
     } else {
-        *(queueobject + *(frontpointer)) = data;
+        *(queueobject + targetfrontpointer) = data;
         *(frontpointer) = targetfrontpointer;
     }
 }

@@ -3,22 +3,23 @@
 
 void enqueue(int * queueobject, int queuesize, int * rearpointer, int data){
     int targetrearpointer = (*(rearpointer) + 1)%queuesize;
-    if (*(queueobject+ *(rearpointer)) != 0){
-
+    if (*(queueobject+ targetrearpointer) != 0){
         printf("QUEUE FULL, CANNOT INS, REF %d-%d\n", *(rearpointer), targetrearpointer);
     } else {
-        *(queueobject + *(rearpointer)) = data;
+        *(queueobject + targetrearpointer) = data;
         *(rearpointer) = targetrearpointer;
     }
 }
 
-void dequeue(int * queueobject, int queuesize, int * frontpointer){
+int dequeue(int * queueobject, int queuesize, int * frontpointer){
     if (*(queueobject + *frontpointer) == 0){
         printf("EMPTY Q NO DEQUEUE\n");
+        return -1;
     } else {
-        printf("DEQUEUE RESULT %d\n", *(queueobject + *(frontpointer)));
+        int dequeuedValue = *(queueobject + *(frontpointer));
         *(queueobject + *(frontpointer)) = 0;
         *(frontpointer) = (*(frontpointer) + 1) % queuesize;
+        return dequeuedValue;
     }
 }
 

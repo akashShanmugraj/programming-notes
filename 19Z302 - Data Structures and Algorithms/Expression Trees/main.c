@@ -17,20 +17,21 @@ int isOperator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
 Node* constructExpressionTree(char postfix[]) {
+    // consider the postfix expression: 53*82-/7+
     int i = 0;
     Node* stack[100];
     int top = -1;
     while (postfix[i] != '\0') {
         char symbol = postfix[i];
-        if (!isOperator(symbol)) {
-            stack[++top] = GetNode(symbol);
-        } else {
-            Node* newNode = GetNode(symbol);
-            newNode->right = stack[top--];
-            newNode->left = stack[top--];
-            stack[++top] = newNode;
+        if (!isOperator(symbol)) { // if not an operator then push to stack (that is operand like a, b, c, etc.)
+            stack[++top] = GetNode(symbol); // creating a new node for that operand and pushing it to stack
+        } else { // if it is an operator like +, -, *, / 
+            Node* newNode = GetNode(symbol); // creating a new node for that operator
+            newNode->right = stack[top--]; // popping the top two nodes from stack and assigning them as right
+            newNode->left = stack[top--]; // and left child of the new node
+            stack[++top] = newNode; // place the operator node back to stack
         }
-        i++;
+        i++; // move to next symbol in postfix expression
     }
     return stack[top];
 }
