@@ -1,4 +1,4 @@
-unsortedarray = [22, 1, 3, 14, 6, 8, 20, 11]
+unsortedarray = [22, 1, 3, 14, 6, 8, 20]
 
 lowpointer, highpointer = 0, len(unsortedarray) - 1
 
@@ -36,4 +36,5 @@ def mergesort(lowpointer, highpointer, arrayobject):
     return merge_sorted_arrays(leftsplit, rightsplit)
 
 
-mergesort(lowpointer, highpointer, unsortedarray)
+sortedarray = mergesort(lowpointer, highpointer, unsortedarray)
+print(sortedarray)
