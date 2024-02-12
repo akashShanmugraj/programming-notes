@@ -47,11 +47,9 @@ void singleinput(char *prefixstring, char *string1)
 
 int main()
 {
-
-    // command suffix prefix pointer should be empty string pointer
-
-    char *prefix = "";
-    char *command = "";
+    // Allocate memory for command and prefix
+    char *prefix = malloc(256 * sizeof(char));
+    char *command = malloc(256 * sizeof(char));
 
     while (1)
     {
@@ -75,6 +73,10 @@ int main()
             // chdir(suffix);
         }
     }
+
+    // Free the allocated memory
+    free(prefix);
+    free(command);
 
     printf("Hello");
 
