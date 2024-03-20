@@ -8,20 +8,36 @@ struct process {
   int turnaroundtime;
   int starttime;
   int endtime;
+  int waitingtime;
+  int arrivaltime;
   struct process *nextprocess;
   struct process *previousprocess;
+};
+
+struct processmetrics {
+  struct process *processhead;
+  float averageWaitingTime;
+  float averageTurnAroundTime;
 };
 
 void printProcessList(struct process *processhead) {
   struct process *traversalnode = processhead;
 
   do {
-    printf("PID: %d BRST: %d RMBRST: %d STRT: %d END: %d\n",
+    printf("PID: %d BRST: %d \nSTRT: %d END: %d \nWAITING TIME: %d "
+           "TURNAROUND TIME: %d\n\n",
            traversalnode->processID, traversalnode->bursttime,
-           traversalnode->remainingbursttime, traversalnode->starttime,
-           traversalnode->endtime);
+           traversalnode->starttime, traversalnode->endtime,
+           traversalnode->waitingtime, traversalnode->turnaroundtime);
     traversalnode = traversalnode->nextprocess;
   } while (traversalnode != processhead);
+}
+
+void printProcessMetrics(struct processmetrics *metricsresult) {
+  printProcessList(metricsresult->processhead);
+  printf("Average Waiting Time: %f \nAverage Turnaround Time: %f\n",
+         metricsresult->averageWaitingTime,
+         metricsresult->averageTurnAroundTime);
 }
 
 int burstSum(struct process *processhead) {
@@ -34,24 +50,59 @@ int burstSum(struct process *processhead) {
   return counter;
 }
 
+struct processmetrics *computeOtherMetrics(struct process *processhead) {
+  struct process *traversalnode = processhead;
+  float waittimecalculator = 0;
+  float turnaroundtimecalculator = 0;
+  int processcounter = 0;
+
+  do {
+    traversalnode->waitingtime = (traversalnode->endtime) -
+                                 (traversalnode->starttime) -
+                                 (traversalnode->bursttime);
+    traversalnode->turnaroundtime =
+        (traversalnode->endtime) - (traversalnode->arrivaltime);
+
+    waittimecalculator += traversalnode->waitingtime;
+    turnaroundtimecalculator += traversalnode->turnaroundtime;
+
+    processcounter += 1;
+
+    traversalnode = traversalnode->nextprocess;
+
+  } while (traversalnode != processhead);
+
+  struct processmetrics *computedmetrics =
+      malloc(sizeof(struct processmetrics));
+  computedmetrics->processhead = processhead;
+  computedmetrics->averageWaitingTime = waittimecalculator / processcounter;
+  computedmetrics->averageTurnAroundTime =
+      turnaroundtimecalculator / processcounter;
+  return computedmetrics;
+}
+
 void roundRobin(struct process *processhead, int timequantum) {
   struct process *traversalnode = processhead;
   int clockcyclecounter = 0;
 
   while (burstSum(processhead)) {
-    if (processhead->bursttime == processhead->remainingbursttime) {
-      processhead->starttime = clockcyclecounter;
+    if (traversalnode->bursttime == traversalnode->remainingbursttime) {
+      traversalnode->starttime = clockcyclecounter;
     }
 
-    if (processhead->remainingbursttime == 0 && processhead->endtime == -1) {
-      processhead->endtime = clockcyclecounter;
+    int quantum = traversalnode->remainingbursttime >= timequantum
+                      ? timequantum
+                      : traversalnode->remainingbursttime;
+
+    clockcyclecounter += quantum;
+    traversalnode->remainingbursttime -= quantum;
+
+    if (traversalnode->remainingbursttime == 0 &&
+        traversalnode->endtime == -1) {
+      traversalnode->endtime = clockcyclecounter;
     }
-    clockcyclecounter += processhead->remainingbursttime >= 5
-                             ? 5
-                             : processhead->remainingbursttime;
-    int result = processhead->remainingbursttime - timequantum;
-    processhead->remainingbursttime = (result > 0) ? result : 0;
-    processhead = processhead->nextprocess;
+
+    traversalnode = traversalnode->nextprocess;
   }
 }
 
@@ -60,6 +111,7 @@ int main() {
   struct process *process1 = malloc(sizeof(struct process));
   struct process *process2 = malloc(sizeof(struct process));
   struct process *process3 = malloc(sizeof(struct process));
+
   process0->processID = 0;
   process1->processID = 1;
   process2->processID = 2;
@@ -87,17 +139,23 @@ int main() {
   process2->remainingbursttime = 15;
   process3->remainingbursttime = 25;
 
-  process0->starttime = 0;
-  process1->starttime = 0;
-  process2->starttime = 0;
-  process3->starttime = 0;
+  process0->starttime = -1;
+  process1->starttime = -1;
+  process2->starttime = -1;
+  process3->starttime = -1;
 
   process0->endtime = -1;
   process1->endtime = -1;
   process2->endtime = -1;
   process3->endtime = -1;
 
-  roundRobin(process0, 5);
+  process0->arrivaltime = 0;
+  process1->arrivaltime = 0;
+  process2->arrivaltime = 0;
+  process3->arrivaltime = 0;
 
-  printProcessList(process0);
+  int roundrobinTimeQuantum = 100;
+  roundRobin(process0, roundrobinTimeQuantum);
+
+  printProcessMetrics(computeOtherMetrics(process0));
 }
