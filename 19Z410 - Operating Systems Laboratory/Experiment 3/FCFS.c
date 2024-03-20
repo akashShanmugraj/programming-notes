@@ -1,3 +1,12 @@
+/*
+ NOTE:
+ 1. Ignored sorting the processes by arrival time
+ (not expected) (sorting not implemented in Lab Manual)
+ 2. Therefore FCFS here is the regular Process Scheduling here
+ 3. Processes have been inserted into the doubly linked list manually in the
+ sorted based on arrival time
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -75,6 +84,9 @@ int FirstComeFirstServe(struct process *processhead) {
   struct process *traversalpointer = processhead;
 
   do {
+    if (traversalpointer->arrivaltime > clockcyclecounter) {
+      clockcyclecounter = traversalpointer->arrivaltime;
+    }
     traversalpointer->starttime = clockcyclecounter;
     clockcyclecounter += traversalpointer->bursttime;
     traversalpointer->endtime = clockcyclecounter;
@@ -122,7 +134,7 @@ int main() {
   process3->endtime = -1;
 
   process0->arrivaltime = 0;
-  process1->arrivaltime = 10;
+  process1->arrivaltime = 15;
   process2->arrivaltime = 20;
   process3->arrivaltime = 30;
 
