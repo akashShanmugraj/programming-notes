@@ -1,30 +1,38 @@
 def issafe(queens, xpos, ypos):
-    for (qxpos, qypos) in queens:
+    for qxpos, qypos in queens:
         if qxpos == xpos or qypos == ypos:
             return False
-        if abs((qxpos-xpos)/(qypos-ypos)) == 1:
+        if abs((qxpos - xpos) / (qypos - ypos)) == 1:
             return False
     return True
 
-board = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
-]
+
+board = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
 queenslist = []
 queenscounter = 0
-def place(grid, qlist, qcounter):
-    placed = False
-    while qcounter != len(grid)-1:
-        for col in range(0, len(grid[0])):
-            if issafe(qlist, qcounter, col):
-                queenslist.append([qcounter, col])
-                grid[qcounter][col] = f'Q{qcounter}'
-                placed = True
-        qcounter += 1
-        if not placed:
-            print(f'Cannot place {qcounter}th Queen')
 
-place(board, queenslist, queenscounter)
-print(board)
+
+def recurplace(grid, qlist, qcount):
+    # find a suitable position in the qcount-th row
+    if qcount == len(grid[0]):
+        print(grid, "\n\n")
+        return True
+    suitablecells = []
+    for cell in range(len(grid[0])):
+        if issafe(qlist, qcount, cell):
+            suitablecells.append([qcount, cell])
+
+    for cell in suitablecells:
+        qlist.append(cell)
+        grid[cell[0]][cell[1]] = f"Q{qcount}"
+        recurplace(grid, qlist, qcount + 1)
+        grid[cell[0]][cell[1]] = 0
+        qlist.pop()
+
+
+def recurstart(grid, qlist):
+    for qc in range(len(grid[0])):
+        recurplace(grid, qlist, qc)
+
+
+recurstart(board, queenslist)
