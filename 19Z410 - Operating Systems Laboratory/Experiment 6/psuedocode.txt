@@ -1,0 +1,56 @@
+// Initialize variables
+n = number of processes
+m = number of resources
+available[m] = array representing the number of available instances of each resource type
+allocation[n][m] = matrix representing the number of instances of each resource type currently allocated to each process
+max[n][m] = matrix representing the maximum number of instances of each resource type that each process may request
+need[n][m] = matrix representing the remaining need of each process, calculated as max - allocation
+
+// Function to check if a resource request can be granted
+function request_resources(process, request[m]):
+    if request > need[process] or request > available:
+        return false // Request cannot be granted
+    else:
+        // Try allocating resources temporarily
+        available_temp = available
+        allocation_temp = allocation
+        need_temp = need
+        
+        available_temp -= request
+        allocation_temp[process] += request
+        need_temp[process] -= request
+        
+        // Check if the new state is safe
+        if is_safe_state(available_temp, allocation_temp, need_temp):
+            // Grant the resources
+            available -= request
+            allocation[process] += request
+            need[process] -= request
+            return true
+        else:
+            return false // Request cannot be granted
+
+// Function to check if the system is in a safe state
+function is_safe_state(available, allocation, need):
+    work = available
+    finish = array of size n initialized to false
+    
+    while there exists an unfinished process:
+        found = false
+        for i from 0 to n-1:
+            if not finish[i] and need[i] <= work:
+                work += allocation[i]
+                finish[i] = true
+                found = true
+                break
+        
+        if not found:
+            return false // No process can be executed
+        
+    return true // All processes can be executed safely
+
+// Function to release resources after a process has finished
+function release_resources(process, release[m]):
+    available += release
+    allocation[process] -= release
+    need[process] += release
