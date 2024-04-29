@@ -31,59 +31,98 @@ Here's a high-level approach to solving the Child Care problem using semaphores:
 
 Certainly! Below is a simple starter code in Python that demonstrates how to use semaphores to solve a simplified version of the Child Care problem. This code assumes a single caregiver and multiple children.
 
-```python
-import threading
-import time
-import random
+```java
+import java.util.concurrent.Semaphore;
+import java.util.Random;
+import java.util.ArrayList;
 
-class Child(threading.Thread):
-    def __init__(self, name, caregiver_semaphore, child_semaphore):
-        super().__init__()
-        self.name = name
-        self.caregiver_semaphore = caregiver_semaphore
-        self.child_semaphore = child_semaphore
-    
-    def run(self):
-        print(f"Child {self.name} needs care.")
-        self.caregiver_semaphore.acquire()  # Wait for caregiver to have capacity
-        print(f"Child {self.name} is receiving care.")
-        time.sleep(random.uniform(1, 3))  # Simulate care
-        self.child_semaphore.release()  # Signal that care is done
-        self.caregiver_semaphore.release()  # Release caregiver's capacity
 
-class Caregiver(threading.Thread):
-    def __init__(self, caregiver_semaphore, child_semaphore, capacity):
-        super().__init__()
-        self.caregiver_semaphore = caregiver_semaphore
-        self.child_semaphore = child_semaphore
-        self.capacity = capacity
-    
-    def run(self):
-        while True:
-            self.caregiver_semaphore.acquire()  # Wait for a child to arrive
-            print("Caregiver is available.")
-            self.child_semaphore.acquire()  # Wait for child to signal care is done
-            print("Caregiver is caring for a child.")
-            time.sleep(random.uniform(1, 3))  # Simulate care
-            print("Caregiver has finished caring for a child.")
+public class Main {
+    public static void main(String[] args) {
+        Semaphore caregiverSemaphore = new Semaphore(3);
+        Semaphore childSemaphore = new Semaphore(0);
 
-def main():
-    caregiver_semaphore = threading.Semaphore(1)  # Semaphore for caregiver capacity (1 for single caregiver)
-    child_semaphore = threading.Semaphore(0)      # Semaphore for child signaling care is done
+        Caregiver caregiver = new Caregiver(caregiverSemaphore, childSemaphore);
+        caregiver.start();
 
-    caregiver = Caregiver(caregiver_semaphore, child_semaphore, capacity=1)
-    caregiver.start()
+        ArrayList<Child> children = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Child child = new Child(i, caregiverSemaphore, childSemaphore);
+            children.add(child);
+            child.start();
+        }
 
-    children = []
-    for i in range(5):
-        child = Child(name=i, caregiver_semaphore=caregiver_semaphore, child_semaphore=child_semaphore)
-        children.append(child)
-        child.start()
+        try {
+            for (Child child : children) {
+                child.join();
+            }
+            caregiver.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
-    for child in children:
-        child.join()
-    caregiver.join()
+class Child extends Thread {
+    private int name;
+    private Semaphore caregiverSemaphore;
+    private Semaphore childSemaphore;
 
-if __name__ == "__main__":
-    main()
+    public Child(int name, Semaphore caregiverSemaphore, Semaphore childSemaphore) {
+        this.name = name;
+        this.caregiverSemaphore = caregiverSemaphore;
+        this.childSemaphore = childSemaphore;
+    }
+
+    public void run() {
+        try {
+            System.out.println("Child " + name + " needs care.");
+            caregiverSemaphore.acquire();
+            System.out.println("Child " + name + " is receiving care.");
+            Thread.sleep(new Random().nextInt(3000) + 1000);
+            System.out.println("Child " + name + " has finished receiving care.");
+            caregiverSemaphore.release();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class Caregiver extends Thread {
+    private Semaphore caregiverSemaphore;
+    private Semaphore childSemaphore;
+
+    public Caregiver(Semaphore caregiverSemaphore, Semaphore childSemaphore) {
+        this.caregiverSemaphore = caregiverSemaphore;
+        this.childSemaphore = childSemaphore;
+    }
+
+    public void run() {
+        try {
+            while (true) {
+                caregiverSemaphore.acquire();
+                System.out.println("Caregiver is available.");
+                childSemaphore.release();
+                System.out.println("Caregiver is caring for a child.");
+                Thread.sleep(new Random().nextInt(3000) + 1000);
+                System.out.println("Caregiver has finished caring for a child.");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
 ```
+
+### Code Explaination
+This Java code simulates a scenario where there are multiple children and a caregiver. The children need care and the caregiver provides it. The caregiver can care for up to 3 children at a time, as indicated by the initial semaphore value of 3 for `caregiverSemaphore`.
+
+1. **Semaphores**: Semaphores are used to control access to a common resource by multiple processes in a concurrent system such as a multitasking operating system. In this code, `caregiverSemaphore` is a semaphore that controls access to the caregiver. It's initialized with a value of 3, meaning that up to 3 children can receive care at the same time. `childSemaphore` is a semaphore that's used to synchronize the caregiver and the children, but it's not actually used in this version of the code.
+
+2. **Child class**: This class represents a child that needs care. Each child is a thread, and when a child thread is started, it first prints a message that it needs care. Then it tries to acquire the `caregiverSemaphore`. If the semaphore is available (i.e., its value is greater than 0), the child acquires it and prints a message that it's receiving care. Then it sleeps for a random amount of time between 1 and 4 seconds to simulate the time it takes to receive care. After that, it prints a message that it has finished receiving care and releases the `caregiverSemaphore`.
+
+3. **Caregiver class**: This class represents the caregiver. The caregiver is also a thread, and when the caregiver thread is started, it enters an infinite loop where it first tries to acquire the `caregiverSemaphore`. If the semaphore is available, the caregiver acquires it and prints a message that it's available. Then it releases the `childSemaphore` (which is not actually used in this version of the code) and prints a message that it's caring for a child. Then it sleeps for a random amount of time between 1 and 4 seconds to simulate the time it takes to provide care. After that, it prints a message that it has finished caring for a child.
+
+4. **Main method**: This method creates the `caregiverSemaphore` and `childSemaphore`, starts the caregiver thread, creates and starts 5 child threads, and then waits for all the child threads to finish. It doesn't actually wait for the caregiver thread to finish, because the caregiver thread runs in an infinite loop.
+
+Please note that in this version of the code, the `childSemaphore` is not actually used, and the caregiver can care for multiple children at the same time, up to the initial value of the `caregiverSemaphore`. If you want the caregiver to care for only one child at a time, you should initialize the `caregiverSemaphore` with a value of 1.
