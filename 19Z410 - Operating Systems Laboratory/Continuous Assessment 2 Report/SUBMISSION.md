@@ -29,88 +29,119 @@ Here's a high-level approach to solving the Child Care problem using semaphores:
 
 Below is a code in Java that demonstrates how to use semaphores to solve a simplified version of the Child Care problem. This code assumes a single caregiver and multiple children.
 
+
+### Import Statements
 ```java
 import java.util.concurrent.Semaphore;
 import java.util.Random;
 import java.util.ArrayList;
+```
+These are the import statements. `Semaphore` is used for controlling thread access, `Random` for generating random numbers, and `ArrayList` for storing Child objects.
 
-
+### Main Class Definition
+```java
 public class Main {
     public static void main(String[] args) {
-        Semaphore caregiverSemaphore = new Semaphore(3);
-        Semaphore childSemaphore = new Semaphore(0);
+```
+This is the start of the main method definition.
 
-        Caregiver caregiver = new Caregiver(caregiverSemaphore, childSemaphore);
-        caregiver.start();
+### Semaphore Creation
+```java
+Semaphore caregiverSemaphore = new Semaphore(3);
+Semaphore childSemaphore = new Semaphore(0);
+```
+Here, two semaphores are created. The `caregiverSemaphore` starts with 3 permits, and the `childSemaphore` starts with 0 permits.
 
-        ArrayList<Child> children = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            Child child = new Child(i, caregiverSemaphore, childSemaphore);
-            children.add(child);
-            child.start();
-        }
+### Caregiver Creation and Start
+```java
+Caregiver caregiver = new Caregiver(caregiverSemaphore, childSemaphore);
+caregiver.start();
+```
+A `Caregiver` object is created and its thread is started.
 
-        try {
-            for (Child child : children) {
-                child.join();
-            }
-            caregiver.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+### Child Creation and Start
+```java
+ArrayList<Child> children = new ArrayList<>();
+for (int i = 0; i < 5; i++) {
+    Child child = new Child(i, caregiverSemaphore, childSemaphore);
+    children.add(child);
+    child.start();
 }
+```
+Five `Child` objects are created, added to an `ArrayList`, and their threads are started.
 
+### Waiting for Threads to Finish
+```java
+try {
+    for (Child child : children) {
+        child.join();
+    }
+    caregiver.join();
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+}
+}
+```
+The main thread waits for all the `Child` threads and the `Caregiver` thread to finish.
+
+
+### Child Class Definition and Constructor
+```java
 class Child extends Thread {
-    private int name;
-    private Semaphore caregiverSemaphore;
-    private Semaphore childSemaphore;
-
     public Child(int name, Semaphore caregiverSemaphore, Semaphore childSemaphore) {
         this.name = name;
         this.caregiverSemaphore = caregiverSemaphore;
         this.childSemaphore = childSemaphore;
-    }
+}
+```
+This is the `Child` constructor. It takes a name and two semaphores as parameters.
 
-    public void run() {
-        try {
-            System.out.println("Child " + name + " needs care.");
-            caregiverSemaphore.acquire();
-            System.out.println("Child " + name + " is receiving care.");
-            Thread.sleep(new Random().nextInt(3000) + 1000);
-            System.out.println("Child " + name + " has finished receiving care.");
-            caregiverSemaphore.release();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+### Child Run Method
+```java
+public void run() {
+    try {
+        System.out.println("Child " + name + " needs care.");
+        caregiverSemaphore.acquire();
+        System.out.println("Child " + name + " is receiving care.");
+        Thread.sleep(new Random().nextInt(3000) + 1000);
+        System.out.println("Child " + name + " has finished receiving care.");
+        caregiverSemaphore.release();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
     }
 }
+```
+This is the `run` method of the `Child` class. It simulates a child needing care, receiving care, and then finishing care.
 
+### Caregiver Class Definition and Constructor
+```java
 class Caregiver extends Thread {
-    private Semaphore caregiverSemaphore;
-    private Semaphore childSemaphore;
-
     public Caregiver(Semaphore caregiverSemaphore, Semaphore childSemaphore) {
         this.caregiverSemaphore = caregiverSemaphore;
         this.childSemaphore = childSemaphore;
     }
+```
+This is the `Caregiver` constructor. It takes two semaphores as parameters.
 
-    public void run() {
-        try {
-            while (true) {
-                caregiverSemaphore.acquire();
-                System.out.println("Caregiver is available.");
-                childSemaphore.release();
-                System.out.println("Caregiver is caring for a child.");
-                Thread.sleep(new Random().nextInt(3000) + 1000);
-                System.out.println("Caregiver has finished caring for a child.");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+### Caregiver Run Method
+```java
+public void run() {
+    try {
+        while (true) {
+            caregiverSemaphore.acquire();
+            System.out.println("Caregiver is available.");
+            childSemaphore.release();
+            System.out.println("Caregiver is caring for a child.");
+            Thread.sleep(new Random().nextInt(3000) + 1000);
+            System.out.println("Caregiver has finished caring for a child.");
         }
+    } catch (InterruptedException e) {
+        e.printStackTrace();
     }
 }
 ```
+This is the `run` method of the `Caregiver` class. It simulates a caregiver becoming available, caring for a child, and then finishing care.
 
 ### Code Explaination
 This Java code simulates a scenario where there are multiple children and a caregiver. The children need care and the caregiver provides it. The caregiver can care for up to 3 children at a time, as indicated by the initial semaphore value of 3 for `caregiverSemaphore`.
