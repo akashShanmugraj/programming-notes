@@ -1,5 +1,3 @@
-(incomplete, all content -> ChatGPT generated)
-
 # Child Care Problem by Max Hailperin
 submitted by **Akash Shanmugaraj**, 22Z255
 
@@ -27,9 +25,9 @@ Here's a high-level approach to solving the Child Care problem using semaphores:
 
 7. **Ensure mutual exclusion:** Use additional semaphores or mutexes to ensure mutual exclusion when accessing shared variables or updating caregiver capacities to prevent race conditions.
 
-## Starter Code using Python3 and `threading` module
+## Code using Java and `concurrent.Semaphore` module
 
-Certainly! Below is a simple starter code in Python that demonstrates how to use semaphores to solve a simplified version of the Child Care problem. This code assumes a single caregiver and multiple children.
+Below is a code in Java that demonstrates how to use semaphores to solve a simplified version of the Child Care problem. This code assumes a single caregiver and multiple children.
 
 ```java
 import java.util.concurrent.Semaphore;
@@ -126,3 +124,23 @@ This Java code simulates a scenario where there are multiple children and a care
 4. **Main method**: This method creates the `caregiverSemaphore` and `childSemaphore`, starts the caregiver thread, creates and starts 5 child threads, and then waits for all the child threads to finish. It doesn't actually wait for the caregiver thread to finish, because the caregiver thread runs in an infinite loop.
 
 Please note that in this version of the code, the `childSemaphore` is not actually used, and the caregiver can care for multiple children at the same time, up to the initial value of the `caregiverSemaphore`. If you want the caregiver to care for only one child at a time, you should initialize the `caregiverSemaphore` with a value of 1.
+
+## Output
+
+<img width="723" alt="Screenshot 2024-04-30 at 5 59 36 AM" src="https://github.com/akashShanmugraj/programming-notes/assets/65720968/03d40799-e18a-4d31-9170-73235ad1e4c5">
+
+### Output Explaination
+
+1. "Caregiver is available." - This is printed when the Caregiver thread starts and is ready to take care of a child.
+
+2. "Caregiver is caring for a child." - This is printed immediately after the Caregiver becomes available.
+
+3. "Child X needs care." - This is printed when a Child thread starts and needs care.
+
+4. "Child X is receiving care." - This is printed when a Child thread acquires the caregiverSemaphore, meaning it's the Child's turn to be taken care of by the Caregiver.
+
+5. "Child X has finished receiving care." - This is printed when a Child thread releases the caregiverSemaphore, meaning it has finished being taken care of.
+
+6. "Caregiver has finished caring for a child." - This is printed when the Caregiver thread releases the childSemaphore, meaning it has finished caring for a child and is ready to care for the next one.
+
+The order of the output can vary each time the program is run due to the nature of multithreading, where threads are scheduled to run in an order that can't be predicted. 
