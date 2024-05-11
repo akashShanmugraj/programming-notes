@@ -20,174 +20,141 @@ INSERT INTO StudCourse VALUES(6,'AAA',101,3,64,64);
 INSERT INTO StudCourse VALUES(7,'BBB',102,3,55,55);
 INSERT INTO StudCourse VALUES(8,'AAA',101,3,41,41);
 
+CREATE TABLE Employee (
+    empnumber NUMBER PRIMARY KEY,
+    empname VARCHAR2(50),
+    empsalary NUMBER,
+    deptnumber NUMBER
+);
 
+INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (1, 'AAA', 50000, 100);
+INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (2, 'BBB', 60000, 200);
+INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (3, 'CCC', 70000, 300);
+INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (4, 'DDD', 80000, 400);
 
 -- 1.
-CREATE OR REPLACE PROCEDURE Calculate_Student_Percentages(
-    p_course_name IN VARCHAR2,
-    p_course_code IN VARCHAR2
+CREATE OR REPLACE PROCEDURE calpercentage(
+    coursename IN VARCHAR2,
+    coursecode in VARCHAR2
 ) AS
-    v_total_students NUMBER;
-    v_100_70 NUMBER := 0; 
-    v_69_60 NUMBER := 0; 
-    v_59_50 NUMBER := 0;
-    v_below_49 NUMBER := 0;
+    totalstudents NUMBER;
+    slot1 NUMBER := 0;
+    slot2 NUMBER := 0;
+    slot3 NUMBER := 0;
+    slot4 NUMBER := 0;
 
 BEGIN
-   
-    SELECT COUNT(*)
-    INTO v_total_students
-    FROM Student_Course
-    WHERE Course_Name = p_course_name
-    AND Course_Code = p_course_code;
+    SELECT COUNT(*) into totalstudents FROM StudCourse WHERE coursename = coursename AND coursecode = coursecode;
 
-    SELECT COUNT(*)
-    INTO v_100_70
-    FROM Student_Course
-    WHERE Course_Name = p_course_name
-    AND Course_Code = p_course_code
-    AND Percentage BETWEEN 70 AND 100;
+    SELECT COUNT(*) into slot1 from StudCourse WHERE coursename = coursename AND coursecode = coursecode AND PERCENTAGE BETWEEN 70 AND 100;
 
-    SELECT COUNT(*)
-    INTO v_69_60
-    FROM Student_Course
-    WHERE Course_Name = p_course_name
-    AND Course_Code = p_course_code
-    AND Percentage BETWEEN 60 AND 69;
+    SELECT COUNT(*) INTO slot2 FROM StudCourse WHERE coursename = coursename AND coursecode = coursecode AND PERCENTAGE BETWEEN 60 AND 69;
 
-    SELECT COUNT(*)
-    INTO v_59_50
-    FROM Student_Course
-    WHERE Course_Name = p_course_name
-    AND Course_Code = p_course_code
-    AND Percentage BETWEEN 50 AND 59;
+    SELECT COUNT(*) INTO slot3 FROM StudCourse WHERE coursename = coursename and coursecode = coursecode AND PERCENTAGE BETWEEN 50 and 59;
 
-    SELECT COUNT(*)
-    INTO v_below_49
-    FROM Student_Course
-    WHERE Course_Name = p_course_name
-    AND Course_Code = p_course_code
-    AND Percentage < 50;
+    SELECT COUNT(*) INTO slot4 FROM StudCourse WHERE coursename = coursename and coursecode = coursecode AND PERCENTAGE <= 50;
 
-    DBMS_OUTPUT.PUT_LINE('Course: ' || p_course_name || ' (' || p_course_code || ')');
-    DBMS_OUTPUT.PUT_LINE('100-70%: ' || v_100_70 || ' students');
-    DBMS_OUTPUT.PUT_LINE('69-60%: ' || v_69_60 || ' students');
-    DBMS_OUTPUT.PUT_LINE('59-50%: ' || v_59_50 || ' students');
-    DBMS_OUTPUT.PUT_LINE('Below 49%: ' || v_below_49 || ' students');
-    DBMS_OUTPUT.PUT_LINE('Total Students: ' || v_total_students);
-    DBMS_OUTPUT.PUT_LINE(CHR(10));
-END;
-/
+    DBMS_OUTPUT.PUT_LINE(slot1 || ' ' || slot2 || ' ' || slot3 || ' ' || slot4 );
 
-
-
-BEGIN
-    Calculate_Student_Percentages('MATHS', 'Z401');
-    Calculate_Student_Percentages('DSA', 'Z302');
-    Calculate_Student_Percentages('DAA', 'Z402');
-    Calculate_Student_Percentages('CHEM', 'Z203');
-    Calculate_Student_Percentages('PHY', 'Z202');
-END;
-/
-
-
+END; 
 
 -- 2.
+
+DECLARE 
+    n NUMBER;
+    factorial NUMBER;
+
+FUNCTION findfactorial(targetnumber NUMBER) RETURN NUMBER IS
+    f NUMBER;
+BEGIN 
+    IF targetnumber = 0 or targetnumber = 1 THEN
+        RETURN 1;
+    ELSE
+        RETURN factorial * findfactorial(targetnumber-1);
+    END IF;
+
+END;
+
 DECLARE
-	n number;
-	factorial number;
-FUNCTION fact(x number)
-RETURN number
-IS
-	f number;
+    inputnumber NUMBER;
+    factorialnumber NUMBER;
 BEGIN
-	IF x=0 or x=1 THEN
-		f := 1;
-	ELSE
-		f := x * fact(x-1);
-	END IF;
-RETURN f;
+    inputnumber := 5;
+    factorialnumber := findfactorial(inputnumber);
+
+    DBMS_OUTPUT.PUT_LINE('Factorial of ' || inputnumber || ' is ' || factorialnumber);
 END;
-BEGIN
-	n:= &n;
-	factorial := fact(n);
-	dbms_output.put_line(' Factorial of '|| n || ' is ' || factorial);
-END;
-/
 
 -- 3.
-CREATE OR REPLACE PROCEDURE Update_Employee_Dno(
-    p_emp_no IN Employee.Emp_number%TYPE,
-    p_new_dno IN Employee.D_no%TYPE
-) AS
-BEGIN
-    UPDATE Employee
-    SET D_no = p_new_dno
-    WHERE Emp_number = p_emp_no;
-    COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Employee ' || p_emp_no || ' D_no updated successfully.');
+
+CREATE OR REPLACE PROCEDURE updatedeptnumber (
+    empnumber IN Employee.empnumber%TYPE,
+    newdeptnumber IN Employee.deptnumber%TYPE
+) AS 
+BEGIN 
+    UPDATE Employee SET deptnumber = newdeptnumber WHERE empnumber = empnumber;
+    DBMS_OUTPUT.PUT_LINE('Updated Employee Number');
+
 END;
 /
 
+BEGIN
+    updatedeptnumber(2, 100);
+END;
 
-
+-- approach using functions
 DECLARE
-    v_emp_no Employee.Emp_number%TYPE := 001;
-    v_new_dno Employee.D_no%TYPE := 1;
+    v_empnumber Employee.empnumber%type;
+    v_newdeptnumber Employee.deptnumber%type;
+    v_result NUMBER;
+FUNCTION updatedeptnumber (p_empnumber Employee.empnumber%type, p_newdeptnumber Employee.deptnumber%type) RETURN NUMBER IS
 BEGIN
-    Update_Employee_Dno(v_emp_no, v_new_dno);
+    UPDATE employee SET deptnumber = p_newdeptnumber WHERE empnumber = p_empnumber;
+    DBMS_OUTPUT.PUT_LINE('Updated Employee Number');
+    RETURN 1;
+END;
+
+BEGIN
+    v_result := updatedeptnumber(2, 600);
+    DBMS_OUTPUT.PUT_LINE('OUTPUT ' || v_result)
 END;
 /
-
 
 -- 4.
 
-CREATE OR REPLACE FUNCTION Count_Employees(
-    p_dno IN Department1.Dnumber%TYPE
-) RETURN NUMBER AS
-    v_count NUMBER;
-BEGIN
-    SELECT COUNT(*)
-    INTO v_count
-    FROM Employee
-    WHERE D_no = p_dno;
-    
-    RETURN v_count;
+CREATE or REPLACE FUNCTION countemployees(targetdeptnumber Employee.deptnumber%TYPE) RETURN NUMBER IS
+    empcounter NUMBER;
+BEGIN 
+    SELECT COUNT(*) INTO empcounter FROM employee WHERE deptnumber = targetdeptnumber;
+    RETURN empcounter;
 END;
 /
-
-
-
 DECLARE
-    v_dno Department1.Dnumber%TYPE :=1;
-    v_employee_count NUMBER;
+    empcounter NUMBER;
 BEGIN
-    v_employee_count := Count_Employees(v_dno);
-    DBMS_OUTPUT.PUT_LINE('Number of employees in department ' || v_dno || ': ' || v_employee_count);
+    empcounter := countemployees(100);
+    DBMS_OUTPUT.PUT_LINE(empcounter);
 END;
-/             
 
 -- 5.
 
-CREATE OR REPLACE PROCEDURE Update_Salary_Below_Average AS
-    v_avg_salary float(10);
-BEGIN
-   
-    SELECT AVG(Basic)
-    INTO v_avg_salary
-    FROM Emp_Sal;
+CREATE or REPLACE PROCEDURE updatebelowaveragesalary AS 
+    averagesalary float(10);
 
-    UPDATE Emp_Sal
-    SET Basic = Basic + (v_avg_salary - Basic)
-    WHERE Basic < v_avg_salary;
+BEGIN
+
+    SELECT AVG(empsalary) INTO averagesalary FROM employee;
+
+    UPDATE employee 
+    SET empsalary = averagesalary WHERE empsalary < averagesalary;
+
     COMMIT;
 
-    DBMS_OUTPUT.PUT_LINE('Salary updated successfully.');
 END;
 /
 
 BEGIN
-    Update_Salary_Below_Average;
+    updatebelowaveragesalary;
 END;
-/
+
 
