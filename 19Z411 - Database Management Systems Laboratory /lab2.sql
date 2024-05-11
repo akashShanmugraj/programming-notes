@@ -53,25 +53,27 @@ INSERT INTO books (book_id, title, type, author, price) VALUES ('B00010', 'Easy 
 INSERT INTO books (book_id, title, type, author, price) VALUES ('B00011', 'Unix Network Programming', 'CSE', 'W Richard Stevens', 2200);
 INSERT INTO books (book_id, title, type, author, price) VALUES ('B00012', 'C++ Programming Language', 'IT', 'Bjarne Stroustrup', 345);
 
-DESC transaction;
-DESC member;
-DESC books;
 
-24. SELECT COUNT(DISTINCT member_id) AS COUNT FROM member
-25. SELECT SUM(price) FROM Books;
-26. SELECT AVG(price) FROM Books;
-27. SELECT MAX(price) AS max_price, MIN(price) AS min_price FROM books;
-28. SELECT COUNT(*) as COUNT FROM books WHERE PRICE >= 1500;
-29. SELECT 'Transaction ID of the Member ID ' || member_id || ' is ' || t_id AS 30. MESSAGE FROM transaction;
-31. SELECT member_id || ' has taken the Book number ' || book_id || ' on ' || ISSUE_DATE || ' and will return on ' || RETUM_DATE as MESSAGE FROM transaction;
-32. SELECT type, avg(price) from books group by type;
-33. SELECT type, COUNT(*) as BC from books group by type;
-34. SELECT type, COUNT(*) as BC from books HAVING type IN ('CSE', 'IC') group by type;
-35. SELECT type, AVG(price) as AP from books HAVING MAX(price) <= 3500 group by type;
-36. SELECT AVG(price) as AP from books WHERE type in ('ECE', 'IT') and price >= 1500;
-37. SELECT t_id, EXTRACT(DAY from ISSUE_DATE) as DAY from transaction;
-38. SELECT t_ID, TO_CHAR(RETURN_DATE, 'month') from transaction;
-39. SELECT t_ID, TO_CHAR(RETUM_DATE, 'MONTH') as MONTH from transaction;
-40. SELECT TO_CHAR(ISSUE_DATE, 'DD-month-YY') as ID from transaction;
-41. SELECT SYSDATE + 15 from DUAL;
-42. SELECT RETUM_DATE - SYSDATE as REM from transaction, dual;
+SELECT fname, lname FROM member;
+SELECT * FROM member;
+SELECT fname, area FROM member;
+SELECT DISTINCT type FROM books;
+SELECT fname FROM member WHERE SUBSTR(fname, 2, 1) = 'a';
+SELECT lname FROM member WHERE lname LIKE 's%' OR lname LIKE 'j%';
+SELECT * FROM member WHERE SUBSTR(area, 2, 1) = 'B';
+SELECT * FROM member WHERE area IN ('MYL', 'CBE', 'DEL');
+SELECT * FROM member WHERE phone_no > 9800000000;
+SELECT * FROM transaction WHERE EXTRACT(MONTH FROM issue_date) = 9;
+SELECT * FROM transaction WHERE member_id IN ('M03', 'M04');
+SELECT * FROM books WHERE type IN ('CSE', 'ECE');
+SELECT * FROM books WHERE price > 3500 AND price <= 5000;
+SELECT *, price * 15 AS newprice FROM books WHERE price > 5000;
+SELECT *, price * 15 AS new_price FROM books WHERE price > 5000;
+SELECT * FROM books ORDER BY title;
+SELECT title, type FROM books WHERE type != 'IC';
+SELECT title, SQRT(price) AS square_root_price FROM books;
+SELECT title, price / (price - 1000) AS result FROM books WHERE title = 'Digital Design';
+SELECT fname, lname, area, member_id FROM member WHERE phone_no IS NULL;
+SELECT fname FROM member WHERE lname IS NULL;
+SELECT book_id, title, type FROM books WHERE author LIKE 'M%';
+SELECT book_id, t_id FROM transaction WHERE t_id < 't05';
