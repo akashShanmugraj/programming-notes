@@ -20,17 +20,45 @@ INSERT INTO StudCourse VALUES(6,'AAA',101,3,64,64);
 INSERT INTO StudCourse VALUES(7,'BBB',102,3,55,55);
 INSERT INTO StudCourse VALUES(8,'AAA',101,3,41,41);
 
-CREATE TABLE Employee (
-    empnumber NUMBER PRIMARY KEY,
-    empname VARCHAR2(50),
-    empsalary NUMBER,
-    deptnumber NUMBER
+CREATE TABLE department (
+    deptname VARCHAR(10),
+    deptnumber NUMBER,
+    managerssn NUMBER,
+    constraint deptnumberpk PRIMARY KEY (deptnumber)
 );
 
-INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (1, 'AAA', 50000, 100);
-INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (2, 'BBB', 60000, 200);
-INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (3, 'CCC', 70000, 300);
-INSERT INTO Employee (empnumber, empname, empsalary, deptnumber) VALUES (4, 'DDD', 80000, 400);
+CREATE TABLE employee (
+    empno NUMBER,
+    empname VARCHAR(10),
+    experience NUMBER,
+    city VARCHAR(10),
+    deptno NUMBER,
+    constraint empnopk PRIMARY KEY (empno),
+    constraint deptnofk FOREIGN KEY (deptno) REFERENCES department(deptnumber)
+);
+
+CREATE TABLE employeesalary (
+    empno NUMBER,
+    deduction NUMBER,
+    basicsalary NUMBER,
+    grosssalary NUMBER,
+    constraint empnofk FOREIGN KEY(empno) REFERENCES employee(empno)
+);
+
+INSERT INTO department (deptname, deptnumber, managerssn) VALUES ('HR', 100, 123456789);
+INSERT INTO department (deptname, deptnumber, managerssn) VALUES ('Sales', 200, 234567891);
+INSERT INTO department (deptname, deptnumber, managerssn) VALUES ('Finance', 300, 345678912);
+INSERT INTO department (deptname, deptnumber, managerssn) VALUES ('IT', 400, 456789123);
+
+INSERT INTO employee (empno, empname, experience, city, deptno) VALUES (1, 'John', 5, 'New York', 100);
+INSERT INTO employee (empno, empname, experience, city, deptno) VALUES (2, 'Jane', 3, 'Chicago', 200);
+INSERT INTO employee (empno, empname, experience, city, deptno) VALUES (3, 'Bob', 7, 'SFO', 300);
+INSERT INTO employee (empno, empname, experience, city, deptno) VALUES (4, 'Alice', 2, 'Boston', 400);
+
+INSERT INTO employeesalary (empno, basicsalary, deduction, grosssalary) VALUES (1, 50000, 5000, 45000);
+INSERT INTO employeesalary (empno, basicsalary, deduction, grosssalary) VALUES (2, 60000, 6000, 54000);
+INSERT INTO employeesalary (empno, basicsalary, deduction, grosssalary) VALUES (3, 70000, 7000, 63000);
+INSERT INTO employeesalary (empno, basicsalary, deduction, grosssalary) VALUES (4, 80000, 8000, 72000);
 
 -- 1.
 CREATE OR REPLACE PROCEDURE calpercentage(
@@ -60,30 +88,26 @@ END;
 
 -- 2.
 
-DECLARE 
-    n NUMBER;
-    factorial NUMBER;
-
-FUNCTION findfactorial(targetnumber NUMBER) RETURN NUMBER IS
-    f NUMBER;
-BEGIN 
-    IF targetnumber = 0 or targetnumber = 1 THEN
-        RETURN 1;
-    ELSE
-        RETURN factorial * findfactorial(targetnumber-1);
-    END IF;
-
-END;
-
-DECLARE
-    inputnumber NUMBER;
-    factorialnumber NUMBER;
+CREATE OR REPLACE FUNCTION findfactorial (
+    targetnumber NUMBER
+) RETURN NUMBER IS randomnumber NUMBER;
 BEGIN
-    inputnumber := 5;
-    factorialnumber := findfactorial(inputnumber);
-
-    DBMS_OUTPUT.PUT_LINE('Factorial of ' || inputnumber || ' is ' || factorialnumber);
+    IF targetnumber = 0 THEN
+        RETURN 1;
+    ELSE 
+        RETURN targetnumber * findfactorial(targetnumber - 1);
+    END IF;
+RETURN 1;
 END;
+/
+    
+DECLARE 
+    randomnumber NUMBER;
+BEGIN
+    randomnumber := findfactorial(6);
+    DBMS_OUTPUT.PUT_LINE('Factorial is ' || randomnumber);
+END;
+
 
 -- 3.
 
@@ -103,16 +127,25 @@ BEGIN
 END;
 
 -- approach using functions
-DECLARE
-    v_empnumber Employee.empnumber%type;
-    v_newdeptnumber Employee.deptnumber%type;
-    v_result NUMBER;
-FUNCTION updatedeptnumber (p_empnumber Employee.empnumber%type, p_newdeptnumber Employee.deptnumber%type) RETURN NUMBER IS
+CREATE OR REPLACE FUNCTION updatedeptnumberfunction (
+    currentemployeenumber NUMBER,
+    newdepartmentnumber NUMBER
+) RETURN NUMBER IS somenumber NUMBER;
 BEGIN
-    UPDATE employee SET deptnumber = p_newdeptnumber WHERE empnumber = p_empnumber;
-    DBMS_OUTPUT.PUT_LINE('Updated Employee Number');
-    RETURN 1;
+    UPDATE employee SET deptno = newdepartmentnumber WHERE empno = currentemployeenumber;
+	RETURN somenumber;
 END;
+/
+
+DECLARE
+    randomnumber NUMBER;
+    
+BEGIN
+    randomnumber := updatedeptnumberfunction(2, 100);
+END;
+/
+
+SELECT * FROM employee;
 
 BEGIN
     v_result := updatedeptnumber(2, 600);
@@ -138,23 +171,16 @@ END;
 
 -- 5.
 
-CREATE or REPLACE PROCEDURE updatebelowaveragesalary AS 
-    averagesalary float(10);
-
+CREATE OR REPLACE PROCEDURE updateemployeesalary 
+IS averagesalary NUMBER;
 BEGIN
-
-    SELECT AVG(empsalary) INTO averagesalary FROM employee;
-
-    UPDATE employee 
-    SET empsalary = averagesalary WHERE empsalary < averagesalary;
-
-    COMMIT;
-
+    SELECT AVG(basicsalary) INTO averagesalary FROM employeesalary;
+    UPDATE employeesalary SET basicsalary = averagesalary WHERE basicsalary < averagesalary;
 END;
 /
-
-BEGIN
-    updatebelowaveragesalary;
+    
+BEGIN 
+    updateemployeesalary;
 END;
 
 
