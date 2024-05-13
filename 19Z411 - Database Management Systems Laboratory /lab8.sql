@@ -31,7 +31,7 @@ BEGIN
         rankcounter := rankcounter + 1;
     END LOOP;
 END;
-
+/
 
 -- 2
 
@@ -109,3 +109,4 @@ BEGIN
     INSERT INTO backupemployeesalary VALUES (:OLD.empno, :OLD.deduction, :OLD.basicsalary, :OLD.grosssalary);
     DBMS_OUTPUT.PUT_LINE('Backed up the record of ' || :OLD.empno || ' from employeesalary table');
 END;
+/

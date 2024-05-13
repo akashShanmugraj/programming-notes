@@ -85,6 +85,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(slot1 || ' ' || slot2 || ' ' || slot3 || ' ' || slot4 );
 
 END; 
+/
 
 -- 2.
 
@@ -107,7 +108,7 @@ BEGIN
     randomnumber := findfactorial(6);
     DBMS_OUTPUT.PUT_LINE('Factorial is ' || randomnumber);
 END;
-
+/
 
 -- 3.
 
@@ -125,7 +126,7 @@ END;
 BEGIN
     updatedeptnumber(2, 100);
 END;
-
+/
 -- approach using functions
 CREATE OR REPLACE FUNCTION updatedeptnumberfunction (
     currentemployeenumber NUMBER,
@@ -168,6 +169,7 @@ BEGIN
     empcounter := countemployees(100);
     DBMS_OUTPUT.PUT_LINE(empcounter);
 END;
+/
 
 -- 5.
 
@@ -182,5 +184,4 @@ END;
 BEGIN 
     updateemployeesalary;
 END;
-
-
+/
