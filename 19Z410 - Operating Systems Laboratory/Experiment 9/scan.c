@@ -1,94 +1,107 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
-#define NUM_QUERIES 10
+#include <stdlib.h>
 
-void swap(int * a, int i)
-{
-    int tmp;
-    tmp = a[i];
-    a[i] = a[i + 1];
-    a[i + 1] = tmp;
-}
+#define SIZE 8
+#define DISK_SIZE 200
 
-void bsort(int * a, int n)
-{
-    int comparisons = 0, swaps = 0, flag;
-    for (int i = 0; i < n - 1; i++)
-    {
-        flag = 1;
-        for (int j = 0; j < n - i - 1; j++)
-        {
-            //comparisons++;
-            if (a[j] > a[j + 1])
-            {
-                swap(a, j);
-                //swaps++;
-                flag = 0;
+void SCAN(int arr[], int head, char* direction) {
+    int seek_count = 0;
+    int distance, cur_track;
+    int left[SIZE], right[SIZE];
+    int left_count = 0, right_count = 0;
+
+    printf("Seek Sequence is\n");
+
+    // Appending end values which have to be visited
+    // before reversing the direction
+    if (*direction == 'l') {
+        left[left_count++] = 0;
+    } else if (*direction == 'r') {
+        right[right_count++] = DISK_SIZE - 1;
+    }
+
+    for (int i = 0; i < SIZE; i++) {
+        if (arr[i] < head) {
+            left[left_count++] = arr[i];
+        } else if (arr[i] > head) {
+            right[right_count++] = arr[i];
+        }
+    }
+
+    // Sorting left and right arrays
+    for (int i = 0; i < left_count - 1; i++) {
+        for (int j = i + 1; j < left_count; j++) {
+            if (left[j] < left[i]) {
+                int temp = left[j];
+                left[j] = left[i];
+                left[i] = temp;
             }
         }
-        if (flag) break;
     }
-    //printf("\nComparisons: %i\nSwaps: %i\n", comparisons, swaps);
+
+    for (int i = 0; i < right_count - 1; i++) {
+        for (int j = i + 1; j < right_count; j++) {
+            if (right[j] < right[i]) {
+                int temp = right[j];
+                right[j] = right[i];
+                right[i] = temp;
+            }
+        }
+    }
+
+    // Run the while loop two times.
+    // One by one scanning right
+    // and left of the head
+    int run = 2;
+    while (run--) {
+        if (*direction == 'l') {
+            for (int i = left_count - 1; i >= 0; i--) {
+                cur_track = left[i];
+
+                // Appending current track to seek sequence
+                printf("%d\n", cur_track);
+
+                // Calculate absolute distance
+                distance = abs(cur_track - head);
+
+                // Increase the total count
+                seek_count += distance;
+
+                // Accessed track is now the new head
+                head = cur_track;
+            }
+            *direction = 'r';
+        } else if (*direction == 'r') {
+            for (int i = 0; i < right_count; i++) {
+                cur_track = right[i];
+
+                // Appending current track to seek sequence
+                printf("%d\n", cur_track);
+
+                // Calculate absolute distance
+                distance = abs(cur_track - head);
+
+                // Increase the total count
+                seek_count += distance;
+
+                // Accessed track is now the new head
+                head = cur_track;
+            }
+            *direction = 'l';
+        }
+    }
+
+    printf("Total number of seek operations = %d\n", seek_count);
 }
 
-void removeIndex(int *a, int *n, int index)
-{
-    if (index < 0 || index >= *n)
-    {
-        printf("Invalid index\n");
-        return;
-    }
+// Driver code
+int main() {
+    // Request array
+    int arr[SIZE] = { 176, 79, 34, 60, 92, 11, 41, 114 };
+    int head = 50;
+    char direction = 'l';
 
-    for (int i = index; i < *n - 1; i++)
-    {
-        a[i] = a[i + 1];
-    }
+    SCAN(arr, head, &direction);
 
-    (*n)--;
+    return 0;
 }
-
-int main(){
-    int queue[NUM_QUERIES];
-    int i;
-    srand(time(NULL));
-    for(i = 0; i < NUM_QUERIES; i++){
-        queue[i] = rand() % 501;
-        printf("%d ",queue[i]);
-    }
-    bsort(queue,NUM_QUERIES);
-    printf("Sorted queries: \n");
-    for(i = 0; i < NUM_QUERIES; i++){
-        printf("%d ",queue[i]);
-    }
-    int headPos = rand() % 501;
-    int ogHeadPos = headPos;
-    int lb = 0;
-    int ub = 500;
-
-    int* ptr = queue;
-    i = 0;
-    printf("Head starts at %d\n",headPos);
-    do{
-        i++;
-    }while(headPos > queue[i]);
-    printf("\nHead first goes to %d at index %d\n",queue[i],i);
-
-    while(i < NUM_QUERIES){
-        headPos = queue[i];
-        printf("Head at position %d\n",headPos);
-        i++;
-    }
-    headPos = ub;
-    printf("Head moves to %d",headPos);
-    do{
-        i--;
-    }while(ogHeadPos < queue[i]);
-    headPos = ogHeadPos;
-    while(i < 0){
-        headPos = queue[i];
-        printf("Head at position %d\n",headPos);
-        i++;
-    }
-}
-
