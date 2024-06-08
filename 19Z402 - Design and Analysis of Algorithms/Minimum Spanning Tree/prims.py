@@ -1,3 +1,5 @@
+from heapq import heapify, heappush, heappop
+
 def printavailableedges(edgeobject):
     for entry in edgeobject:
         print(f"FROM NODE {entry[2]} TO NODE {entry[1]} WITH EDGE WEIGHT {entry[0]}")
@@ -20,7 +22,7 @@ visited = [
     startingnode,
 ]
 spanningtree = []
-availableedges = []
+availableedges = heapify([])
 
 while len(visited) != totalnodes:
     for node in visited:
@@ -28,7 +30,7 @@ while len(visited) != totalnodes:
             if column in visited or graphobject[node][column] == -1:
                 continue
 
-            availableedges.append([graphobject[node][column], column, node])
+            heappush(availableedges,([graphobject[node][column], column, node]))
 
     minimumedge = min(availableedges)
     spanningtree.append([minimumedge[1], minimumedge[2]])

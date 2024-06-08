@@ -1,0 +1,20 @@
+Define a structure Edge with properties: weight, startNode, endNode
+
+Define a list of Edge objects, edges
+
+Sort edges in ascending order based on weight
+
+Define a list, forest, to store the disjoint sets of nodes
+
+for each node in the graph:
+    create a set containing only this node
+    add the set to forest
+
+Define a list, MST, to store the edges of the minimum spanning tree
+
+for each edge in edges:
+    if the startNode and endNode of edge are in different sets in forest:
+        add edge to MST
+        union the sets containing startNode and endNode in forest
+
+print MST

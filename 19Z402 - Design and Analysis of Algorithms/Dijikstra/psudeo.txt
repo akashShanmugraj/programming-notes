@@ -1,0 +1,27 @@
+from heapq import heapify, heappush, heappop
+
+ADJMAT [n*n]
+rowcount 
+columncount
+source = 0
+currentnode = source
+
+visited = [0,]
+distances = [infinity,] * n
+distances[source] = 0
+
+edgelist = []
+path = []
+
+while not all nodes are visited:
+    for ein in range(columncount):
+        if EDGE(currentnode, ein) exists AND ein not visited:
+            new_distance = distances[currentnode] + ADJMAT[currentnode][ein]
+            if new_distance < distances[ein]:
+                distances[ein] = new_distance
+                heappush(edgelist, (distances[ein], ein))
+
+    currentnode = heappop(edgelist)[1]
+    visited.append(currentnode)
+
+print(distances)

@@ -1,23 +1,6 @@
 from math import inf
 from typing import *
 
-# def dictionarysortkeys(inputdictionary: dict) -> dict:
-#     sortedkeys = sorted(inputdictionary.keys())
-#     finaldictionary = dict()
-#     for key in sortedkeys:
-#         finaldictionary[key] = inputdictionary[key]
-
-#     return finaldictionary
-
-
-# def dictionarysortvalues(inputdictionary: dict) -> dict:
-#     sortedvalues = sorted(inputdictionary.values())
-#     finaldictionary = dict()
-#     inverseinputdictionary = dict(zip(inputdictionary.values(), inputdictionary.keys()))
-#     for value in sortedvalues:
-#         finaldictionary[value] = inverseinputdictionary[value]
-#     return finaldictionary
-
 
 class Node:
     def __init__(self, data, frequency, datatype, leftchild, rightchild):
@@ -45,8 +28,10 @@ def popminimumnode(frequencyobject: List[Node]) -> Node:
 frequencystructure = [
     Node("A", 10, "CHAR", None, None),
     Node("B", 20, "CHAR", None, None),
-    Node("C", 30, "CHAR", None, None),
-    Node("D", 40, "CHAR", None, None),
+    Node("C", 15, "CHAR", None, None),
+    Node("D", 25, "CHAR", None, None),
+    Node("E", 5, "CHAR", None, None),
+    Node("F", 25, "CHAR", None, None),
 ]
 
 globalminima = -inf
@@ -54,7 +39,13 @@ globalminima = -inf
 while len(frequencystructure) != 1:
     mincharacter1 = popminimumnode(frequencystructure)
     mincharacter2 = popminimumnode(frequencystructure)
-    localparent = Node(None, None, "INT", mincharacter1, mincharacter2)
+    localparent = Node(
+        None,
+        mincharacter1.frequency + mincharacter2.frequency,
+        "INT",
+        mincharacter1,
+        mincharacter2,
+    )
     frequencystructure.append(localparent)
 
-print(frequencystructure)
+(frequencystructure[0].PrintTree)
