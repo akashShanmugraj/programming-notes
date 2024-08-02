@@ -11,8 +11,15 @@ int main(int argc, char const *argv[]) {
     struct sockaddr_in address;
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    char *hello = "STOP"; // change the string here for customisation
+    char *hello; // change the string here for customisation
     char buffer[BUFFER_SIZE] = {0};
+
+    if (argc < 2) {
+        printf("Usage: %s <message>\n", argv[0]);
+        return -1;
+    }
+
+    hello = argv[1];
 
     // Creating socket file descriptor
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
