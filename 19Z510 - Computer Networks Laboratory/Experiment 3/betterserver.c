@@ -13,7 +13,7 @@ int main() {
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[BUFFER_SIZE] = {0};
-    char *hello = "Hello I am server on the other side of the connection";
+    char hello[100];
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -44,13 +44,12 @@ int main() {
     }
 
     while(1) {
-        printf("Waiting for new connection...\n");
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
             perror("accept");
             exit(EXIT_FAILURE);
         }
         valread = read(new_socket, buffer, BUFFER_SIZE);
-        printf("Message received: %s\n", buffer);
+        printf("Them: %s\n", buffer);
 
         if (strcmp(buffer, "STOP") == 0) {
             printf("STOP command received. Shutting down...\n");
@@ -58,9 +57,9 @@ int main() {
             close(new_socket);
             break;
         }
-
+        printf("You: ");
+        scanf("%s", hello);
         send(new_socket, hello, strlen(hello), 0);
-        printf("Server Hello message sent\n");
         close(new_socket); // Close the current connection before accepting a new one
     }
 

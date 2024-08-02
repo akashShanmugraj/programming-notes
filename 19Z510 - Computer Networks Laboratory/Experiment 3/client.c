@@ -11,15 +11,11 @@ int main(int argc, char const *argv[]) {
     struct sockaddr_in address;
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    char *hello; // change the string here for customisation
+    char hello[100]; // change the string here for customisation
     char buffer[BUFFER_SIZE] = {0};
 
-    if (argc < 2) {
-        printf("Usage: %s <message>\n", argv[0]);
-        return -1;
-    }
-
-    hello = argv[1];
+    printf("Enter Code: ");
+    scanf("%s", hello);
 
     // Creating socket file descriptor
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -43,14 +39,22 @@ int main(int argc, char const *argv[]) {
         printf("\nConnection Failed \n");
         return -1;
     }
+    while (1) {
+        // Send message to server
+        printf("You: ");
+        scanf("%s", hello);
+        send(sock, hello, strlen(hello), 0);
 
-    // Send message to server
-    send(sock, hello, strlen(hello), 0);
-    printf("Client Hello message sent\n");
+        // Read server response
+        valread = read(sock, buffer, BUFFER_SIZE);
+        printf("Them: %s\n", buffer);
 
-    // Read server response
-    valread = read(sock, buffer, BUFFER_SIZE);
-    printf("Message recieved: %s\n", buffer);
-
+        if (strcmp(buffer, "STOP") == 0) {
+            printf("STOP command received. Shutting down...\n");
+            send(sock, "Server stopping\n", 16, 0);
+            close(sock);
+            break;
+        }
+    }
     return 0;
 }
