@@ -13,7 +13,7 @@ int main() {
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[BUFFER_SIZE] = {0};
-    char hello[100];
+    char hello[BUFFER_SIZE] = "Hello I am server on the other side of the connection";
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -44,12 +44,21 @@ int main() {
     }
 
     while(1) {
+        int sumval = 0;
+
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
             perror("accept");
             exit(EXIT_FAILURE);
         }
+        memset(buffer, 0, BUFFER_SIZE);
         valread = read(new_socket, buffer, BUFFER_SIZE);
-        printf("Them: %s\n", buffer);
+        printf("First Number: %s\n", buffer);
+        sumval += atoi(buffer);
+
+        memset(buffer, 0, BUFFER_SIZE);
+        valread = read(new_socket, buffer, BUFFER_SIZE);
+        printf("Second Number: %s\n", buffer);
+        sumval += atoi(buffer);
 
         if (strcmp(buffer, "STOP") == 0) {
             printf("STOP command received. Shutting down...\n");
@@ -57,9 +66,13 @@ int main() {
             close(new_socket);
             break;
         }
-        printf("You: ");
-        scanf("%s", hello);
-        send(new_socket, hello, strlen(hello), 0);
+
+        // Convert sumval to string and send it
+        char sumval_str[50];
+        sprintf(sumval_str, "%d", sumval);
+        send(new_socket, sumval_str, strlen(sumval_str), 0);
+        printf("Sum value sent: %s\n", sumval_str);
+
         close(new_socket); // Close the current connection before accepting a new one
     }
 
