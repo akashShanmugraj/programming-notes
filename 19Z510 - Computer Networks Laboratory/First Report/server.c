@@ -12,7 +12,8 @@
 
 void callpythonfunction(char* targetword, char* guess, int chancesleft, char* guessstate, char* outputstore) {
     char command[2048];
-    snprintf(command, sizeof(command), "python3 logic.py %s %s %d %s > output.txt", targetword, guess, chancesleft, guessstate);
+    snprintf(command, sizeof(command), "python3 logic.py %s %s %d %s > output.txt ", targetword, guess, chancesleft, guessstate);
+    // printf("%s\n", command);
     system(command);
     FILE *f = fopen("output.txt", "r");
     if (f == NULL) {
@@ -32,9 +33,12 @@ int main()
     char buffer[1024];
     char *targetword = "NETWORKING";
     char guesshistory[1024];
+    memset(guesshistory, '\0', sizeof(guesshistory));
     char *history = guesshistory;
     char outputstore[1024];
     char *output = outputstore;
+    int turnsleft = 5;
+    char* dummyptr = malloc(1024);
 
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -70,7 +74,9 @@ int main()
 
             strcat(history, buffer);
 
-            callpythonfunction(targetword, buffer, 5, history, output);
+            callpythonfunction(targetword, buffer, turnsleft, history, output);
+            
+
 
             // printf("%s\n", history);
 
