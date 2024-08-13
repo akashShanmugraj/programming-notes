@@ -11,12 +11,12 @@
 
 int main()
 {
-
     // Variables and structures
     int server_fd, client_fd;
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_size;
     char buffer[1024];
+    char *hmmokaymessage = "HMM OKAY";
 
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -32,17 +32,30 @@ int main()
     while (1)
     {
         client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &addr_size);
-        printf("[CONNECTED] New Connection\n");
 
+        // Send initial message to the client
         strcpy(buffer, "Hello, This is a test message");
         send(client_fd, buffer, strlen(buffer), 0);
 
-        memset(buffer, '\0', sizeof(buffer));
-        recv(client_fd, buffer, 1024, 0);
-        printf("[CLIENT] %s\n", buffer);
+        while (1)
+        {
+            // Clear the buffer
+            memset(buffer, '\0', sizeof(buffer));
+
+            // Receive message from the client
+            int recv_len = recv(client_fd, buffer, 1024, 0);
+            if (recv_len <= 0)
+            {
+                printf("Connection closed by client\n");
+                break;
+            }
+            printf("%s\n", buffer);
+
+            // Send response to the client
+            send(client_fd, hmmokaymessage, strlen(hmmokaymessage), 0);
+        }
 
         close(client_fd);
-        printf("[DISCONNECTED] Connection closed\n");
     }
 
     close(server_fd);

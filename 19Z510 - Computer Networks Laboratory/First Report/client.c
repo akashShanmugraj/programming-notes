@@ -11,11 +11,17 @@
 
 int main()
 {
-
     // Variables and structures
     int client_fd;
     struct sockaddr_in server_addr;
     char buffer[1024];
+    char clientname[1024];
+
+    printf("Enter your name: ");
+    scanf("%s", clientname);
+    // Clear the input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 
     // Client socket
     client_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -30,19 +36,36 @@ int main()
         printf("Connection failed\n");
         return -1;
     }
-    printf("[CONNECTED] Connected to the server\n");
 
-    // Receive message from the server
-    recv(client_fd, buffer, 1024, 0);
-    printf("[SERVER] %s\n", buffer);
+    while (1)
+    {
+        // Clear the buffer
+        memset(buffer, 0, sizeof(buffer));
 
-    // Send message to the server
-    strcpy(buffer, "Hello, Server. This is the client.");
-    send(client_fd, buffer, strlen(buffer), 0);
+        // Receive message from the server
+        if (recv(client_fd, buffer, sizeof(buffer), 0) <= 0)
+        {
+            printf("Connection closed by server\n");
+            break;
+        }
+        printf("[SERVER] %s\n", buffer);
+
+        // Clear the buffer
+        memset(buffer, 0, sizeof(buffer));
+
+        // Get message from the user
+        char message[1024];
+        printf("Enter your message: ");
+        fgets(message, sizeof(message), stdin);
+        message[strcspn(message, "\n")] = 0; // Remove newline character
+
+        // Send message to the server
+        snprintf(buffer, sizeof(buffer), "[%s] %s", clientname, message);
+        send(client_fd, buffer, strlen(buffer), 0);
+    }
 
     // Close the socket
     close(client_fd);
-    printf("[DISCONNECTED] Connection closed\n");
 
     return 0;
 }
