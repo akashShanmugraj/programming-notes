@@ -8,8 +8,9 @@ ADDR = (IP, PORT)
 SIZE = 1024
 FORMAT = "utf-8"
 
+
 def main():
-    """ TCP Socket """
+    """TCP Socket"""
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(ADDR)
 
@@ -23,6 +24,7 @@ def main():
 
     """ Close connection """
     client.close()
+
 
 if __name__ == "__main__":
     main()
