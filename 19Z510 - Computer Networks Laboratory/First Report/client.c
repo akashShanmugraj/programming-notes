@@ -1,3 +1,4 @@
+// client
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -60,7 +61,7 @@ int main()
         message[strcspn(message, "\n")] = 0; // Remove newline character
 
         // Send message to the server
-        snprintf(buffer, sizeof(buffer), "[%s] %s", clientname, message);
+        snprintf(buffer, sizeof(buffer), "%s", message);
         send(client_fd, buffer, strlen(buffer), 0);
     }
 

@@ -1,3 +1,4 @@
+// server code
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,6 +10,19 @@
 
 #define PORT 4455
 
+void callpythonfunction(char* targetword, char* guess, int chancesleft, char* guessstate, char* outputstore) {
+    char command[2048];
+    snprintf(command, sizeof(command), "python3 logic.py %s %s %d %s > output.txt", targetword, guess, chancesleft, guessstate);
+    system(command);
+    FILE *f = fopen("output.txt", "r");
+    if (f == NULL) {
+        printf("Error! File not found\n");
+        exit(1);
+    }
+    fgets(outputstore, 1024, f);
+    fclose(f);
+}
+
 int main()
 {
     // Variables and structures
@@ -16,7 +30,11 @@ int main()
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_size;
     char buffer[1024];
-    char *hmmokaymessage = "HMM OKAY";
+    char *targetword = "NETWORKING";
+    char guesshistory[1024];
+    char *history = guesshistory;
+    char outputstore[1024];
+    char *output = outputstore;
 
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -49,10 +67,15 @@ int main()
                 printf("Connection closed by client\n");
                 break;
             }
-            printf("%s\n", buffer);
+
+            strcat(history, buffer);
+
+            callpythonfunction(targetword, buffer, 5, history, output);
+
+            // printf("%s\n", history);
 
             // Send response to the client
-            send(client_fd, hmmokaymessage, strlen(hmmokaymessage), 0);
+            send(client_fd, output, strlen(output), 0);
         }
 
         close(client_fd);
