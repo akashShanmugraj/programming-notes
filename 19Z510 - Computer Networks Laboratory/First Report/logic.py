@@ -1,7 +1,8 @@
 import sys
 
 if len(sys.argv) < 5:
-    print("Please provide two command line arguments: targetword and guesscharacter")
+    print("ISFC ", sys.argv)
+    # print("Please provide two command line arguments: targetword and guesscharacter")
     sys.exit(1)
 
 targetword = sys.argv[1]

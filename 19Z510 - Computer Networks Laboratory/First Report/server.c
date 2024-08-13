@@ -32,8 +32,7 @@ int main()
     socklen_t addr_size;
     char buffer[1024];
     char *targetword = "NETWORKING";
-    char guesshistory[1024];
-    memset(guesshistory, '\0', sizeof(guesshistory));
+    char guesshistory[1024] = "?";
     char *history = guesshistory;
     char outputstore[1024];
     char *output = outputstore;
@@ -72,10 +71,9 @@ int main()
                 break;
             }
 
-            strcat(history, buffer);
-
             callpythonfunction(targetword, buffer, turnsleft, history, output);
             
+            sscanf(output, "%*s %s", history);
 
 
             // printf("%s\n", history);
