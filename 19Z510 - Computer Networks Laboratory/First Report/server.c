@@ -38,6 +38,7 @@ int main()
     char *output = outputstore;
     int turnsleft = 5;
     char* dummyptr = malloc(1024);
+    char* status = malloc(1024);
 
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -53,11 +54,12 @@ int main()
     while (1)
     {
         client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &addr_size);
-
+        
+        printf("%s\n", buffer);
         // Send initial message to the client
-        strcpy(buffer, "Hello, This is a test message");
+        strcpy(buffer, "Hello, welcome to the game of Hangman!\nGood luck!\nthe output is formatted as below:\n\nStatus of Guess - Game State - Number of turns left\n\n");
         send(client_fd, buffer, strlen(buffer), 0);
-
+        
         while (1)
         {
             // Clear the buffer
@@ -73,10 +75,22 @@ int main()
 
             callpythonfunction(targetword, buffer, turnsleft, history, output);
             
+            sscanf(output, "%s", status);
+
+            if (strcmp(status, "Done") == 0) {
+                strcpy(output, "Congratulations! You have won the game!\n");
+                int send_result = send(client_fd, output, strlen(output), 0);
+                if (send_result == -1) {
+                    perror("send");
+                } else {
+                    printf("Sent: %s\n", output);
+                }
+                break;
+            }
             sscanf(output, "%*s %s", history);
 
-
-            // printf("%s\n", history);
+            sscanf(output, "%*s %*s %s", dummyptr);
+            turnsleft = atoi(dummyptr);
 
             // Send response to the client
             send(client_fd, output, strlen(output), 0);
