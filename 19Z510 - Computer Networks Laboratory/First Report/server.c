@@ -10,7 +10,7 @@
 
 #define PORT 4455
 
-void callpythonfunction(char* targetword, char* guess, int chancesleft, char* guessstate, char* outputstore) {
+void callpythonlogicfunction(char* targetword, char* guess, int chancesleft, char* guessstate, char* outputstore) {
     char command[2048];
     snprintf(command, sizeof(command), "python3 logic.py %s %s %d %s > output.txt ", targetword, guess, chancesleft, guessstate);
     // printf("%s\n", command);
@@ -24,6 +24,19 @@ void callpythonfunction(char* targetword, char* guess, int chancesleft, char* gu
     fclose(f);
 }
 
+void callpythonrandomfunction(char* output){
+    char command[2048];
+    snprintf(command, sizeof(command), "python3 wordgenerator.py > output.txt ");
+    system(command);
+    FILE *f = fopen("output.txt", "r");
+    if (f == NULL) {
+        printf("Error! File not found\n");
+        exit(1);
+    }
+    fgets(output, 1024, f);
+    fclose(f);
+}
+
 int main()
 {
     // Variables and structures
@@ -31,14 +44,22 @@ int main()
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_size;
     char buffer[1024];
-    char *targetword = "NETWORKING";
-    char guesshistory[1024] = "?";
-    char *history = guesshistory;
     char outputstore[1024];
     char *output = outputstore;
-    int turnsleft = 9;
+    char *targetword = malloc(1024);
+    char guesshistory[1024] = "?";
+    char *history = guesshistory;
+    int turnsleft = 0;
     char* dummyptr = malloc(1024);
     char* status = malloc(1024);
+
+    callpythonrandomfunction(output);
+    sscanf(output, "%s", targetword);
+    sscanf(output, "%*s %s", dummyptr);
+    turnsleft = atoi(dummyptr);
+
+    printf("Target word: %s\n", targetword);
+    printf("Number of turns left: %d %s\n", turnsleft, dummyptr);
 
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -58,7 +79,7 @@ int main()
         
         printf("%s\n", buffer);
         // Send initial message to the client
-        strcpy(buffer, "Hello, welcome to the game of Hangman!\nGood luck!\nthe output is formatted as below:\n\nStatus of Guess - Game State - Number of turns left\n\n");
+        snprintf(buffer, sizeof(buffer), "Hello, welcome to the game of Hangman!\nYou will be guessing a word of length %d, so Good luck!\nthe output is formatted as below:\n\nStatus of Guess - Game State - Number of turns left\n\n", (int)strlen(targetword));
         send(client_fd, buffer, strlen(buffer), 0);
         
         while (1)
@@ -74,7 +95,7 @@ int main()
                 break;
             }
 
-            callpythonfunction(targetword, buffer, turnsleft, history, output);
+            callpythonlogicfunction(targetword, buffer, turnsleft, history, output);
             
             sscanf(output, "%s", status);
 
