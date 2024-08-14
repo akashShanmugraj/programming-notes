@@ -52,13 +52,16 @@ int main()
         }
         printf("[SERVER] %s\n", buffer);
         sscanf(buffer, "%s", status);
-        printf("status: %s\n", status);
         if (strcmp(status, "DONE") == 0) {
             printf("Congratulations you won the game!\n");
             break;
         }
+        if (strcmp(status, "LOSE") == 0) {
+            printf("You lost the game!\n");
+            break;
+        }
 
-        
+
 
         // Clear the buffer
         memset(buffer, 0, sizeof(buffer));

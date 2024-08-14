@@ -36,7 +36,7 @@ int main()
     char *history = guesshistory;
     char outputstore[1024];
     char *output = outputstore;
-    int turnsleft = 5;
+    int turnsleft = 9;
     char* dummyptr = malloc(1024);
     char* status = malloc(1024);
 
@@ -53,6 +53,7 @@ int main()
 
     while (1)
     {
+        addr_size = sizeof(client_addr);
         client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &addr_size);
         
         printf("%s\n", buffer);
@@ -92,6 +93,16 @@ int main()
             sscanf(output, "%*s %*s %s", dummyptr);
             turnsleft = atoi(dummyptr);
 
+            if (turnsleft == 0) {
+                strcpy(output, "LOSE You have lost the game!\n");
+                int send_result = send(client_fd, output, strlen(output), 0);
+                if (send_result == -1) {
+                    perror("send");
+                } else {
+                    printf("Sent: %s\n", output);
+                }
+                break;
+            }
             // Send response to the client
             send(client_fd, output, strlen(output), 0);
         }
