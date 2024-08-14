@@ -17,6 +17,7 @@ int main()
     struct sockaddr_in server_addr;
     char buffer[1024];
     char clientname[1024];
+    char* status = malloc(1024);
 
     printf("Enter your name: ");
     scanf("%s", clientname);
@@ -50,13 +51,21 @@ int main()
             break;
         }
         printf("[SERVER] %s\n", buffer);
+        sscanf(buffer, "%s", status);
+        printf("status: %s\n", status);
+        if (strcmp(status, "DONE") == 0) {
+            printf("Congratulations you won the game!\n");
+            break;
+        }
+
+        
 
         // Clear the buffer
         memset(buffer, 0, sizeof(buffer));
 
         // Get message from the user
         char message[1024];
-        printf("Enter your message: ");
+        printf("Enter your guess character: ");
         fgets(message, sizeof(message), stdin);
         message[strcspn(message, "\n")] = 0; // Remove newline character
 
