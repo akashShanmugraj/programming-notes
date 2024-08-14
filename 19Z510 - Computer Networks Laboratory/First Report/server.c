@@ -49,17 +49,15 @@ int main()
     char *targetword = malloc(1024);
     char guesshistory[1024] = "?";
     char *history = guesshistory;
-    int turnsleft = 0;
+    int turnsleft = 7;
     char* dummyptr = malloc(1024);
     char* status = malloc(1024);
 
     callpythonrandomfunction(output);
     sscanf(output, "%s", targetword);
-    sscanf(output, "%*s %s", dummyptr);
-    turnsleft = atoi(dummyptr);
 
     printf("Target word: %s\n", targetword);
-    printf("Number of turns left: %d %s\n", turnsleft, dummyptr);
+    printf("Number of turns left: %d\n", turnsleft);
 
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);

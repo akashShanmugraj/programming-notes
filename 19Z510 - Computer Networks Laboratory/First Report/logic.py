@@ -24,7 +24,7 @@ if guesscharacter in targetword:
     guessstate = "".join([c if c == guesscharacter or c in guessstate else "_" for c in targetword])
     if guessstate == targetword:
         print(f"DONE {guessstate} {guesscount}")
-    print(f"CRCT {guessstate} {guesscount-1}")
+    print(f"CRCT {guessstate} {guesscount}")
     sys.exit(0)
 
 print(f"WRNG {guessstate} {guesscount-1}")
