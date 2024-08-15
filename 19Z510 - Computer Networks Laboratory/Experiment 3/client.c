@@ -1,58 +1,70 @@
+// client
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define PORT 8080
-#define BUFFER_SIZE 1024
+#define PORT 4455
 
-int main(int argc, char const *argv[]) {
-    struct sockaddr_in address;
-    int sock = 0, valread;
-    struct sockaddr_in serv_addr;
-    char hello[100]; // change the string here for customisation
-    char buffer[BUFFER_SIZE] = {0};
+int main()
+{
+    // Variables and structures
+    int client_fd;
+    struct sockaddr_in server_addr;
+    char buffer[1024];
+    char clientname[1024];
 
-    printf("Enter Code: ");
-    scanf("%s", hello);
+    printf("Enter your name: ");
+    scanf("%s", clientname);
+    // Clear the input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 
-    // Creating socket file descriptor
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        printf("\n Socket creation error \n");
+    // Client socket
+    client_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    // Connect to the server
+    if (connect(client_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
+    {
+        printf("Connection failed\n");
         return -1;
     }
+// Clear the buffer
+    memset(buffer, 0, sizeof(buffer));
 
-    memset(&serv_addr, '0', sizeof(serv_addr));
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
-
-    // Convert IPv4 and IPv6 addresses from text to binary form
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
-        printf("\nInvalid address/ Address not supported \n");
+        // Receive message from the server
+    if (recv(client_fd, buffer, sizeof(buffer), 0) <= 0)
+    {
+        printf("Connection closed by server\n");
         return -1;
     }
+    printf("[SERVER] %s\n", buffer);
+    while (1)
+    {
 
-    // Connect the socket to the server
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("\nConnection Failed \n");
-        return -1;
+        memset(buffer, 0, sizeof(buffer));
+
+        printf("[CLIENT] ");
+        fgets(buffer, sizeof(buffer), stdin);
+        // message[strcspn(message, "\n")] = 0; // Remove newline character
+        // if (strcmp(buffer, "EXIT\n") == 0)
+        // {
+        //     printf("[WARN] Connection closed by client\n");
+        //     break;
+        // }
+        send(client_fd, buffer, strlen(buffer), 0);
     }
 
-    printf("First Number: ");
-    scanf("%s", hello);
-    // Send message to server
-    send(sock, hello, strlen(hello), 0);
-
-    printf("Second Number: ");
-    scanf("%s", hello);
-    // Send message to server
-    send(sock, hello, strlen(hello), 0);
-
-    // Read server response
-    valread = read(sock, buffer, BUFFER_SIZE);
-    printf("Message recieved: %s\n", buffer);
+    // Close the socket
+    close(client_fd);
 
     return 0;
 }
