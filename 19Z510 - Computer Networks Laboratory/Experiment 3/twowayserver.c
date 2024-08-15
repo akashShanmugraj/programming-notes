@@ -17,7 +17,7 @@ int main()
     int server_fd, client_fd;
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_size;
-    char buffer[1024] = "[TEST] Connection Established\n";
+    char buffer[1024] = "[INFO] Connection Established\n";
 
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -51,6 +51,12 @@ int main()
             
             printf("[CLIENT] %s\n", buffer);
             memset(buffer, '\0', sizeof(buffer));
+
+            if (strcmp(buffer, "EXIT\n") == 0)
+            {
+                printf("[WARN] Connection closed by client\n");
+                break;
+            }
 
             printf("[SERVER] ");
             fgets(buffer, 1024, stdin);
