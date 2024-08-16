@@ -1,0 +1,3 @@
+www.google.com 172.01.20.1
+www.facebook.com 132.09.07.4
+www.yahoo.com 78.78.21.21
