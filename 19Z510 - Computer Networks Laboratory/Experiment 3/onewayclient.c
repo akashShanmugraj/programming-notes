@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define PORT 4455
+#define PORT 10000
 
 int main()
 {
@@ -55,11 +55,11 @@ int main()
         printf("[CLIENT] ");
         fgets(buffer, sizeof(buffer), stdin);
         // message[strcspn(message, "\n")] = 0; // Remove newline character
-        // if (strcmp(buffer, "EXIT\n") == 0)
-        // {
-        //     printf("[WARN] Connection closed by client\n");
-        //     break;
-        // }
+        if (strcmp(buffer, "EXIT\n") == 0)
+        {
+            printf("[WARN] Connection closed by client\n");
+            break;
+        }
         send(client_fd, buffer, strlen(buffer), 0);
     }
 
