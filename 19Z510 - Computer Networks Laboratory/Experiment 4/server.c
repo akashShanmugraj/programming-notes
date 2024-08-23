@@ -55,7 +55,8 @@ int main()
 { 
 	char buffer[100]; 
 	char *message = malloc(1024); 
-	int listenfd, len; 
+	int listenfd;
+    socklen_t len; 
 	struct sockaddr_in servaddr, cliaddr; 
 	bzero(&servaddr, sizeof(servaddr)); 
 
@@ -70,14 +71,15 @@ int main()
 	
 	//receive the datagram 
 	len = sizeof(cliaddr); 
-	int n = recvfrom(listenfd, buffer, sizeof(buffer), 
-			0, (struct sockaddr*)&cliaddr,&len); //receive message from server 
+	int n = recvfrom(listenfd, buffer, sizeof(buffer), 0, (struct sockaddr*)&cliaddr,&len); //receive message from server 
 	buffer[n] = '\0'; 
 
 	// Get the IP address from the file
 	getipaddr(buffer, message);
 
 	// send the response 
-	sendto(listenfd, message, MAXLINE, 0, 
-		(struct sockaddr*)&cliaddr, sizeof(cliaddr)); 
+	sendto(listenfd, message, MAXLINE, 0, (struct sockaddr*)&cliaddr, sizeof(cliaddr));
+
+    free(message);
+    return 0; 
 } 
