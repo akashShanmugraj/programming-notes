@@ -1,3 +1,9 @@
-www.google.com 172.01.20.1
-www.facebook.com 132.09.07.4
-www.yahoo.com 78.78.21.21
+www.google.com 216.58.203.14
+www.facebook.com 157.240.192.35
+www.yahoo.com 74.6.143.25
+www.psgtech.ac.in 45.127.108.11
+www.whatsapp.com 157.240.192.52
+www.github.com 20.207.73.82
+www.instagram.com 163.70.138.174
+www.youtube.com 142.250.193.142
+www.linkedin.com 150.171.22.12
