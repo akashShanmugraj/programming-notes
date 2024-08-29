@@ -2,6 +2,8 @@ finalhalt:
     HLT
 
 update:
+    CMP DX, CX
+    JG finalhalt
     MOV WORD [SI], DX
     MOV BX,DX
     ADD SI, 2
@@ -18,10 +20,6 @@ start:
     MOV BX, WORD [0x2002]
 
 chpt1:
-    CMP CL, 0
-    JZ finalhalt
-
-    DEC CL
     MOV DX, AX
     ADD DX, BX
     MOV AX, BX
