@@ -15,7 +15,7 @@
 int main() 
 { 
 	char buffer[100]; 
-	char *message = "www.google.com"; 
+	char *message = "www.hotmail.com"; 
 	int sockfd, n; 
 	struct sockaddr_in servaddr; 
 	

@@ -26,12 +26,15 @@ int getipaddr(char* key, char*value)
     char line[1024];
     while (fgets(line, sizeof(line), file))
     {
-        printf("%s\n", line);
         sscanf(line, "%s %s", comparekey, value);
         if (strcmp(comparekey, key) == 0)
         {
             break;
         }
+    }
+
+    if (!(strcmp(comparekey, key) == 0)) {
+        strcpy(value, "IP address not found");
     }
     
 	return 0;
