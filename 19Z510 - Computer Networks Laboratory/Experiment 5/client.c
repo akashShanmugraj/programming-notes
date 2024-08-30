@@ -85,6 +85,8 @@ int main()
             if (shouldretry(failcounter, faillimit) == 0)
             {
                 printf("[WARN] Retry Limit Exceeded, moving on with next input\n\n");
+                failcounter = 0;
+                framecounter++;
                 printf("[INFO] Sending %d\n", framecounter);
                 snprintf(sendbuffer, BUFFER_SIZE, "%d", framecounter);
             }
