@@ -60,7 +60,9 @@ int main()
                 break;
             }
 
-            printf("ACK / NACK %s ", buffer);
+            // Print debug messages before select call
+            printf("Debug Message\n");
+            printf("ACK / NACK %s\n", buffer);
 
             // Set up the file descriptor set
             fd_set set;
