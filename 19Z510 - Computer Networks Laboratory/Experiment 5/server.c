@@ -13,25 +13,6 @@
 #define PORT 10000
 #define BUFFER_SIZE 1024
 
-// checker function for ACK
-int validitychecker(char *buffer, int key)
-{
-    int number;
-    if (sscanf(buffer, "%d", &number) != 1)
-    {
-        return 0;
-    }
-
-    if (number % key == 0)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
 int main()
 {
     // Variables and structures
@@ -67,7 +48,7 @@ int main()
             int recv_len = recv(client_fd, buffer, 1024, 0);
             if (recv_len <= 0)
             {
-                printf("Connection closed by client\n");
+                printf("[WARN] Connection closed by client\n");
                 break;
             }
 
@@ -97,24 +78,32 @@ int main()
             // Wait for input with a timeout
             rv = select(STDIN_FILENO + 1, &set, NULL, NULL, &timeout);
 
-            if (rv == -1) {
+            if (rv == -1)
+            {
                 perror("select"); // Error occurred in select()
-            } else if (rv == 0) {
+            }
+            else if (rv == 0)
+            {
                 // Timeout occurred, send NACK
-                printf("\nTimeout occurred, sending NACK\n");
+                printf("\n[WARN] Time Out, Send NACK\n");
                 snprintf(buffercopy, BUFFER_SIZE, "NACK %s", buffer);
-            } else {
+            }
+            else
+            {
                 // Input is available, read it
                 scanf("%d", &ack);
-                if (ack) {
+                if (ack)
+                {
+                    printf("[INFO] Send ACK\n");
                     snprintf(buffercopy, BUFFER_SIZE, "ACK %s", buffer);
-                } else {
-                    printf("nack-ing %s\n", buffer);
+                }
+                else
+                {
+                    printf("[INFO] Send NACK\n");
                     snprintf(buffercopy, BUFFER_SIZE, "NACK %s", buffer);
                 }
             }
 
-            printf("sending %s\n", buffercopy);
             send(client_fd, buffercopy, strlen(buffercopy), 0);
         }
 

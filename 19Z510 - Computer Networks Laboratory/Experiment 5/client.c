@@ -39,7 +39,8 @@ int main()
     scanf("%s", clientname);
     // Clear the input buffer
     int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 
     // Client socket
     client_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -51,7 +52,7 @@ int main()
     // Connect to the server
     if (connect(client_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
     {
-        printf("Connection failed\n");
+        printf("[WARN] Connection failed\n");
         return -1;
     }
 
@@ -63,30 +64,36 @@ int main()
         // Receive message from the server
         if (recv(client_fd, recvbuffer, BUFFER_SIZE, 0) <= 0)
         {
-            printf("Connection closed by server\n");
+            printf("[WARN] Connection closed by server\n");
             break;
         }
 
         sscanf(recvbuffer, "%s %s", ackbuffer, sendbuffer);
         printf("[SERVER] %s\n", recvbuffer);
 
-        if (strcmp(ackbuffer, "NACK") == 0){
+        if (strcmp(ackbuffer, "NACK") == 0)
+        {
             failcounter++;
-            if (shouldretry(failcounter, faillimit) == 0){
-                printf("Retry Limit Exceeded\n");
+            if (shouldretry(failcounter, faillimit) == 0)
+            {
+                printf("[WARN] Retry Limit Exceeded, moving on with next input\n\n");
                 printf("[CLIENT] ");
                 fgets(sendbuffer, BUFFER_SIZE, stdin);
-            } else {
-                printf("Retry %s, count left %d\n", sendbuffer, failcounter);
-            } 
-        } else {
+            }
+            else
+            {
+                printf("[INFO] NACK recieved for %s, number of re-tries left: %d\n\n", sendbuffer, faillimit - failcounter);
+            }
+        }
+        else
+        {
             failcounter = 0;
             printf("[CLIENT] ");
             fgets(sendbuffer, BUFFER_SIZE, stdin);
         }
 
         send(client_fd, sendbuffer, strlen(sendbuffer), 0);
-        
+
         memset(sendbuffer, '\0', BUFFER_SIZE);
     }
 
