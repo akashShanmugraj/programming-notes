@@ -8,8 +8,26 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define PORT 4455
+#define PORT 10000
 
+// checker function for ACK
+int validitychecker(char *buffer, int key)
+{
+    int number;
+    if (sscanf(buffer, "%d", &number) != 1)
+    {
+        return 0;
+    }
+
+    if (number % key == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 int main()
 {
@@ -18,7 +36,8 @@ int main()
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_size;
     char buffer[1024] = "[INFO] Connection Established\n";
-
+    char buffercopy[1024];
+    int ack = 0;
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -34,10 +53,10 @@ int main()
     {
         addr_size = sizeof(client_addr);
         client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &addr_size);
-        
+
         printf("[CLIENT] %s\n", buffer);
         send(client_fd, buffer, strlen(buffer), 0);
-        
+
         while (1)
         {
             memset(buffer, '\0', sizeof(buffer));
@@ -48,9 +67,8 @@ int main()
                 printf("Connection closed by client\n");
                 break;
             }
-            
-            printf("[CLIENT] %s\n", buffer);
-            memset(buffer, '\0', sizeof(buffer));
+
+            memset(buffercopy, '\0', sizeof(buffercopy));
 
             if (strcmp(buffer, "EXIT\n") == 0)
             {
@@ -58,10 +76,20 @@ int main()
                 break;
             }
 
-            printf("[SERVER] ");
-            fgets(buffer, 1024, stdin);
-
-            send(client_fd, buffer, strlen(buffer), 0);
+            printf("[CLIENT] %sACK/NACK? ", buffer);
+            scanf("%d", &ack);
+            if (ack)
+            {
+                snprintf(buffercopy, sizeof(buffercopy), "ACK %s", buffer);
+            }
+            else
+            {
+                printf("nack-ing %s\n", buffer);
+                snprintf(buffercopy, sizeof(buffercopy), "NACK %s", buffer);
+            }
+            printf("sending %s\n", buffercopy);
+            
+            send(client_fd, buffercopy, strlen(buffer), 0);
         }
 
         close(client_fd);

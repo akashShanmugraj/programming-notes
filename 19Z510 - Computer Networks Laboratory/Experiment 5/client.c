@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define PORT 4455
+#define PORT 10000
 
 int main()
 {
@@ -51,7 +51,7 @@ int main()
         }
         printf("[SERVER] %s\n", buffer);
 
-        memset(buffer, 0, sizeof(buffer));
+        memset(buffer, '\0', sizeof(buffer));
 
         printf("[CLIENT] ");
         fgets(buffer, sizeof(buffer), stdin);
