@@ -11,13 +11,29 @@
 #define PORT 10000
 #define BUFFER_SIZE 1024
 
+int shouldretry(int counter, int limit)
+{
+    if (counter == limit)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 int main()
 {
     // Variables and structures
     int client_fd;
     struct sockaddr_in server_addr;
-    char buffer[BUFFER_SIZE];
+    char sendbuffer[BUFFER_SIZE];
+    char recvbuffer[BUFFER_SIZE];
+    char ackbuffer[BUFFER_SIZE];
     char clientname[BUFFER_SIZE];
+    int faillimit = 4;
+    int failcounter = 0;
 
     printf("Enter your name: ");
     scanf("%s", clientname);
@@ -42,27 +58,36 @@ int main()
     while (1)
     {
         // Clear the buffer
-        memset(buffer, '\0', BUFFER_SIZE);
+        memset(recvbuffer, '\0', BUFFER_SIZE);
 
         // Receive message from the server
-        if (recv(client_fd, buffer, BUFFER_SIZE, 0) <= 0)
+        if (recv(client_fd, recvbuffer, BUFFER_SIZE, 0) <= 0)
         {
             printf("Connection closed by server\n");
             break;
         }
-        printf("[SERVER] %s\n", buffer);
 
-        memset(buffer, '\0', BUFFER_SIZE);
+        sscanf(recvbuffer, "%s %s", ackbuffer, sendbuffer);
+        printf("[SERVER] %s\n", recvbuffer);
 
-        printf("[CLIENT] ");
-        fgets(buffer, BUFFER_SIZE, stdin);
-        // message[strcspn(message, "\n")] = 0; // Remove newline character
-        if (strcmp(buffer, "EXIT\n") == 0)
-        {
-            printf("[WARN] Connection closed by client\n");
-            break;
+        if (strcmp(ackbuffer, "NACK") == 0){
+            failcounter++;
+            if (shouldretry(failcounter, faillimit) == 0){
+                printf("Retry Limit Exceeded\n");
+                printf("[CLIENT] ");
+                fgets(sendbuffer, BUFFER_SIZE, stdin);
+            } else {
+                printf("Retry %s, count left %d\n", sendbuffer, failcounter);
+            } 
+        } else {
+            failcounter = 0;
+            printf("[CLIENT] ");
+            fgets(sendbuffer, BUFFER_SIZE, stdin);
         }
-        send(client_fd, buffer, strlen(buffer), 0);
+
+        send(client_fd, sendbuffer, strlen(sendbuffer), 0);
+        
+        memset(sendbuffer, '\0', BUFFER_SIZE);
     }
 
     // Close the socket
