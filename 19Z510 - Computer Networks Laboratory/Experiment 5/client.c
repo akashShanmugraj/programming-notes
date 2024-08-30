@@ -9,14 +9,15 @@
 #include <arpa/inet.h>
 
 #define PORT 10000
+#define BUFFER_SIZE 1024
 
 int main()
 {
     // Variables and structures
     int client_fd;
     struct sockaddr_in server_addr;
-    char buffer[1024];
-    char clientname[1024];
+    char buffer[BUFFER_SIZE];
+    char clientname[BUFFER_SIZE];
 
     printf("Enter your name: ");
     scanf("%s", clientname);
@@ -41,20 +42,20 @@ int main()
     while (1)
     {
         // Clear the buffer
-        memset(buffer, 0, sizeof(buffer));
+        memset(buffer, '\0', BUFFER_SIZE);
 
         // Receive message from the server
-        if (recv(client_fd, buffer, sizeof(buffer), 0) <= 0)
+        if (recv(client_fd, buffer, BUFFER_SIZE, 0) <= 0)
         {
             printf("Connection closed by server\n");
             break;
         }
         printf("[SERVER] %s\n", buffer);
 
-        memset(buffer, '\0', sizeof(buffer));
+        memset(buffer, '\0', BUFFER_SIZE);
 
         printf("[CLIENT] ");
-        fgets(buffer, sizeof(buffer), stdin);
+        fgets(buffer, BUFFER_SIZE, stdin);
         // message[strcspn(message, "\n")] = 0; // Remove newline character
         if (strcmp(buffer, "EXIT\n") == 0)
         {

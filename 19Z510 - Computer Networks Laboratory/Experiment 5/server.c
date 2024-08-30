@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 
 #define PORT 10000
+#define BUFFER_SIZE 1024
 
 // checker function for ACK
 int validitychecker(char *buffer, int key)
@@ -35,8 +36,8 @@ int main()
     int server_fd, client_fd;
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_size;
-    char buffer[1024] = "[INFO] Connection Established\n";
-    char buffercopy[1024];
+    char buffer[BUFFER_SIZE] = "[INFO] Connection Established\n";
+    char buffercopy[BUFFER_SIZE];
     int ack = 0;
     // Server socket
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -59,7 +60,7 @@ int main()
 
         while (1)
         {
-            memset(buffer, '\0', sizeof(buffer));
+            memset(buffer, '\0', BUFFER_SIZE);
 
             int recv_len = recv(client_fd, buffer, 1024, 0);
             if (recv_len <= 0)
@@ -68,7 +69,7 @@ int main()
                 break;
             }
 
-            memset(buffercopy, '\0', sizeof(buffercopy));
+            memset(buffercopy, '\0', BUFFER_SIZE);
 
             if (strcmp(buffer, "EXIT\n") == 0)
             {
@@ -80,16 +81,16 @@ int main()
             scanf("%d", &ack);
             if (ack)
             {
-                snprintf(buffercopy, sizeof(buffercopy), "ACK %s", buffer);
+                snprintf(buffercopy, BUFFER_SIZE, "ACK %s", buffer);
             }
             else
             {
                 printf("nack-ing %s\n", buffer);
-                snprintf(buffercopy, sizeof(buffercopy), "NACK %s", buffer);
+                snprintf(buffercopy, BUFFER_SIZE, "NACK %s", buffer);
             }
             printf("sending %s\n", buffercopy);
             
-            send(client_fd, buffercopy, strlen(buffer), 0);
+            send(client_fd, buffercopy, BUFFER_SIZE, 0);
         }
 
         close(client_fd);
