@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <time.h>
+#include <sys/select.h>
 
 #define PORT 10000
 #define BUFFER_SIZE 1024
@@ -77,20 +79,43 @@ int main()
                 break;
             }
 
-            printf("[CLIENT] %sACK/NACK? ", buffer);
-            scanf("%d", &ack);
-            if (ack)
-            {
-                snprintf(buffercopy, BUFFER_SIZE, "ACK %s", buffer);
-            }
-            else
-            {
-                printf("nack-ing %s\n", buffer);
+            printf("ACK / NACK %s ", buffer);
+
+            // Set up the file descriptor set
+            fd_set set;
+            struct timeval timeout;
+            int rv;
+
+            // Initialize the file descriptor set
+            FD_ZERO(&set);
+            FD_SET(STDIN_FILENO, &set);
+
+            // Set the timeout to 5 seconds
+            timeout.tv_sec = 5;
+            timeout.tv_usec = 0;
+
+            // Wait for input with a timeout
+            rv = select(STDIN_FILENO + 1, &set, NULL, NULL, &timeout);
+
+            if (rv == -1) {
+                perror("select"); // Error occurred in select()
+            } else if (rv == 0) {
+                // Timeout occurred, send NACK
+                printf("\nTimeout occurred, sending NACK\n");
                 snprintf(buffercopy, BUFFER_SIZE, "NACK %s", buffer);
+            } else {
+                // Input is available, read it
+                scanf("%d", &ack);
+                if (ack) {
+                    snprintf(buffercopy, BUFFER_SIZE, "ACK %s", buffer);
+                } else {
+                    printf("nack-ing %s\n", buffer);
+                    snprintf(buffercopy, BUFFER_SIZE, "NACK %s", buffer);
+                }
             }
+
             printf("sending %s\n", buffercopy);
-            
-            send(client_fd, buffercopy, BUFFER_SIZE, 0);
+            send(client_fd, buffercopy, strlen(buffercopy), 0);
         }
 
         close(client_fd);
