@@ -34,9 +34,11 @@ int main()
     char clientname[BUFFER_SIZE];
     int faillimit = 4;
     int failcounter = 0;
+    int framesize;
+    int framecounter = 0;
 
-    printf("Enter your name: ");
-    scanf("%s", clientname);
+    printf("Enter number of frames: ");
+    scanf("%d", &framesize); // Pass the address of framesize
     // Clear the input buffer
     int c;
     while ((c = getchar()) != '\n' && c != EOF)
@@ -58,6 +60,12 @@ int main()
 
     while (1)
     {
+        if (framecounter == framesize)
+        {
+            printf("[INFO] All frames sent\n");
+            break;
+        }
+
         // Clear the buffer
         memset(recvbuffer, '\0', BUFFER_SIZE);
 
@@ -77,8 +85,8 @@ int main()
             if (shouldretry(failcounter, faillimit) == 0)
             {
                 printf("[WARN] Retry Limit Exceeded, moving on with next input\n\n");
-                printf("[CLIENT] ");
-                fgets(sendbuffer, BUFFER_SIZE, stdin);
+                printf("[INFO] Sending %d\n", framecounter);
+                snprintf(sendbuffer, BUFFER_SIZE, "%d", framecounter);
             }
             else
             {
@@ -88,8 +96,9 @@ int main()
         else
         {
             failcounter = 0;
-            printf("[CLIENT] ");
-            fgets(sendbuffer, BUFFER_SIZE, stdin);
+            framecounter++;
+            printf("[INFO] Sending %d\n", framecounter);
+            snprintf(sendbuffer, BUFFER_SIZE, "%d", framecounter);
         }
 
         send(client_fd, sendbuffer, strlen(sendbuffer), 0);
