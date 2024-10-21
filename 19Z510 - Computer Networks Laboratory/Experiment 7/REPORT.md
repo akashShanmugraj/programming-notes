@@ -79,6 +79,7 @@ $ns run
 
 ### Output
 
+![e1](https://github.com/user-attachments/assets/ee5a9531-bcb2-4822-b0c8-21cc73640267)
 
 ## Ring Topology
 
@@ -142,9 +143,11 @@ $ns at 1.0 "$ftp4 start"
 $ns at 4.0 "$ftp4 stop"
 $ns at 5.0 "finish"
 $ns run
+
 ```
 
 ### Output
+![e2](https://github.com/user-attachments/assets/7d173967-6e54-4c06-bb9e-57a1e10fbb70)
 
 ## Result:
 The program is successfully implemented.
