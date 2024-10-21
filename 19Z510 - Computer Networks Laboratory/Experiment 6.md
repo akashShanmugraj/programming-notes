@@ -19,14 +19,5 @@ Internet Protocol (IP):
 Address Resolution  Protocol (ARP):
 
 
-
-
-
-
-
-
-
-
-
-RESULT:
-	The study of Wireshark and packet analysis was done successfully.
+## Result
+The study of Wireshark and packet analysis was done successfully.
