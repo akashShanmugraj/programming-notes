@@ -38,7 +38,7 @@ $ns run
 
 ## Sample Output
 
-
+![sc](https://github.com/user-attachments/assets/c12a983c-f50e-499a-b4b8-df8e500f5ab4)
 
 ## Design and visualize the following in NS2
 
