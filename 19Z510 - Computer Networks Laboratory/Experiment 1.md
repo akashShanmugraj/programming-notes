@@ -1,4 +1,7 @@
-# Experiment 1
+<p>Experiment 1<p>
+
+
+<h1 align="center">Study of Basic Network Components</h1>
 
 ## Aim
 To understand the different types of network components, their characteristics, and how they function within a network.

@@ -1,4 +1,7 @@
-# Experiment 2
+<p>Experiment 2<p>
+
+
+<h1 align="center">Basic Network Commands and Network Configuration Commands</h1>
 
 ## Aim:
 
@@ -172,3 +175,10 @@ Example: `scp /path/to/file user@server.com:/destination/folder` (copies a file 
 
 Example: `sudo tcpdump -i eth0` (captures traffic on interface eth0 - use with caution)
 
+
+
+anan
+telancity
+decision making 
+team work 
+intellec curiosity
