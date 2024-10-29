@@ -1,0 +1,41 @@
+server.c
+
+libraries: stdio, stlib, string, unistd, sys/socket, sys/types, netinet/in, arpa/inet
+#define port
+
+in main function
+
+init file descriptors (fd's) for both server and client
+init struct sockaddr_in for both server and client
+buffer[1024]
+
+define server_fd = socket(AF_INET, SOCK_STREAM, 0)
+
+serv_addr:
+    sin_family = AF_INET
+    sin_port = htons(PORT)
+    sin_addr.s_addr = inet_addr("127.0.0.1")
+
+bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+listen(server_fd, 5);
+
+
+
+client.c
+libraries: stdio, stdlib, string unistd sys/socket sys/types netinet/in.h arpa/inet.h
+define port 
+
+init client_fd and server_addr
+init two buffers
+
+name input part
+int c;
+while ((c = getchar()) != '\n' && c != EOF);
+
+create a socket on client fd
+sin_fami, port, s_addr
+
+if connect, connection failed
+
+while 1
+
