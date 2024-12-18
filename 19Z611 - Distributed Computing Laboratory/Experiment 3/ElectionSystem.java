@@ -49,7 +49,7 @@ public class ElectionSystem {
         }
     }
 
-    public Process electCoordinator(List<Process> processList, int electType) {
+    public Process BullyElector(List<Process> processList, int electType) {
         int maxpriority = processList.get(0).priority;
         Process maxvalprocess = processList.get(0);
 
@@ -119,6 +119,70 @@ public class ElectionSystem {
         System.out.println("Process " + coordinatorProcess.processid + " with priority " + coordinatorProcess.priority + " was killed.");
     }
 
+    public Process ringElector1(List<Process> processes, int processescount, Process whistleBlower) {
+        int indexcounter = 0;
+        for (Process iterprocess : processes) {
+            if (iterprocess.processid == whistleBlower.processid) {
+                break;
+            }
+
+            indexcounter += 1;
+        }
+
+        int maxpriority = processes.get(indexcounter).priority;
+        Process maxprocess = processes.get(indexcounter);
+
+        for (int iter = 0; iter < processescount; iter++){
+            int newiter = (iter + indexcounter) % processescount;
+
+            if (!processes.get(newiter).isDown && processes.get(newiter).priority > maxpriority) {
+                maxprocess = processes.get(newiter);
+            }
+
+        }
+
+        System.out.println("Elected " + maxprocess.processid + " with priority " + maxprocess.priority + ".");
+
+
+        maxprocess.isCoordinator = true;
+        return maxprocess;
+    }
+
+    public Process ringElector2(List<Process> processes, int processescount, Process whistleBlower) {
+        int indexcounter = 0;
+        for (Process iterprocess : processes) {
+            if (iterprocess.processid == whistleBlower.processid) {
+                break;
+            }
+
+            indexcounter += 1;
+        }
+
+        List<Integer> priorityList = new ArrayList<>();
+
+        for (int iter = 0; iter < processescount; iter += 1) {
+            int newiter = (iter + indexcounter) % processescount;
+            if (!processes.get(newiter).isDown){
+                priorityList.add(processes.get(newiter).priority);
+            }
+        }
+
+        priorityList.sort(null);
+
+        Process maxprocess = new Process(100, 100);
+
+        for (Process piter : processes) {
+            if (priorityList.get(priorityList.size() - 1) == piter.priority) {
+                maxprocess = piter;
+                break;
+            }
+        }
+        
+        System.out.println("Elected " + maxprocess.processid + " with priority " + maxprocess.priority + ".");
+        
+        maxprocess.isCoordinator = true;
+        return maxprocess;
+    }
 
     public static void main(String[] args) {
         ElectionSystem electionsystem = new ElectionSystem();
@@ -130,7 +194,7 @@ public class ElectionSystem {
             System.out.println(process);
         }
 
-        Process coordinatorreference = electionsystem.electCoordinator(processes, 1);
+        Process coordinatorreference = electionsystem.BullyElector(processes, 1);
         int timeCycleCounter = 0;
 
         while (true) {
@@ -146,7 +210,9 @@ public class ElectionSystem {
                 int wentdownResponse = process.talkTo(coordinatorreference);
 
                 if (wakeupPriority > coordinatorreference.priority || wentdownResponse == 0) {
-                    coordinatorreference = electionsystem.electCoordinator(processes, 2);
+                    coordinatorreference = electionsystem.BullyElector(processes, 2);
+                    // coordinatorreference = electionsystem.ringElector2(processes, totalNumberofProcesses, process);
+
                 }
             }
 
