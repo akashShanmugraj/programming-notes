@@ -27,7 +27,17 @@ public class ElectionSystem {
             this.timeout -= 1;
             if (this.timeout == 0) {
                 this.isDown = false;
-                return 0; 
+                System.out.println(this.processid + " process woke up!");
+                return this.priority; 
+            }
+
+            return -1;
+        }
+
+        public int talkTo(Process targetprocess) {
+            if (targetprocess.isDown == true) {
+                System.out.println(this.processid + " found process with PID "  + targetprocess.processid + " to be down!");
+                return 0;
             }
 
             return 1;
@@ -55,7 +65,8 @@ public class ElectionSystem {
         } else if (electType == 2) {
             System.out.println("Relected " + maxvalprocess.processid + " with priority " + maxvalprocess.priority + ".");
         }
-
+        
+        maxvalprocess.isCoordinator = true;
         return maxvalprocess;
     }
 
@@ -120,19 +131,21 @@ public class ElectionSystem {
         }
 
         Process coordinatorreference = electionsystem.electCoordinator(processes, 1);
+        int timeCycleCounter = 0;
 
         while (true) {
-            System.out.println("Coordinator is " + coordinatorreference.processid + " with priority " + coordinatorreference.priority);
-
+            // System.out.println("Coordinator is " + coordinatorreference.processid + " with priority " + coordinatorreference.priority);
+            System.out.println("T"+timeCycleCounter);
+            timeCycleCounter++;
             if (electionsystem.shouldKill()) {
-                // electionsystem.killRandom(processes, totalNumberofProcesses);
                 electionsystem.killCoordinator(coordinatorreference);
-                coordinatorreference = electionsystem.electCoordinator(processes, 2);
             }
 
             for (Process process : processes) {
-                int response = process.reducetimeout();
-                if (response == 0) {
+                int wakeupPriority = process.reducetimeout();
+                int wentdownResponse = process.talkTo(coordinatorreference);
+
+                if (wakeupPriority > coordinatorreference.priority || wentdownResponse == 0) {
                     coordinatorreference = electionsystem.electCoordinator(processes, 2);
                 }
             }
