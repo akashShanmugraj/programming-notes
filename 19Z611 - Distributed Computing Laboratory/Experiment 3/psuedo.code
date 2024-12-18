@@ -1,0 +1,13 @@
+a server is defined by a process on a port
+currently all that a client does is to connect on to the server on that port
+but for election algorithms, all the processes should be separate entities of their own
+which means they are servers themselves
+
+at each port, the server can serve some classes
+kinda like importing those classes, but via RPC
+
+since each RPC connection serving on a port is a process, then the process class with 
+setter and getter functions should be served via RPC
+
+where will the electionsystem class go?
+something that manages / oversees all these processes, something on top of them
