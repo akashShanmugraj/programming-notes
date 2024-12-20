@@ -21,6 +21,8 @@ public class RPCServer {
             process2.setProcesses(allProcesses);
             process3.setProcesses(allProcesses);
 
+            process1.ElectInform(1);
+
             Registry registry1 = LocateRegistry.createRegistry(4001);
             registry1.rebind("process1", process1);
 
