@@ -14,14 +14,24 @@ public class RPCClient {
             Registry registry3 = LocateRegistry.getRegistry("localhost", 4003);
             RPCProcessInterface process3 = (RPCProcessInterface) registry3.lookup("process3");
             
+            Registry registry4 = LocateRegistry.getRegistry("localhost", 4004);
+            RPCProcessInterface process4 = (RPCProcessInterface) registry4.lookup("process4");
+
+            Registry registry5 = LocateRegistry.getRegistry("localhost", 4005);
+            RPCProcessInterface process5 = (RPCProcessInterface) registry5.lookup("process5");
+
             List<RPCProcessInterface> AllProcessesList = new ArrayList<RPCProcessInterface>();
             AllProcessesList.add(process1);
             AllProcessesList.add(process2);
             AllProcessesList.add(process3);
+            AllProcessesList.add(process4);
+            AllProcessesList.add(process5);
             
             System.out.println("Process 1 priority: " + process1.getProcesses());
             System.out.println("Process 2 priority: " + process2.getProcesses());
             System.out.println("Process 3 priority: " + process3.getProcesses());
+            System.out.println("Process 4 priority: " + process4.getProcesses());
+            System.out.println("Process 5 priority: " + process5.getProcesses());
 
             while (true) {
                 process1.getCoordinator().randomlyKillYourself();

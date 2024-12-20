@@ -11,15 +11,21 @@ public class RPCServer {
             RPCProcess process1 = new RPCProcess(1, 10, 4001);
             RPCProcess process2 = new RPCProcess(2, 20, 4002);
             RPCProcess process3 = new RPCProcess(3, 30, 4003);
+            RPCProcess process4 = new RPCProcess(4, 40, 4004);
+            RPCProcess process5 = new RPCProcess(5, 50, 4005);
             
             List<RPCProcessInterface> allProcesses = new ArrayList<RPCProcessInterface>();
             allProcesses.add(process1);
             allProcesses.add(process2);
             allProcesses.add(process3);
+            allProcesses.add(process4);
+            allProcesses.add(process5);
 
             process1.setProcesses(allProcesses);
             process2.setProcesses(allProcesses);
             process3.setProcesses(allProcesses);
+            process4.setProcesses(allProcesses);
+            process5.setProcesses(allProcesses);
 
             process1.ElectInform(1);
 
@@ -31,6 +37,12 @@ public class RPCServer {
             
             Registry registry3 = LocateRegistry.createRegistry(4003);
             registry3.rebind("process3", process3);
+
+            Registry registry4 = LocateRegistry.createRegistry(4004);
+            registry4.rebind("process4", process4);
+
+            Registry registry5 = LocateRegistry.createRegistry(4005);
+            registry5.rebind("process5", process5);
 
             System.out.println("RPCService is running...");
         } catch (Exception e) {
