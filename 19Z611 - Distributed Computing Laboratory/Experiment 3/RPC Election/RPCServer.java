@@ -3,8 +3,6 @@ import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.ArrayList;
 
-
-
 public class RPCServer {
     public static void main(String[] args) {
         try {
@@ -13,7 +11,7 @@ public class RPCServer {
             RPCProcess process3 = new RPCProcess(3, 30, 4003);
             RPCProcess process4 = new RPCProcess(4, 40, 4004);
             RPCProcess process5 = new RPCProcess(5, 50, 4005);
-            
+
             List<RPCProcessInterface> allProcesses = new ArrayList<RPCProcessInterface>();
             allProcesses.add(process1);
             allProcesses.add(process2);
@@ -34,7 +32,7 @@ public class RPCServer {
 
             Registry registry2 = LocateRegistry.createRegistry(4002);
             registry2.rebind("process2", process2);
-            
+
             Registry registry3 = LocateRegistry.createRegistry(4003);
             registry3.rebind("process3", process3);
 
