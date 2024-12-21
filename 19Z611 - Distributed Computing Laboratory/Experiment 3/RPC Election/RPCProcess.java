@@ -25,16 +25,32 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         return this.priority;
     }
 
-    public boolean isDown() {
-        return this.isDown;
-    }
-
     public int getProcessID() throws RemoteException {
         return this.processid;
     }
 
     public RPCProcessInterface getCoordinator() {
         return this.thecoordinator;
+    }
+
+    public List<String> getProcesses() throws RemoteException {
+        List<String> processlist = new ArrayList<String>();
+        for (RPCProcessInterface iter : allRPCProcesses) {
+            processlist.add(iter.toString());
+        }
+        return processlist;
+    }
+
+    public boolean isDown() {
+        return this.isDown;
+    }
+
+    public boolean isCoordinator() throws RemoteException {
+        return this.isCoordinator;
+    }
+
+    public void setProcesses(List<RPCProcessInterface> newprocesslist) throws RemoteException {
+        this.allRPCProcesses = newprocesslist;
     }
 
     public void setCoordinator(RPCProcessInterface newCoordinator) throws RemoteException {
@@ -53,27 +69,11 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         }
     }
 
-    public boolean isCoordinator() throws RemoteException {
-        return this.isCoordinator;
-    }
-
     public boolean TalkToCoordinator() throws RemoteException {
         if (this.isDown) {
             return true;
         }
         return !(this.thecoordinator.isDown());
-    }
-
-    public List<String> getProcesses() throws RemoteException {
-        List<String> processlist = new ArrayList<String>();
-        for (RPCProcessInterface iter : allRPCProcesses) {
-            processlist.add(iter.toString());
-        }
-        return processlist;
-    }
-
-    public void setProcesses(List<RPCProcessInterface> newprocesslist) throws RemoteException {
-        this.allRPCProcesses = newprocesslist;
     }
 
     public void addProcess(int processID, int priority, int port) throws RemoteException {
