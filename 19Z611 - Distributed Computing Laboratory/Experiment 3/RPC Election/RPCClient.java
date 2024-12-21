@@ -28,20 +28,20 @@ public class RPCClient {
             AllProcessesList.add(process4);
             AllProcessesList.add(process5);
 
-            System.out.println("Process 1 priority: " + process1.getProcesses());
-            System.out.println("Process 2 priority: " + process2.getProcesses());
-            System.out.println("Process 3 priority: " + process3.getProcesses());
-            System.out.println("Process 4 priority: " + process4.getProcesses());
-            System.out.println("Process 5 priority: " + process5.getProcesses());
+            System.out.println("Process 1 priority: " + process1.GetProcesses());
+            System.out.println("Process 2 priority: " + process2.GetProcesses());
+            System.out.println("Process 3 priority: " + process3.GetProcesses());
+            System.out.println("Process 4 priority: " + process4.GetProcesses());
+            System.out.println("Process 5 priority: " + process5.GetProcesses());
 
             while (true) {
-                process1.getCoordinator().randomlyKillYourself();
+                process1.GetCoordinator().RandomlyKillYourself();
                 boolean ElectionNeeded = false;
                 int WakeupPriority;
                 RPCProcessInterface WhistleBlower = process1;
                 for (RPCProcessInterface process : AllProcessesList) {
-                    WakeupPriority = process.reducetimeout();
-                    if (!process.TalkToCoordinator() || WakeupPriority > process.getCoordinator().getPriority()) {
+                    WakeupPriority = process.ReduceTimeout();
+                    if (!process.TalkToCoordinator() || WakeupPriority > process.GetCoordinator().GetPriority()) {
                         ElectionNeeded = true;
                         WhistleBlower = process;
                     }

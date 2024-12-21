@@ -21,19 +21,19 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         this.port = port;
     }
 
-    public int getPriority() throws RemoteException {
+    public int GetPriority() throws RemoteException {
         return this.priority;
     }
 
-    public int getProcessID() throws RemoteException {
+    public int GetProcessID() throws RemoteException {
         return this.processid;
     }
 
-    public RPCProcessInterface getCoordinator() {
+    public RPCProcessInterface GetCoordinator() {
         return this.thecoordinator;
     }
 
-    public List<String> getProcesses() throws RemoteException {
+    public List<String> GetProcesses() throws RemoteException {
         List<String> processlist = new ArrayList<String>();
         for (RPCProcessInterface iter : allRPCProcesses) {
             processlist.add(iter.toString());
@@ -41,20 +41,20 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         return processlist;
     }
 
-    public boolean isDown() {
+    public boolean IsDown() {
         return this.isDown;
     }
 
-    public boolean isCoordinator() throws RemoteException {
+    public boolean IsCoordinator() throws RemoteException {
         return this.isCoordinator;
     }
 
-    public void setProcesses(List<RPCProcessInterface> newprocesslist) throws RemoteException {
+    public void SetProcesses(List<RPCProcessInterface> newprocesslist) throws RemoteException {
         this.allRPCProcesses = newprocesslist;
     }
 
-    public void setCoordinator(RPCProcessInterface newCoordinator) throws RemoteException {
-        if (this.processid == newCoordinator.getProcessID()) {
+    public void SetCoordinator(RPCProcessInterface newCoordinator) throws RemoteException {
+        if (this.processid == newCoordinator.GetProcessID()) {
             this.thecoordinator = this;
             this.isCoordinator = true;
         } else {
@@ -63,9 +63,9 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         }
     }
 
-    public void informNewCoordinator(RPCProcessInterface newCoordinator) throws RemoteException {
+    public void InformNewCoordinator(RPCProcessInterface newCoordinator) throws RemoteException {
         for (RPCProcessInterface process : this.allRPCProcesses) {
-            process.setCoordinator(newCoordinator);
+            process.SetCoordinator(newCoordinator);
         }
     }
 
@@ -73,16 +73,16 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         if (this.isDown) {
             return true;
         }
-        return !(this.thecoordinator.isDown());
+        return !(this.thecoordinator.IsDown());
     }
 
-    public void addProcess(int processID, int priority, int port) throws RemoteException {
+    public void AddProcess(int processID, int priority, int port) throws RemoteException {
         RPCProcessInterface newprocess = new RPCProcess(processID, priority, port);
         this.allRPCProcesses.add(newprocess);
-        newprocess.setProcesses(allRPCProcesses);
+        newprocess.SetProcesses(allRPCProcesses);
     }
 
-    public int reducetimeout() throws RemoteException {
+    public int ReduceTimeout() throws RemoteException {
         if (!this.isDown) {
             return 1;
         }
@@ -95,7 +95,7 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         return -1;
     }
 
-    public void randomlyKillYourself() throws RemoteException {
+    public void RandomlyKillYourself() throws RemoteException {
         Random rm = new Random();
         if (rm.nextInt(100) < 30 && this.isCoordinator) {
             this.isDown = true;
@@ -111,8 +111,8 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         RPCProcessInterface maxprocess = null;
 
         for (RPCProcessInterface iter : allRPCProcesses) {
-            if (iter.getPriority() > maxpriority && !iter.isDown()) {
-                maxpriority = iter.getPriority();
+            if (iter.GetPriority() > maxpriority && !iter.IsDown()) {
+                maxpriority = iter.GetPriority();
                 maxprocess = iter;
             }
         }
@@ -122,10 +122,10 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
     public void ElectInform(int electiontype) throws RemoteException {
         if (electiontype == 1) {
             RPCProcessInterface newCoordinator = this.BullyElector();
-            System.out.println("Process " + newCoordinator.getProcessID() + " priority " + newCoordinator.getPriority()
+            System.out.println("Process " + newCoordinator.GetProcessID() + " priority " + newCoordinator.GetPriority()
                     + " was set as the coordinator");
 
-            this.informNewCoordinator(newCoordinator);
+            this.InformNewCoordinator(newCoordinator);
         }
     }
 

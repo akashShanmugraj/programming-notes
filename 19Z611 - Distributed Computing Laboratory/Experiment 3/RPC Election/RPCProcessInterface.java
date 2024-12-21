@@ -3,31 +3,31 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface RPCProcessInterface extends Remote {
-    int getPriority() throws RemoteException;
+    int GetPriority() throws RemoteException;
 
-    int getProcessID() throws RemoteException;
+    int GetProcessID() throws RemoteException;
 
-    RPCProcessInterface getCoordinator() throws RemoteException;
+    RPCProcessInterface GetCoordinator() throws RemoteException;
 
-    List<String> getProcesses() throws RemoteException;
+    List<String> GetProcesses() throws RemoteException;
 
-    boolean isDown() throws RemoteException;
+    boolean IsDown() throws RemoteException;
 
-    boolean isCoordinator() throws RemoteException;
+    boolean IsCoordinator() throws RemoteException;
 
-    void setProcesses(List<RPCProcessInterface> newprocesslist) throws RemoteException;
+    void SetProcesses(List<RPCProcessInterface> newprocesslist) throws RemoteException;
 
-    void setCoordinator(RPCProcessInterface newCoordinator) throws RemoteException;
+    void SetCoordinator(RPCProcessInterface newCoordinator) throws RemoteException;
 
-    void informNewCoordinator(RPCProcessInterface newCoordinator) throws RemoteException;
+    void InformNewCoordinator(RPCProcessInterface newCoordinator) throws RemoteException;
 
     boolean TalkToCoordinator() throws RemoteException;
 
-    void addProcess(int processID, int priority, int port) throws RemoteException;
+    void AddProcess(int processID, int priority, int port) throws RemoteException;
 
-    int reducetimeout() throws RemoteException;
+    int ReduceTimeout() throws RemoteException;
 
-    void randomlyKillYourself() throws RemoteException;
+    void RandomlyKillYourself() throws RemoteException;
 
     RPCProcessInterface BullyElector() throws RemoteException;
 

@@ -19,11 +19,11 @@ public class RPCServer {
             allProcesses.add(process4);
             allProcesses.add(process5);
 
-            process1.setProcesses(allProcesses);
-            process2.setProcesses(allProcesses);
-            process3.setProcesses(allProcesses);
-            process4.setProcesses(allProcesses);
-            process5.setProcesses(allProcesses);
+            process1.SetProcesses(allProcesses);
+            process2.SetProcesses(allProcesses);
+            process3.SetProcesses(allProcesses);
+            process4.SetProcesses(allProcesses);
+            process5.SetProcesses(allProcesses);
 
             process1.ElectInform(1);
 
