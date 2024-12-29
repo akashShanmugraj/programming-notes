@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caption Detective</title>
+</head>
+<body>
+    <h1>Caption Detective</h1>
+
+    <!-- Form -->
+    <form id="searchForm">
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" name="query" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+
+    <!-- Video -->
+    <h2>How to Use this platform</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/watch?v=7HVxmstM0qA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    <!-- Image -->
+    <h2>Movie Poster</h2>
+    <img src="https://m.media-amazon.com/images/M/MV5BOTJlNzY5OTAtNjIxNi00MTUxLWJkZjEtZDcxYTg2YWY0MjZkXkEyXkFqcGc@._V1_SX300.jpg" alt="Monkey Man Poster">
+
+    <!-- Hyperlink -->
+    <h2>More Information</h2>
+    <a href="https://www.imdb.com/title/tt1234567/" target="_blank">Visit IMDB Page</a>
+
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            const response = await fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query })
+            });
+            const data = await response.json();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Results:';
+            data.forEach(result => {
+                const p = document.createElement('p');
+                p.textContent = result;
+                resultsDiv.appendChild(p);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caption Detective</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Caption Detective</h1>
+        <nav>
+            <ul>
+                <li><a href="#how-to-use">How to Use</a></li>
+                <li><a href="#movie-poster">Movie Poster</a></li>
+                <li><a href="#more-info">More Information</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Form -->
+    <section id="search-section">
+        <h2>Search</h2>
+        <form id="searchForm">
+            <label for="query">Search Query:</label>
+            <input type="text" id="query" name="query" required>
+            <button type="submit">Search</button>
+        </form>
+        <div id="results"></div>
+    </section>
+
+    <!-- Video -->
+    <section id="how-to-use">
+        <h2>How to Use this platform</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/watch?v=7HVxmstM0qA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </section>
+
+    <!-- Image -->
+    <section id="movie-poster">
+        <h2>Movie Poster</h2>
+        <img src="https://m.media-amazon.com/images/M/MV5BOTJlNzY5OTAtNjIxNi00MTUxLWJkZjEtZDcxYTg2YWY0MjZkXkEyXkFqcGc@._V1_SX300.jpg" alt="Monkey Man Poster">
+    </section>
+
+    <!-- Hyperlink -->
+    <section id="more-info">
+        <h2>More Information</h2>
+        <a href="https://www.imdb.com/title/tt1234567/" target="_blank">Visit IMDB Page</a>
+    </section>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            const response = await fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query })
+            });
+            const data = await response.json();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Results:';
+            data.forEach(result => {
+                const p = document.createElement('p');
+                p.textContent = result;
+                resultsDiv.appendChild(p);
+            });
+        });
+    </script>
+</body>
+</html>
