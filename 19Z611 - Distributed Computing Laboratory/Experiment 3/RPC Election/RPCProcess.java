@@ -119,13 +119,47 @@ public class RPCProcess extends UnicastRemoteObject implements RPCProcessInterfa
         return maxprocess;
     }
 
+    public RPCProcessInterface RingElector() throws RemoteException {
+        int indexcounter = 0;
+        for (RPCProcessInterface iterprocess : allRPCProcesses) {
+            if (iterprocess.GetProcessID() == this.GetProcessID()) {
+                break;
+            }
+            indexcounter += 1;
+        }
+
+        int maxpriority = allRPCProcesses.get(indexcounter).GetPriority();
+        RPCProcessInterface maxprocess = allRPCProcesses.get(indexcounter);
+
+        for (int iter = 0; iter < allRPCProcesses.size(); iter++) {
+            int newiter = (iter + indexcounter) % allRPCProcesses.size();
+
+            if (!allRPCProcesses.get(newiter).IsDown() && allRPCProcesses.get(newiter).GetPriority() > maxpriority) {
+                maxprocess = allRPCProcesses.get(newiter);
+            }
+        }
+
+        System.out.println("Elected " + maxprocess.GetProcessID() + " with priority " + maxprocess.GetPriority() + ".");
+
+        maxprocess.SetCoordinator(maxprocess);
+        return maxprocess;
+    }
+
     public void ElectInform(int electiontype) throws RemoteException {
         if (electiontype == 1) {
-            RPCProcessInterface newCoordinator = this.BullyElector();
-            System.out.println("Process " + newCoordinator.GetProcessID() + " priority " + newCoordinator.GetPriority()
-                    + " was set as the coordinator");
+            RPCProcessInterface newBullyCoordinator = this.BullyElector();
+            RPCProcessInterface newRingCoordinator = this.RingElector();
+            
+            if (newBullyCoordinator.GetProcessID() == newRingCoordinator.GetProcessID()) {
+                System.out.println("Process " + newBullyCoordinator.GetProcessID() + " priority " + newBullyCoordinator.GetPriority()
+                        + " was set as the coordinator");
 
-            this.InformNewCoordinator(newCoordinator);
+                this.InformNewCoordinator(newRingCoordinator);
+            } else {
+                System.out.println("Election conflict! Process " + newBullyCoordinator.GetProcessID() + " priority "
+                        + newBullyCoordinator.GetPriority() + " was set as the coordinator");
+                this.InformNewCoordinator(newBullyCoordinator);
+            }
         }
     }
 
