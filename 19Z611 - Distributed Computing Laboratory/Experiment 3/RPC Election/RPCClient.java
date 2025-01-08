@@ -28,11 +28,11 @@ public class RPCClient {
             AllProcessesList.add(process4);
             AllProcessesList.add(process5);
 
-            System.out.println("Process 1 priority: " + process1.GetProcesses());
-            System.out.println("Process 2 priority: " + process2.GetProcesses());
-            System.out.println("Process 3 priority: " + process3.GetProcesses());
-            System.out.println("Process 4 priority: " + process4.GetProcesses());
-            System.out.println("Process 5 priority: " + process5.GetProcesses());
+            System.out.println("Process 1 priority: " + process1.GetPriority());
+            System.out.println("Process 2 priority: " + process2.GetPriority());
+            System.out.println("Process 3 priority: " + process3.GetPriority());
+            System.out.println("Process 4 priority: " + process4.GetPriority());
+            System.out.println("Process 5 priority: " + process5.GetPriority());
 
             while (true) {
                 process1.GetCoordinator().RandomlyKillYourself();
