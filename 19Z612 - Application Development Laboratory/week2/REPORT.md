@@ -1,14 +1,10 @@
-# Week 2: Basic HTML website based on chosen theme - Captions Detective
+# Experiment 2: Use frames to Include Images and Videos in a web page
 
-## About Theme
-Given a search prompt, the application searches for the occurrence of the phrases in it's captions database. It quickly retrieves the movie that had matching captions and uses external API to fetch details about that movie
+## AIM of the Experiment
+The aim of this experiment is to demonstrate the use of HTML frames to include images and videos within a web page. By the end of this exercise, you will be able to:
 
-## Screenshots of Application
+1. Understand the basic structure of an HTML document.
+2. Learn how to embed images and videos using HTML tags.
+3. Utilize the `<iframe>` tag to include external video content.
 
-### Before Searching
-<img width="528" alt="SCR-20241218-smpp" src="https://github.com/user-attachments/assets/b3ab71c4-857f-41c5-bec4-cf05b20b3754" />
-
-### After Searching
-<img width="1051" alt="SCR-20241218-sjvr" src="https://github.com/user-attachments/assets/014f0603-e68e-426f-b051-485d811b6a9f" />
-
-## Source Code
+This experiment will help you gain practical knowledge in integrating multimedia elements into web pages, enhancing the visual appeal and interactivity of your web projects.

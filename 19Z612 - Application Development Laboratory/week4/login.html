@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Caption Detective</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Caption Detective</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="login-section">
+        <h2>Login</h2>
+        <form id="credentialform">
+            <div class="particular">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+                <span class="error" id="nameError"></span>
+            </div>
+
+            <div class="particular">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error" id="emailError"></span>
+            </div>
+
+            <div class="particular">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <span class="error" id="passwordError"></span>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    </section>
+
+    <script src="./login.js"></script>
+</body>
+</html>
