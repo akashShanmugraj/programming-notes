@@ -1,0 +1,4 @@
+element year { 
+    xsd:gYear {minInclusive="2002" maxInclusive="2005"},
+    attribute type { "xsd:gYear" | "fingerfinger" }
+}
