@@ -27,7 +27,7 @@ const readUsersFromFile = () => {
 };
 
 // (1) Name input and session handling
-app.get('/', (req, res) => {
+app.get('/question1', (req, res) => {
     res.send(`
         <form action="/hello" method="post">
             <label for="name">Enter your name:</label>
@@ -67,12 +67,12 @@ app.post('/logout', (req, res) => {
 });
 
 // (2) Print current date and time
-app.get('/datetime', (_, res) => {
+app.get('/question2', (_, res) => {
     res.send(`Current Date and Time: ${new Date().toLocaleString()}`);
 });
 
 // (3) Name and Age Validation
-app.get('/age-check', (_, res) => {
+app.get('/question3', (_, res) => {
     res.send(`
         <form action="/validate" method="post">
             <label for="name">Enter your name:</label>
@@ -90,7 +90,7 @@ app.post('/validate', (req, res) => {
 });
 
 // (4) List and Add Cookies
-app.get('/cookies', (req, res) => {
+app.get('/question4', (req, res) => {
     let cookies = req.cookies;
     let cookieList = Object.entries(cookies).map(([key, value]) => `<li>${key}: ${value}</li>`).join('');
     res.send(`
@@ -113,7 +113,7 @@ app.post('/add-cookie', (req, res) => {
 });
 
 // (5) User Login Validation
-app.get('/login', (_, res) => {
+app.get('/question5', (_, res) => {
     res.send(`
         <form action="/login" method="post">
             <label for="username">Username:</label>
