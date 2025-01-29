@@ -20,17 +20,10 @@ app.use(cookieParser());
 const readUsersFromFile = () => {
     if (!fs.existsSync(usersFilePath)) return [];
     const data = fs.readFileSync(usersFilePath, 'utf-8');
-    try {
-        return JSON.parse(data);
-    } catch (error) {
-        console.error('Error parsing JSON:', error);
-        return [];
-    }
-};
-
-// Helper function to write users to file
-const writeUsersToFile = (users) => {
-    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+    return data.split('\n').map(line => {
+        const [username, password] = line.split(',');
+        return { username, password };
+    });
 };
 
 // (1) Name input and session handling
@@ -74,12 +67,12 @@ app.post('/logout', (req, res) => {
 });
 
 // (2) Print current date and time
-app.get('/datetime', (req, res) => {
+app.get('/datetime', (_, res) => {
     res.send(`Current Date and Time: ${new Date().toLocaleString()}`);
 });
 
 // (3) Name and Age Validation
-app.get('/age-check', (req, res) => {
+app.get('/age-check', (_, res) => {
     res.send(`
         <form action="/validate" method="post">
             <label for="name">Enter your name:</label>
