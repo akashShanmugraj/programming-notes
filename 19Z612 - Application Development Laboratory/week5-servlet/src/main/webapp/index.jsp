@@ -1,5 +1,9 @@
 <html>
+<head>
+    <title>Image Generator</title>
+</head>
 <body>
-<h2>Hello World!</h2>
+<h1>Welcome to the Image Generator</h1>
+<a href="hello">Get a Random Image</a>
 </body>
 </html>
