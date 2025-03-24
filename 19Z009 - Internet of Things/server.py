@@ -6,6 +6,7 @@ import pickle
 import os
 from datetime import datetime, timedelta
 import calendar
+import pttest
 
 app = Flask(__name__)
 
@@ -24,6 +25,7 @@ for junction in ["junction_annaselai.keras", "junction_lakshmimills.keras", "jun
             print(f"❌ Model file not found: {model_path}")
     except Exception as e:
         print(f"❌ Error loading model {junction}: {str(e)}")
+
 # Helper functions for preprocessing
 def create_sequence(history_data, steps=32):
     """Create a sequence of the most recent data for prediction"""
@@ -51,6 +53,24 @@ def get_traffic_level(vehicle_count, junction):
         return "Heavy traffic", "orange"
     else:
         return "Severe congestion", "red"
+
+# function that actually predicts from the model that is loaded
+def predict_traffic(junction, history_data):
+    """Predict traffic for a junction based on historical data"""
+    model = models.get(junction)
+    if model is None:
+        raise ValueError(f"No model found for junction {junction}")
+    
+    # Preprocess the data
+    X = create_sequence(history_data, params['sequence_length'])
+    
+    # Make a prediction
+    predicted_count = model.predict(X)[0][0]
+    
+    # Convert back to original scale
+    predicted_vehicles = params['scaler'].inverse_transform([[predicted_count]])[0][0]
+    
+    return predicted_vehicles
 
 @app.before_request
 def log_request():
@@ -148,5 +168,68 @@ def predict_traffic():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.get('/trafficdata')
+def getalltrafficdata():
+    signalptmap = {
+        'SIG001': 'traffic_models/junction_annaselai.keras',
+        'SIG002': 'traffic_models/junction_lakshmimills.keras',
+        'SIG003': 'traffic_models/junction_navaindia.keras',
+        'SIG004': 'traffic_models/junction_rmnpuran.keras'
+    }
+    
+    signalnamemap = {
+        'SIG001': 'Anna Salai',
+        'SIG002': 'Lakshmi Mills',
+        'SIG003': 'Nava India',
+        'SIG004': 'Ramanathapuram'
+    }
+    
+    timeintervals = ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00']
+    
+    # use the pre-trained model to predict traffic for each signal
+    # target output format is below
+    '''
+    {
+    'SIG001': {
+      labels: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
+      datasets: [{ data: [65, 78, 82, 75, 68, 71, 85] }],
+      title: 'Main St & 5th Ave Traffic'
+    },
+    'SIG002': {
+      labels: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
+      datasets: [{ data: [85, 92, 88, 95, 90, 92, 98] }],
+      title: 'Broadway & 42nd St Traffic'
+    },
+    'SIG003': {
+      labels: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
+      datasets: [{ data: [72, 75, 68, 70, 74, 76, 80] }],
+      title: 'Park Ave & 34th St Traffic'
+    },
+    'SIG004': {
+      labels: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
+      datasets: [{ data: [60, 65, 62, 58, 64, 70, 72] }],
+      title: 'Lexington & 59th St Traffic'
+    }
+  }
+    '''
+    
+    trafficdata = {}
+    for signal in signalptmap:
+        junction = signalptmap[signal]
+        junctionname = signalnamemap[signal]
+        trafficdata[signal] = {
+            "labels": timeintervals,
+            "datasets": [],
+            "title": f"{junctionname}"
+        }
+        predictions = []
+        for time in timeintervals:
+            predicted_vehicles = pttest.load_and_predict(junction, f"2025-03-24 {time}", 100, signal)
+            predictions.append(predicted_vehicles)
+
+        trafficdata[signal]['datasets'].append({"data": predictions})
+    
+    return jsonify(trafficdata)
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5081)

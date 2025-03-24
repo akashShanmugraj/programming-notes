@@ -54,7 +54,7 @@ def process_datetime(user_datetime):
     ]
     return np.array(features).reshape(1, -1)
 
-def load_and_predict(model_path, user_input, last_known_value):
+def load_and_predict(model_path, user_input, last_known_value, signalID):
     model = tf.keras.models.load_model(model_path)
     
     input_data = process_datetime(user_input)  
@@ -62,15 +62,43 @@ def load_and_predict(model_path, user_input, last_known_value):
     # Predict the differenced value
     diff_prediction = model.predict(input_data)
 
+    if signalID == "SIG001":
+        MEAN = params_model_1['mean']
+        STD = params_model_1['std']
+        DIFF_INTERVAL = params_model_1['diff_interval']
+    elif signalID == "SIG002":
+        MEAN = params_model_2['mean']
+        STD = params_model_2['std']
+        DIFF_INTERVAL = params_model_2['diff_interval']
+    elif signalID == "SIG003":
+        MEAN = params_model_3['mean']
+        STD = params_model_3['std']
+        DIFF_INTERVAL = params_model_3['diff_interval']
+    elif signalID == "SIG004":
+        MEAN = params_model_4['mean']
+        STD = params_model_4['std']
+        DIFF_INTERVAL = params_model_4['diff_interval']
+    
     # Inverse transform (denormalization)
     actual_diff = (diff_prediction * STD) + MEAN
 
     # Reconstruct the actual vehicle count using the last known value
     predicted_count = last_known_value + (actual_diff * DIFF_INTERVAL)
 
-    # print("Predicted Vehicle Count:", round(predicted_count.flatten()[0]))
+    print("Predicted Vehicle Count:", round(predicted_count.flatten()[0]))
     return abs(round(predicted_count.flatten()[0]))
 
+
+def predicttraffic(ptmodel, dtinput, lastknown, juncid):
+    print("Predicting traffic for junction", juncid)
+    if juncid == "SIG0001":
+        return load_and_predict(ptmodel, dtinput, lastknown, params_model_1['std'], params_model_1['mean'])
+    elif juncid == "SIG0002":
+        return load_and_predict(ptmodel, dtinput, lastknown, params_model_2['std'], params_model_2['mean'])
+    elif juncid == "SIG0003":
+        return load_and_predict(ptmodel, dtinput, lastknown, params_model_3['std'], params_model_3['mean'])
+    elif juncid == "SIG0004":
+        return load_and_predict(ptmodel, dtinput, lastknown, params_model_4['std'], params_model_4['mean'])
 
 # load_and_predict("traffic_models/junction_annaselai.keras", "2025-03-24 08:00", 1000) 
 # load_and_predict("traffic_models/junction_annaselai.keras", "2025-03-24 09:00", 1000) 
