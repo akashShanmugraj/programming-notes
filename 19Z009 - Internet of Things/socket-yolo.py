@@ -5,11 +5,14 @@ from flask_socketio import SocketIO
 import random
 import time
 import eventlet
+import signal
+import sys
+from threading import Thread
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "akashhhs"
 eventlet.monkey_patch()
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
+socketio = SocketIO(app, cors_allowed_origins="*", transports=['websocket', 'polling'])
 
 @socketio.on('message')
 def handle_message(data):
@@ -42,8 +45,19 @@ else:
 vehicle_classes = [2, 3, 5, 7]  
 confidence_threshold = 0.4  
 
+def signal_handler(sig, frame):
+    print("Shutting down server...")
+    cap.release()
+    cv2.destroyAllWindows()
+    socketio.stop()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
+
 def process_video_stream():
-    print("🔄 Video processing started!")  # Debug log
+    print("🔄 Video processing started!")
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -65,20 +79,11 @@ def process_video_stream():
         print(f"📡 Emitting: {current_vehicle_count} vehicles, Congestion: {congestion_level}")
         socketio.emit('vehicle_count', {'count': current_vehicle_count, 'congestion_level': congestion_level, 'timestamp': time.time()})
         
-        annotated_frame = results[0].plot()
-        cv2.putText(annotated_frame, f"Current Vehicles: {current_vehicle_count}", (20, 40),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-        cv2.putText(annotated_frame, f"Congestion: {congestion_level}", (20, 80),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-
-        cv2.imshow("🚦 Traffic AI - Detection & Counting", annotated_frame)
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        eventlet.sleep(0)  # Yield control back to the event loop
 
     cap.release()
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    socketio.start_background_task(target=process_video_stream)
-    socketio.run(app, port=5040, debug=False)
+    Thread(target=process_video_stream, daemon=True).start()
+    socketio.run(app, port=6130, debug=False)

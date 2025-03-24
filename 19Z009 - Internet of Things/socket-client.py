@@ -1,8 +1,7 @@
 import socketio
+import traceback
 
-# Create a Socket.IO client
 sio = socketio.Client(logger=True, engineio_logger=True)
-
 
 @sio.event
 def connect():
@@ -16,16 +15,18 @@ def disconnect():
 def message(data):
     print(f'Received message: {data}')
 
+# Remove the duplicate event handler, keep only one:
 @sio.event
-def vehicle_count(data):
-    print(f"Vehicle Count: {data['count']}, Congestion Level: {data['congestion_level']}, Timestamp: {data['timestamp']}")
-
-@sio.on('vehicle_count')
 def vehicle_count(data):
     print(f"🚗 Vehicle Count: {data['count']}, 🚦 Congestion Level: {data['congestion_level']}, 🕒 Timestamp: {data['timestamp']}")
 
-
-sio.connect('http://127.0.0.1:5040', transports=['websocket', 'polling'])
-sio.emit('message', 'Hello from client')
-print("✅ Connected!")  # Debug message
-sio.wait()
+# Add error handling for connection issues
+try:
+    sio.connect('http://127.0.0.1:6130', wait_timeout=30)
+    sio.emit('message', 'Hello from client')
+    print("✅ Connected!")
+    sio.wait()
+except Exception as e:
+    print(f"❌ Connection error: {e}")
+    print(f"Error type: {type(e).__name__}")
+    print(f"Error details:\n{traceback.format_exc()}")
