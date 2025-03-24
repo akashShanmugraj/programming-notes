@@ -16,10 +16,13 @@ def message(data):
     print(f'Received message: {data}')
 
 # Remove the duplicate event handler, keep only one:
-@sio.event
+@sio.on('vehicle_count')
 def vehicle_count(data):
     print(f"🚗 Vehicle Count: {data['count']}, 🚦 Congestion Level: {data['congestion_level']}, 🕒 Timestamp: {data['timestamp']}")
 
+@sio.on('intersection')
+def intersection(data):
+    print(f"INTR: {data}")
 # Add error handling for connection issues
 try:
     sio.connect('http://127.0.0.1:6130', wait_timeout=30)
