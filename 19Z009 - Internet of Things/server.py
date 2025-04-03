@@ -229,7 +229,116 @@ def getalltrafficdata():
 
         trafficdata[signal]['datasets'].append({"data": predictions})
     
+    print(trafficdata)
+    
     return jsonify(trafficdata)
         
+@app.route('/dummy/trafficdata')
+def dummy_traffic_data():
+    dumobj = {
+  "SIG001": {
+    "datasets": [
+      {
+        "data": [
+          851,
+          880,
+          902,
+          919,
+          931,
+          940,
+          948
+        ]
+      }
+    ],
+    "labels": [
+      "8:00",
+      "9:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00"
+    ],
+    "title": "Anna Salai"
+  },
+  "SIG002": {
+    "datasets": [
+      {
+        "data": [
+          961,
+          971,
+          979,
+          985,
+          990,
+          993,
+          996
+        ]
+      }
+    ],
+    "labels": [
+      "8:00",
+      "9:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00"
+    ],
+    "title": "Lakshmi Mills"
+  },
+  "SIG003": {
+    "datasets": [
+      {
+        "data": [
+          86,
+          86,
+          86,
+          86,
+          86,
+          85,
+          85
+        ]
+      }
+    ],
+    "labels": [
+      "8:00",
+      "9:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00"
+    ],
+    "title": "Nava India"
+  },
+  "SIG004": {
+    "datasets": [
+      {
+        "data": [
+          116,
+          116,
+          117,
+          117,
+          117,
+          117,
+          117
+        ]
+      }
+    ],
+    "labels": [
+      "8:00",
+      "9:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00"
+    ],
+    "title": "Ramanathapuram"
+  }
+}
+    return jsonify(dumobj)
+        
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5081)

@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Traffic Monitoring System</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #status { padding: 10px; border-radius: 5px; display: inline-block; }
+        .L { background-color: green; color: white; }
+        .M { background-color: orange; color: white; }
+        .H { background-color: red; color: white; }
+        #video-feed { max-width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Live Traffic Monitoring</h1>
+    <div>
+        <p>Vehicle Count: <span id="count">-</span></p>
+        <p>Congestion Level: <span id="status">-</span></p>
+        <p>Last Updated: <span id="timestamp">-</span></p>
+    </div>
+    <div>
+        <img id="video-feed" src="" alt="Live traffic feed">
+    </div>
+
+    <script>
+        const socket = io();
+        
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+        
+        socket.on('traffic_update', (data) => {
+            document.getElementById('count').textContent = data.vehicle_count;
+            
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = data.congestion_level;
+            statusElement.className = data.congestion_level;
+            
+            const date = new Date(data.timestamp * 1000);
+            document.getElementById('timestamp').textContent = date.toLocaleTimeString();
+        });
+        
+        socket.on('video_frame', (data) => {
+            document.getElementById('video-feed').src = 'data:image/jpeg;base64,' + data.frame;
+        });
+    </script>
+</body>
+</html>
+        
