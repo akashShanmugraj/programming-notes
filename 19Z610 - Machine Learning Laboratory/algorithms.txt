@@ -1,0 +1,16 @@
+DFS
+BFS
+AlphaBeta Pruning
+minimax
+AOStar
+AStar
+Knowledge Base
+Some other decision tree (week 4)
+Preprocessing (StandardScaler / MinMaxScaler)
+Preprocessing (Label Encoding / One Hot Encoding)
+Linear Regression
+Neural Network (MLP Classifier)
+Decision Tree
+SVM
+Naive Bayes
+KMeans
