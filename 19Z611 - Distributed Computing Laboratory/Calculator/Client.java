@@ -1,4 +1,5 @@
 import java.rmi.registry.*;
+import mpi.*;
 
 public class Client {
     public static void main(String[] args) {
