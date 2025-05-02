@@ -32,7 +32,7 @@ except Exception as e:
     exit()
 
 # IP Camera stream (Update with actual IP)
-camera_url = "http://172.20.10.5:4747/mjpegfeed"
+camera_url = "http://100.114.252.62:4747/mjpegfeed"
 cap = cv2.VideoCapture(camera_url, cv2.CAP_FFMPEG)
 
 if not cap.isOpened():
